@@ -18,6 +18,7 @@ group = 'com.felipefzdz.gradle.heroku'
 version = '0.1'
 
 buildScan {
+    publishAlways()
     licenseAgreementUrl 'https://gradle.com/terms-of-service'
     licenseAgree 'yes'
 }
@@ -27,6 +28,9 @@ repositories {
 }
 
 dependencies {
+    compile "com.google.guava:guava:$guavaVersion"
+    compile "com.heroku.api:heroku-api:$herokuVersion"
+    compile "com.heroku.api:heroku-http-apache:$herokuVersion"
     testCompile("org.spockframework:spock-core:$spockVersion-groovy-2.4") {
         exclude group: 'org.codehaus.groovy'
     }

@@ -1,14 +1,23 @@
 package com.felipefzdz.gradle.heroku;
 
-import com.felipefzdz.gradle.heroku.tasks.UrlVerify;
+import com.felipefzdz.gradle.heroku.tasks.Deployer;
+import com.felipefzdz.gradle.heroku.tasks.Destroyer;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
 public class HerokuPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
-        UrlVerifierExtension extension = project.getExtensions().create("verification", UrlVerifierExtension.class, project);
-        UrlVerify verifyUrlTask = project.getTasks().create("verifyUrl", UrlVerify.class);
-        verifyUrlTask.setUrl(extension.getUrlProvider());
+        HerokuExtension extension = project.getExtensions().create("heroku", HerokuExtension.class, project);
+
+        Deployer deployerTask = project.getTasks().create("herokuDeploy", Deployer.class);
+        deployerTask.setApiKey(extension.getApiKeyProvider());
+        deployerTask.setAppName(extension.getAppNameProvider());
+        deployerTask.setTeamName(extension.getTeamNameProvider());
+        deployerTask.setPersonalApp(extension.getPersonalAppProvider());
+
+        Destroyer destroyerTask = project.getTasks().create("herokuDestroyApp", Destroyer.class);
+        destroyerTask.setApiKey(extension.getApiKeyProvider());
+        destroyerTask.setAppName(extension.getAppNameProvider());
     }
 }
