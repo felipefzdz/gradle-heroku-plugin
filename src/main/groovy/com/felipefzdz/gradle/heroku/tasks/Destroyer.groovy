@@ -1,11 +1,13 @@
 package com.felipefzdz.gradle.heroku.tasks
 
 import com.heroku.api.HerokuAPI
+import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
+@CompileStatic
 class Destroyer extends DefaultTask {
 
     @Input

@@ -4,6 +4,7 @@ import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
 import com.heroku.api.Heroku
 import com.heroku.api.HerokuAPI
 import com.heroku.api.request.Request
+import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
@@ -11,6 +12,7 @@ import org.gradle.api.tasks.TaskAction
 
 import java.time.Duration
 
+@CompileStatic
 class Deployer extends DefaultTask {
 
     @Input

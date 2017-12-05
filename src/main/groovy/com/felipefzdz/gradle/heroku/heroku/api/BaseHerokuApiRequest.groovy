@@ -6,9 +6,11 @@ import com.heroku.api.http.Http
 import com.heroku.api.http.HttpUtil
 import com.heroku.api.request.Request
 import groovy.json.JsonSlurper
+import groovy.transform.CompileStatic
 
 import java.nio.charset.StandardCharsets
 
+@CompileStatic
 abstract class BaseHerokuApiRequest<T> implements Request<T> {
 
     private final Class<T> responseType

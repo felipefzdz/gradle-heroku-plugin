@@ -1,8 +1,10 @@
 package com.felipefzdz.gradle.heroku
 
+import groovy.transform.CompileStatic
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 
+@CompileStatic
 class HerokuExtension {
 
     Property<String> apiKey
