@@ -11,6 +11,8 @@ import org.gradle.api.tasks.TaskAction
 
 import java.time.Duration
 
+import static com.felipefzdz.gradle.heroku.heroku.HerokuAPIFactory.create
+
 @CompileStatic
 class Deployer extends DefaultTask {
 
@@ -18,7 +20,7 @@ class Deployer extends DefaultTask {
     Property<String> appName
     Property<String> teamName
     Property<Boolean> personalApp
-    HerokuAPI herokuApi
+    HerokuAPI herokuAPI
 
     Deployer() {
         outputs.upToDateWhen { false }
@@ -26,14 +28,14 @@ class Deployer extends DefaultTask {
 
     @TaskAction
     def herokuDeploy() {
-        herokuApi = new HerokuAPI(apiKey.get())
+        herokuAPI = create(apiKey.get())
         boolean recreate = false
         maybeCreateApplication(appName.get(), teamName.get(), recreate)
         logger.quiet("Successfully deployed app ${appName.get()}")
     }
 
     def maybeCreateApplication(String appName, String teamName, boolean recreate) {
-        boolean exists = herokuApi.appExists(appName)
+        boolean exists = herokuAPI.appExists(appName)
         if (exists && recreate) {
             logger.quiet("Destroying existing heroku app $appName")
             destroyApp(appName)
@@ -47,12 +49,12 @@ class Deployer extends DefaultTask {
 
     def destroyApp(String appName) {
         logger.quiet("Destroying application $appName")
-        herokuApi.destroyApp(appName)
+        herokuAPI.destroyApp(appName)
         delay(Duration.ofSeconds(20))
     }
 
     private <T> T api3(Request<T> request) {
-        herokuApi.connection.execute(request, apiKey.get())
+        herokuAPI.connection.execute(request, apiKey.get())
     }
 
     private delay(Duration duration) {

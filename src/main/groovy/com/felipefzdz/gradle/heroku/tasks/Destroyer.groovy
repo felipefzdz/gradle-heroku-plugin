@@ -6,12 +6,14 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskAction
 
+import static com.felipefzdz.gradle.heroku.heroku.HerokuAPIFactory.create
+
 @CompileStatic
 class Destroyer extends DefaultTask {
 
     Property<String> apiKey
     Property<String> appName
-    HerokuAPI herokuApi
+    HerokuAPI herokuAPI
 
     Destroyer() {
         outputs.upToDateWhen { false }
@@ -19,9 +21,9 @@ class Destroyer extends DefaultTask {
 
     @TaskAction
     def herokuDestroy() {
-        herokuApi = new HerokuAPI(apiKey.get())
+        herokuAPI = create(apiKey.get())
         logger.quiet("Destroying application ${appName.get()}")
-        herokuApi.destroyApp(appName.get())
+        herokuAPI.destroyApp(appName.get())
         logger.quiet("Successfully destroyed app ${appName.get()}")
     }
 }
