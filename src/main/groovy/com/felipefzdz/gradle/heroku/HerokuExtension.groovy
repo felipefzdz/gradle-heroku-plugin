@@ -11,11 +11,13 @@ class HerokuExtension {
     Property<String> appName
     Property<String> teamName
     Property<Boolean> personalApp
+    Property<Boolean> recreate
 
     HerokuExtension(Project project) {
         this.apiKey = project.objects.property(String.class)
         this.appName = project.objects.property(String.class)
         this.teamName = project.objects.property(String.class)
         this.personalApp = project.objects.property(Boolean.class)
+        this.recreate = project.objects.property(Boolean.class)
     }
 }

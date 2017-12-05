@@ -18,6 +18,7 @@ class HerokuPlugin implements Plugin<Project> {
             it.appName = extension.appName
             it.teamName = extension.teamName
             it.personalApp = extension.personalApp
+            it.recreate = extension.recreate
         })
 
         project.tasks.create("herokuDestroyApp", Destroyer.class, {
