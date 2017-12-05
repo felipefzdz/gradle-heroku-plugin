@@ -1,9 +1,7 @@
 package com.felipefzdz.gradle.heroku.heroku.api
 
 import com.heroku.api.Heroku
-import groovy.transform.CompileStatic
 
-@CompileStatic
 class OrganizationAppCreateRequest extends BaseHerokuApiJsonRequest<Map<String, ?>> {
 
     private final String appName

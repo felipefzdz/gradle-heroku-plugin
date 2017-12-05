@@ -7,7 +7,6 @@ import com.heroku.api.request.Request
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 import java.time.Duration
@@ -15,18 +14,10 @@ import java.time.Duration
 @CompileStatic
 class Deployer extends DefaultTask {
 
-    @Input
     Property<String> apiKey
-
-    @Input
     Property<String> appName
-
-    @Input
     Property<String> teamName
-
-    @Input
     Property<Boolean> personalApp
-
     HerokuAPI herokuApi
 
     Deployer() {
@@ -34,6 +25,7 @@ class Deployer extends DefaultTask {
         this.appName = project.objects.property(String.class);
         this.teamName = project.objects.property(String.class);
         this.personalApp = project.objects.property(Boolean.class);
+        outputs.upToDateWhen { false }
     }
 
     @TaskAction
