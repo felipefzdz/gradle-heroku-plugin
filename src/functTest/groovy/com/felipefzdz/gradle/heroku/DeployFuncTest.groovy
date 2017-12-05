@@ -1,5 +1,8 @@
 package com.felipefzdz.gradle.heroku
 
+import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
+import com.felipefzdz.gradle.heroku.heroku.HerokuClient
+import org.gradle.api.logging.Logging
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -17,7 +20,10 @@ class DeployFuncTest extends Specification {
 
     @Rule
     TemporaryFolder testProjectDir = new TemporaryFolder()
+
     File buildFile
+
+    HerokuClient herokuClient = new DefaultHerokuClient(Logging.getLogger(DefaultHerokuClient))
 
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')
@@ -26,6 +32,7 @@ class DeployFuncTest extends Specification {
                 id 'com.felipefzdz.gradle.heroku'
             }
         """
+        herokuClient.init(GRADLE_HEROKU_PLUGIN_API_KEY)
     }
 
     def cleanup() {
@@ -39,10 +46,11 @@ class DeployFuncTest extends Specification {
     }
 
     def "can deploy an app"() {
+        def appName = 'functional-test-app'
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
-                appName = 'functional-test-app'
+                appName = '$appName'
                 teamName = 'test'
                 personalApp = true
             }
@@ -61,5 +69,7 @@ class DeployFuncTest extends Specification {
         result.output.contains("Successfully deployed app functional-test-app")
         result.task(":herokuDeploy").outcome == SUCCESS
 
+        and:
+        herokuClient.appExists(appName)
     }
 }
