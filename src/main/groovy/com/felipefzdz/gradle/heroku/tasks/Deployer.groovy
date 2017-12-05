@@ -76,6 +76,26 @@ class Deployer extends DefaultTask {
         this.recreate.set(recreate)
     }
 
+    void setApiKey(Property<String> apiKey) {
+        this.apiKey = apiKey
+    }
+
+    void setAppName(Property<String> appName) {
+        this.appName = appName
+    }
+
+    void setTeamName(Property<String> teamName) {
+        this.teamName = teamName
+    }
+
+    void setPersonalApp(Property<Boolean> personalApp) {
+        this.personalApp = personalApp
+    }
+
+    void setRecreate(Property<Boolean> recreate) {
+        this.recreate = recreate
+    }
+
     void setHerokuClient(HerokuClient herokuClient) {
         this.herokuClient = herokuClient
     }
