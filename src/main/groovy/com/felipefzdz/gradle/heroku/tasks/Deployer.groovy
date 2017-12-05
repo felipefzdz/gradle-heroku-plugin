@@ -21,10 +21,6 @@ class Deployer extends DefaultTask {
     HerokuAPI herokuApi
 
     Deployer() {
-        this.apiKey = project.objects.property(String.class);
-        this.appName = project.objects.property(String.class);
-        this.teamName = project.objects.property(String.class);
-        this.personalApp = project.objects.property(Boolean.class);
         outputs.upToDateWhen { false }
     }
 

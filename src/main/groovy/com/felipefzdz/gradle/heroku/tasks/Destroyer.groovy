@@ -14,8 +14,7 @@ class Destroyer extends DefaultTask {
     HerokuAPI herokuApi
 
     Destroyer() {
-        this.apiKey = project.objects.property(String.class)
-        this.appName = project.objects.property(String.class)
+        outputs.upToDateWhen { false }
     }
 
     @TaskAction
