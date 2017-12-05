@@ -5,6 +5,8 @@ import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 import java.time.Duration
@@ -12,13 +14,19 @@ import java.time.Duration
 @CompileStatic
 class Deployer extends DefaultTask {
 
+    @Input
     Property<String> apiKey
+    @Input
     Property<String> appName
+    @Input
     Property<String> teamName
+    @Input
     Property<Boolean> personalApp
+    @Input
     Property<Boolean> recreate
-
+    @Internal
     HerokuClient herokuClient
+    @Internal
     int delayAfterDestroyApp = 20
 
     Deployer() {
