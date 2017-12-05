@@ -13,14 +13,16 @@ class HerokuPlugin implements Plugin<Project> {
     void apply(Project project) {
         HerokuExtension extension = project.extensions.create("heroku", HerokuExtension.class, project)
 
-        Deployer deployerTask = project.tasks.create("herokuDeploy", Deployer.class)
-        deployerTask.apiKey = extension.apiKey
-        deployerTask.appName = extension.appName
-        deployerTask.teamName = extension.teamName
-        deployerTask.personalApp = extension.personalApp
+        project.tasks.create("herokuDeploy", Deployer.class, {
+            it.apiKey = extension.apiKey
+            it.appName = extension.appName
+            it.teamName = extension.teamName
+            it.personalApp = extension.personalApp
+        })
 
-        Destroyer destroyerTask = project.tasks.create("herokuDestroyApp", Destroyer.class)
-        destroyerTask.apiKey = extension.apiKey
-        destroyerTask.appName = extension.appName
+        project.tasks.create("herokuDestroyApp", Destroyer.class, {
+            it.apiKey = extension.apiKey
+            it.appName = extension.appName
+        })
     }
 }
