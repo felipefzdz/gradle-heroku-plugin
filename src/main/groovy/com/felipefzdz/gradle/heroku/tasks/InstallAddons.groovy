@@ -23,32 +23,23 @@ class InstallAddons extends DefaultTask {
     NamedDomainObjectContainer<HerokuAddon> addons
 
     @Internal
-    HerokuClient herokuClient
+    InstallAddonsService installAddonsService
 
     InstallAddons() {
         this.apiKey = project.objects.property(String)
         this.appName = project.objects.property(String)
         this.addons = project.container(HerokuAddon)
         outputs.upToDateWhen { false }
-        this.herokuClient = new DefaultHerokuClient()
+        this.installAddonsService = new InstallAddonsService(new DefaultHerokuClient())
     }
 
     @TaskAction
     def installAddons() {
-        def existingAddons = herokuClient.init(apiKey.get()).getAddonAttachments(appName.get())
-        addons.toList().each { HerokuAddon addon ->
-            def existing = existingAddons.find { it.name == addon.name }
-            if (existing) {
-                println "Addon $addon already exists as an addon attachment and won't be installed"
-            } else {
-                println "Successfully installed addon ${addon.name}"
-                herokuClient.installAddon(appName.get(), addon.plan)
-            }
-        }
+        installAddonsService.installAddons(addons.toList(), apiKey.get(), appName.get())
     }
 
-    void setHerokuClient(HerokuClient herokuClient) {
-        this.herokuClient = herokuClient
+    void setInstallAddonsService(InstallAddonsService installAddonsService) {
+        this.installAddonsService = installAddonsService
     }
 
     void setApiKey(Property<String> apiKey) {

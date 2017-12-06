@@ -28,6 +28,11 @@ class DeployFuncTest extends BaseFuncTest {
                 appName = '$APP_NAME'
                 teamName = 'test'
                 personalApp = true
+                addons {
+                    redis {
+                        plan = 'heroku-redis:hobby-dev'
+                    } 
+                }
             }
         """
 
@@ -40,6 +45,9 @@ class DeployFuncTest extends BaseFuncTest {
 
         and:
         herokuClient.appExists(APP_NAME)
+
+        and:
+        herokuClient.getAddonAttachments(APP_NAME)*.name == ['REDIS']
     }
 
 }

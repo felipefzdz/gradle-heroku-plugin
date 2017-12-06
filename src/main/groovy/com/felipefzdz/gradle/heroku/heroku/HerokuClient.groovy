@@ -1,5 +1,7 @@
 package com.felipefzdz.gradle.heroku.heroku
 
+import com.heroku.api.AddonChange
+
 interface HerokuClient {
 
     HerokuClient init(String apiKey)
@@ -10,7 +12,7 @@ interface HerokuClient {
 
     boolean appExists(String appName)
 
-    void installAddon(String appName, String plan)
+    AddonChange installAddon(String appName, String plan)
 
     List<Map<String,?>> getAddonAttachments(String appName)
 }

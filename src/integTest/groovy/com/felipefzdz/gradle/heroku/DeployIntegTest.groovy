@@ -2,6 +2,8 @@ package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.Deploy
+import com.felipefzdz.gradle.heroku.tasks.InstallAddonsService
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -22,16 +24,24 @@ class DeployIntegTest extends Specification {
     String APP_NAME = 'appName'
     String TEAM_NAME = 'teamName'
     Boolean PERSONAL_APP = true
+    String PLAN = 'heroku-redis:hobby-dev'
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
         deploy = project.tasks.create('deploy', Deploy)
+
         deploy.herokuClient = herokuClient
+        deploy.installAddonsService = new InstallAddonsService(herokuClient)
         deploy.apiKey = API_KEY
         deploy.appName = APP_NAME
         deploy.teamName = TEAM_NAME
         deploy.personalApp = PERSONAL_APP
         deploy.recreate = false
+        def redisAddon = new HerokuAddon('redis')
+        redisAddon.plan = PLAN
+        deploy.addons = [redisAddon]
+
+        herokuClient.getAddonAttachments(APP_NAME) >> []
     }
 
 

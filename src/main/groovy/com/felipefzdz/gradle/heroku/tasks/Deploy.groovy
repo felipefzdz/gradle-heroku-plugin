@@ -2,8 +2,10 @@ package com.felipefzdz.gradle.heroku.tasks
 
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
@@ -33,7 +35,13 @@ class Deploy extends DefaultTask {
     Property<Boolean> recreate
 
     @Internal
+    NamedDomainObjectContainer<HerokuAddon> addons
+
+    @Internal
     HerokuClient herokuClient
+
+    @Internal
+    InstallAddonsService installAddonsService
 
     @Internal
     int delayAfterDestroyApp = 20
@@ -44,7 +52,9 @@ class Deploy extends DefaultTask {
         this.teamName = project.objects.property(String)
         this.personalApp = project.objects.property(Boolean)
         this.recreate = project.objects.property(Boolean)
+        this.addons = project.container(HerokuAddon)
         this.herokuClient = new DefaultHerokuClient()
+        this.installAddonsService = new InstallAddonsService(this.herokuClient)
         outputs.upToDateWhen { false }
     }
 
@@ -52,10 +62,11 @@ class Deploy extends DefaultTask {
     def deploy() {
         herokuClient.init(apiKey.get())
         maybeCreateApplication(appName.get(), teamName.getOrElse(''), recreate.get())
+        maybeAddAddons()
         println "Successfully deployed app ${appName.get()}"
     }
 
-    def maybeCreateApplication(String appName, String teamName, boolean recreate) {
+    void maybeCreateApplication(String appName, String teamName, boolean recreate) {
         boolean exists = herokuClient.appExists(appName)
         if (exists && recreate) {
             herokuClient.destroyApp(appName)
@@ -66,6 +77,10 @@ class Deploy extends DefaultTask {
         if (!exists) {
             herokuClient.createApp(appName, teamName, personalApp.get())
         }
+    }
+
+    Map<HerokuAddon, Map<String, ?>> maybeAddAddons() {
+       installAddonsService.installAddons(addons.toList(), apiKey.get(), appName.get())
     }
 
     private delay(Duration duration) {
@@ -115,5 +130,17 @@ class Deploy extends DefaultTask {
 
     void setHerokuClient(HerokuClient herokuClient) {
         this.herokuClient = herokuClient
+    }
+
+    void setAddons(NamedDomainObjectContainer<HerokuAddon> addons) {
+        this.addons = addons
+    }
+
+    void setAddons(List<HerokuAddon> addons) {
+        addons.each { HerokuAddon addon ->
+            this.addons.create(addon.name, { HerokuAddon it ->
+                it.plan = addon.plan
+            })
+        }
     }
 }

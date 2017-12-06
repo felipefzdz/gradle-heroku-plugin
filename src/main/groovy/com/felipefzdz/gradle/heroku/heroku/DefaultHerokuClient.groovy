@@ -2,6 +2,7 @@ package com.felipefzdz.gradle.heroku.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.api.GetAddonAttachmentsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
+import com.heroku.api.AddonChange
 import com.heroku.api.Heroku
 import com.heroku.api.HerokuAPI
 import com.heroku.api.request.Request
@@ -16,8 +17,10 @@ class DefaultHerokuClient implements HerokuClient {
 
     @Override
     HerokuClient init(String apiKey) {
-        this.apiKey = apiKey
-        this.herokuAPI = new HerokuAPI(apiKey)
+        if (herokuAPI == null) {
+            this.apiKey = apiKey
+            this.herokuAPI = new HerokuAPI(apiKey)
+        }
         this
     }
 
@@ -39,7 +42,7 @@ class DefaultHerokuClient implements HerokuClient {
     }
 
     @Override
-    void installAddon(String appName, String plan) {
+    AddonChange installAddon(String appName, String plan) {
         api3(new AddonInstall(appName, plan))
     }
 

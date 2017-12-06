@@ -1,7 +1,9 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.tasks.Deploy
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import groovy.transform.CompileStatic
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -19,6 +21,7 @@ class HerokuPlugin implements Plugin<Project> {
             it.teamName = extension.teamName
             it.personalApp = extension.personalApp
             it.recreate = extension.recreate
+            it.addons = project.extensions.getByName('addons') as NamedDomainObjectContainer<HerokuAddon>
         })
 
     }
