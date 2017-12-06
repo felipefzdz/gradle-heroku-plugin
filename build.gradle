@@ -32,6 +32,7 @@ dependencies {
     compile "com.google.guava:guava:$guavaVersion"
     compile "com.heroku.api:heroku-api:$herokuVersion"
     compile "com.heroku.api:heroku-http-apache:$herokuVersion"
+    compile "com.heroku.api:heroku-json-jackson:$herokuVersion"
     testCompile("org.spockframework:spock-core:$spockVersion-groovy-2.4") {
         exclude group: 'org.codehaus.groovy'
     }

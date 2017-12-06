@@ -27,7 +27,7 @@ class DestroyApp extends DefaultTask {
     }
 
     @TaskAction
-    def herokuDestroyApp() {
+    def destroyApp() {
         herokuClient.init(apiKey.get())
                 .destroyApp(appName.get())
         logger.quiet("Successfully destroyed app ${appName.get()}")

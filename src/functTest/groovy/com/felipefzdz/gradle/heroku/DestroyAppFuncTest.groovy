@@ -9,6 +9,8 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 })
 class DestroyAppFuncTest extends BaseFuncTest {
 
+    String APP_NAME = 'functional-test-app'
+
     @Override
     def getSubjectPlugin() {
         'heroku-base'
@@ -16,16 +18,14 @@ class DestroyAppFuncTest extends BaseFuncTest {
 
     def "can destroy an app"() {
         given:
-        def appName = 'functional-test-app'
+        herokuClient.createApp(APP_NAME, 'test', true)
+
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
-                appName = '$appName'
-                teamName = 'test'
-                personalApp = true
+                appName = '$APP_NAME'
             }
         """
-        run('herokuCreateApp')
 
         when:
         def result = run('herokuDestroyApp')
@@ -35,6 +35,6 @@ class DestroyAppFuncTest extends BaseFuncTest {
         result.task(":herokuDestroyApp").outcome == SUCCESS
 
         and:
-        !herokuClient.appExists(appName)
+        !herokuClient.appExists(APP_NAME)
     }
 }

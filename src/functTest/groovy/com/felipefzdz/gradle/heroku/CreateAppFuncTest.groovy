@@ -9,22 +9,23 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 })
 class CreateAppFuncTest extends BaseFuncTest {
 
+    String APP_NAME = 'functional-test-app'
+
     @Override
     def getSubjectPlugin() {
         'heroku-base'
     }
 
     def cleanup() {
-        run('herokuDestroyApp')
+        herokuClient.destroyApp(APP_NAME)
     }
 
     def "can create an app"() {
         given:
-        def appName = 'functional-test-app'
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
-                appName = '$appName'
+                appName = '$APP_NAME'
                 teamName = 'test'
                 personalApp = true
             }
@@ -38,6 +39,6 @@ class CreateAppFuncTest extends BaseFuncTest {
         result.task(":herokuCreateApp").outcome == SUCCESS
 
         and:
-        herokuClient.appExists(appName)
+        herokuClient.appExists(APP_NAME)
     }
 }

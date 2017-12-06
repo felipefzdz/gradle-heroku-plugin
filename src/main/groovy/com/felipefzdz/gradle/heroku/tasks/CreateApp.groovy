@@ -35,7 +35,7 @@ class CreateApp extends DefaultTask {
     }
 
     @TaskAction
-    def herokuCreateApp() {
+    def createApp() {
         herokuClient.init(apiKey.get())
                 .createApp(appName.get(), teamName.getOrElse(''), personalApp.get())
         logger.quiet("Successfully created app ${appName.get()}")

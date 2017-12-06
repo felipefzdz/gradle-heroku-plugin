@@ -1,9 +1,11 @@
 package com.felipefzdz.gradle.heroku.heroku
 
+import com.felipefzdz.gradle.heroku.heroku.api.GetAddonAttachmentsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
 import com.heroku.api.Heroku
 import com.heroku.api.HerokuAPI
 import com.heroku.api.request.Request
+import com.heroku.api.request.addon.AddonInstall
 import groovy.transform.CompileStatic
 import org.gradle.api.logging.Logger
 
@@ -40,6 +42,16 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     boolean appExists(String appName) {
         herokuAPI.appExists(appName)
+    }
+
+    @Override
+    void installAddon(String appName, String plan) {
+        api3(new AddonInstall(appName, plan))
+    }
+
+    @Override
+    List<Map<String, ?>> getAddonAttachments(String appName) {
+        api3(new GetAddonAttachmentsRequest(appName))
     }
 
     private <T> T api3(Request<T> request) {

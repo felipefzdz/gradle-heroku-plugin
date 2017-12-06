@@ -7,39 +7,43 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 @Requires({
     GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
 })
-class DeployFuncTest extends BaseFuncTest {
+class InstallAddonsFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
 
     @Override
     def getSubjectPlugin() {
-        'heroku'
+        'heroku-base'
     }
 
     def cleanup() {
         herokuClient.destroyApp(APP_NAME)
     }
 
-    def "can deploy an app"() {
+    def "can install addons for an app"() {
         given:
+        herokuClient.createApp(APP_NAME, 'test', true)
+
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 appName = '$APP_NAME'
-                teamName = 'test'
-                personalApp = true
+                addons {
+                    redis {
+                        plan = 'heroku-redis:hobby-dev'
+                    } 
+                }
             }
         """
 
         when:
-        def result = run('herokuDeploy')
+        def result = run('herokuInstallAddons')
 
         then:
-        result.output.contains("Successfully deployed app functional-test-app")
-        result.task(":herokuDeploy").outcome == SUCCESS
+        result.output.contains("Successfully installed addons for app functional-test-app")
+        result.task(":herokuInstallAddons").outcome == SUCCESS
 
         and:
-        herokuClient.appExists(APP_NAME)
+        herokuClient.getAddonAttachments(APP_NAME)*.name == ['REDIS']
     }
-
 }
