@@ -7,18 +7,14 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 @Requires({
     GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
 })
-class DeployFuncTest extends BaseFuncTest {
+class DestroyAppFuncTest extends BaseFuncTest {
 
     @Override
     def getSubjectPlugin() {
-        'heroku'
+        'heroku-base'
     }
 
-    def cleanup() {
-        run('herokuDestroyApp')
-    }
-
-    def "can deploy an app"() {
+    def "can destroy an app"() {
         given:
         def appName = 'functional-test-app'
         buildFile << """
@@ -29,16 +25,16 @@ class DeployFuncTest extends BaseFuncTest {
                 personalApp = true
             }
         """
+        run('herokuCreateApp')
 
         when:
-        def result = run('herokuDeploy')
+        def result = run('herokuDestroyApp')
 
         then:
-        result.output.contains("Successfully deployed app functional-test-app")
-        result.task(":herokuDeploy").outcome == SUCCESS
+        result.output.contains("Successfully destroyed app functional-test-app")
+        result.task(":herokuDestroyApp").outcome == SUCCESS
 
         and:
-        herokuClient.appExists(appName)
+        !herokuClient.appExists(appName)
     }
-
 }

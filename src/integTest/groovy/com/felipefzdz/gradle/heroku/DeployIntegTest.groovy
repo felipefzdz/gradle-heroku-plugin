@@ -1,14 +1,14 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.Deployer
+import com.felipefzdz.gradle.heroku.tasks.Deploy
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 import spock.lang.Subject
 
-class DeployerIntegTest extends Specification {
+class DeployIntegTest extends Specification {
 
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()
@@ -16,7 +16,7 @@ class DeployerIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    Deployer deployer
+    Deploy deployer
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
@@ -25,7 +25,7 @@ class DeployerIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        deployer = project.tasks.create('deployer', Deployer)
+        deployer = project.tasks.create('deployer', Deploy)
         deployer.herokuClient = herokuClient
         deployer.apiKey = API_KEY
         deployer.appName = APP_NAME

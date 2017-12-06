@@ -12,7 +12,7 @@ import org.gradle.api.tasks.TaskAction
 import java.time.Duration
 
 @CompileStatic
-class Deployer extends DefaultTask {
+class Deploy extends DefaultTask {
 
     @Internal
     Property<String> apiKey
@@ -38,7 +38,7 @@ class Deployer extends DefaultTask {
     @Internal
     int delayAfterDestroyApp = 20
 
-    Deployer() {
+    Deploy() {
         this.apiKey = project.objects.property(String)
         this.appName = project.objects.property(String)
         this.teamName = project.objects.property(String)

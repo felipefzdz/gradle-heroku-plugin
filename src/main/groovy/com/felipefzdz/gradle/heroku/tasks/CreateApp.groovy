@@ -6,11 +6,11 @@ import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
-
 @CompileStatic
-class Destroyer extends DefaultTask {
+class CreateApp extends DefaultTask {
 
     @Internal
     Property<String> apiKey
@@ -19,17 +19,26 @@ class Destroyer extends DefaultTask {
     Property<String> appName
 
     @Internal
+    @Optional
+    Property<String> teamName
+
+    @Internal
+    @Optional
+    Property<Boolean> personalApp
+
+    @Internal
     HerokuClient herokuClient
 
-    Destroyer() {
+    CreateApp() {
         outputs.upToDateWhen { false }
         this.herokuClient = new DefaultHerokuClient(logger)
     }
 
     @TaskAction
-    def herokuDestroy() {
+    def herokuCreateApp() {
         herokuClient.init(apiKey.get())
-                .destroyApp(appName.get())
+                .createApp(appName.get(), teamName.getOrElse(''), personalApp.get())
+        logger.quiet("Successfully created app ${appName.get()}")
     }
 
     void setHerokuClient(HerokuClient herokuClient) {
