@@ -23,14 +23,14 @@ class DestroyApp extends DefaultTask {
 
     DestroyApp() {
         outputs.upToDateWhen { false }
-        this.herokuClient = new DefaultHerokuClient(logger)
+        this.herokuClient = new DefaultHerokuClient()
     }
 
     @TaskAction
     def destroyApp() {
         herokuClient.init(apiKey.get())
                 .destroyApp(appName.get())
-        logger.quiet("Successfully destroyed app ${appName.get()}")
+        println "Successfully destroyed app ${appName.get()}"
     }
 
     void setHerokuClient(HerokuClient herokuClient) {

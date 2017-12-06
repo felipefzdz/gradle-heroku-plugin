@@ -30,7 +30,7 @@ class InstallAddons extends DefaultTask {
         this.appName = project.objects.property(String)
         this.addons = project.container(HerokuAddon)
         outputs.upToDateWhen { false }
-        this.herokuClient = new DefaultHerokuClient(logger)
+        this.herokuClient = new DefaultHerokuClient()
     }
 
     @TaskAction
@@ -39,13 +39,13 @@ class InstallAddons extends DefaultTask {
         addons.toList().each { HerokuAddon addon ->
             def existing = existingAddons.find { it.name == addon.name }
             if (!existing) {
-                logger.quiet("Install addon $addon")
+                println "Install addon $addon"
                 herokuClient.installAddon(appName.get(), addon.plan)
             } else {
-                logger.quiet("Addon $addon already exists as an addon attachment, skipping")
+                println "Addon $addon already exists as an addon attachment, skipping"
             }
         }
-        logger.quiet("Successfully installed addons for app ${appName.get()}")
+        println "Successfully installed addons for app ${appName.get()}"
     }
 
     void setHerokuClient(HerokuClient herokuClient) {

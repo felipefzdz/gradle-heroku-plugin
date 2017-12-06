@@ -7,18 +7,12 @@ import com.heroku.api.HerokuAPI
 import com.heroku.api.request.Request
 import com.heroku.api.request.addon.AddonInstall
 import groovy.transform.CompileStatic
-import org.gradle.api.logging.Logger
 
 @CompileStatic
 class DefaultHerokuClient implements HerokuClient {
 
-    private Logger logger
     private HerokuAPI herokuAPI
     private String apiKey
-
-    DefaultHerokuClient(Logger logger) {
-        this.logger = logger
-    }
 
     @Override
     HerokuClient init(String apiKey) {
@@ -29,13 +23,13 @@ class DefaultHerokuClient implements HerokuClient {
 
     @Override
     void destroyApp(String appName) {
-        logger.quiet("Destroying application $appName")
+        println "Destroying application $appName"
         herokuAPI.destroyApp(appName)
     }
 
     @Override
     void createApp(String appName, String teamName, boolean personalApp) {
-        logger.quiet("Creating heroku app $appName for team $teamName")
+        println "Creating heroku app $appName for team $teamName"
         api3(new OrganizationAppCreateRequest(appName, teamName, Heroku.Stack.Cedar14, personalApp))
     }
 

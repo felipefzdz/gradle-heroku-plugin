@@ -44,7 +44,7 @@ class Deploy extends DefaultTask {
         this.teamName = project.objects.property(String)
         this.personalApp = project.objects.property(Boolean)
         this.recreate = project.objects.property(Boolean)
-        this.herokuClient = new DefaultHerokuClient(logger)
+        this.herokuClient = new DefaultHerokuClient()
         outputs.upToDateWhen { false }
     }
 
@@ -52,7 +52,7 @@ class Deploy extends DefaultTask {
     def deploy() {
         herokuClient.init(apiKey.get())
         maybeCreateApplication(appName.get(), teamName.getOrElse(''), recreate.get())
-        logger.quiet("Successfully deployed app ${appName.get()}")
+        println "Successfully deployed app ${appName.get()}"
     }
 
     def maybeCreateApplication(String appName, String teamName, boolean recreate) {
@@ -69,7 +69,7 @@ class Deploy extends DefaultTask {
     }
 
     private delay(Duration duration) {
-        logger.quiet("Delaying for ${duration.toMillis()} milliseconds...")
+        println "Delaying for ${duration.toMillis()} milliseconds..."
         sleep(duration.toMillis())
     }
 

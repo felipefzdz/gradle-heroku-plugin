@@ -31,14 +31,14 @@ class CreateApp extends DefaultTask {
 
     CreateApp() {
         outputs.upToDateWhen { false }
-        this.herokuClient = new DefaultHerokuClient(logger)
+        this.herokuClient = new DefaultHerokuClient()
     }
 
     @TaskAction
     def createApp() {
         herokuClient.init(apiKey.get())
                 .createApp(appName.get(), teamName.getOrElse(''), personalApp.get())
-        logger.quiet("Successfully created app ${appName.get()}")
+        println "Successfully created app ${appName.get()}"
     }
 
     void setHerokuClient(HerokuClient herokuClient) {

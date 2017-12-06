@@ -2,7 +2,6 @@ package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import org.gradle.api.logging.Logging
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -17,7 +16,7 @@ abstract class BaseFuncTest extends Specification {
 
     File buildFile
 
-    HerokuClient herokuClient = new DefaultHerokuClient(Logging.getLogger(DefaultHerokuClient))
+    HerokuClient herokuClient = new DefaultHerokuClient().init(GRADLE_HEROKU_PLUGIN_API_KEY)
 
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')
@@ -26,7 +25,6 @@ abstract class BaseFuncTest extends Specification {
                 id 'com.felipefzdz.gradle.$subjectPlugin'
             }
         """
-        herokuClient.init(GRADLE_HEROKU_PLUGIN_API_KEY)
     }
 
     abstract def getSubjectPlugin()
