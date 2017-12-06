@@ -38,14 +38,13 @@ class InstallAddons extends DefaultTask {
         def existingAddons = herokuClient.init(apiKey.get()).getAddonAttachments(appName.get())
         addons.toList().each { HerokuAddon addon ->
             def existing = existingAddons.find { it.name == addon.name }
-            if (!existing) {
-                println "Install addon $addon"
-                herokuClient.installAddon(appName.get(), addon.plan)
+            if (existing) {
+                println "Addon $addon already exists as an addon attachment and won't be installed"
             } else {
-                println "Addon $addon already exists as an addon attachment, skipping"
+                println "Successfully installed addon ${addon.name}"
+                herokuClient.installAddon(appName.get(), addon.plan)
             }
         }
-        println "Successfully installed addons for app ${appName.get()}"
     }
 
     void setHerokuClient(HerokuClient herokuClient) {

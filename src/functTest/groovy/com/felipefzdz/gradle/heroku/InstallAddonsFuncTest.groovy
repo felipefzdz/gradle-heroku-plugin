@@ -40,7 +40,7 @@ class InstallAddonsFuncTest extends BaseFuncTest {
         def result = run('herokuInstallAddons')
 
         then:
-        result.output.contains("Successfully installed addons for app functional-test-app")
+        result.output.contains("Successfully installed addon REDIS")
         result.task(":herokuInstallAddons").outcome == SUCCESS
 
         and:

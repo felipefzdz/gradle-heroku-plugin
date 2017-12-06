@@ -22,19 +22,42 @@ class DestroyApp extends DefaultTask {
     HerokuClient herokuClient
 
     DestroyApp() {
-        outputs.upToDateWhen { false }
+        this.apiKey = project.objects.property(String)
+        this.appName = project.objects.property(String)
         this.herokuClient = new DefaultHerokuClient()
+        outputs.upToDateWhen { false }
     }
 
     @TaskAction
     def destroyApp() {
         herokuClient.init(apiKey.get())
-                .destroyApp(appName.get())
-        println "Successfully destroyed app ${appName.get()}"
+        if (herokuClient.appExists(appName.get())) {
+            herokuClient.destroyApp(appName.get())
+            println "Successfully destroyed app ${appName.get()}"
+        } else {
+            println "App ${appName.get()} doesn't exist and won't be destroyed."
+        }
     }
 
     void setHerokuClient(HerokuClient herokuClient) {
         this.herokuClient = herokuClient
     }
+
+    void setApiKey(String apiKey) {
+        this.apiKey.set(apiKey)
+    }
+
+    void setAppName(String appName) {
+        this.appName.set(appName)
+    }
+
+    void setApiKey(Property<String> apiKey) {
+        this.apiKey = apiKey
+    }
+
+    void setAppName(Property<String> appName) {
+        this.appName = appName
+    }
+
 }
 

@@ -1,6 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
+import com.felipefzdz.gradle.heroku.tasks.CreateApp
 import com.felipefzdz.gradle.heroku.tasks.Deploy
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
@@ -8,7 +9,7 @@ import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 import spock.lang.Subject
 
-class DeployIntegTest extends Specification {
+class CreateAppIntegTest extends Specification {
 
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()
@@ -16,7 +17,7 @@ class DeployIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    Deploy deploy
+    CreateApp createApp
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
@@ -25,13 +26,12 @@ class DeployIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        deploy = project.tasks.create('deploy', Deploy)
-        deploy.herokuClient = herokuClient
-        deploy.apiKey = API_KEY
-        deploy.appName = APP_NAME
-        deploy.teamName = TEAM_NAME
-        deploy.personalApp = PERSONAL_APP
-        deploy.recreate = false
+        createApp = project.tasks.create('createApp', CreateApp)
+        createApp.herokuClient = herokuClient
+        createApp.apiKey = API_KEY
+        createApp.appName = APP_NAME
+        createApp.teamName = TEAM_NAME
+        createApp.personalApp = PERSONAL_APP
     }
 
 
@@ -40,7 +40,7 @@ class DeployIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        deploy.deploy()
+        createApp.createApp()
 
         then:
         1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP)
@@ -51,37 +51,10 @@ class DeployIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        deploy.deploy()
+        createApp.createApp()
 
         then:
         0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP)
     }
-
-    def "destroy and create an app when recreate"() {
-        given:
-        deploy.recreate = true
-        deploy.delayAfterDestroyApp = 0
-        herokuClient.appExists(APP_NAME) >> true
-
-        when:
-        deploy.deploy()
-
-        then:
-        1 * herokuClient.destroyApp(APP_NAME)
-        1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP)
-    }
-
-    def "skip destroying an app when missing"() {
-        given:
-        deploy.recreate = true
-        herokuClient.appExists(APP_NAME) >> false
-
-        when:
-        deploy.deploy()
-
-        then:
-        0 * herokuClient.destroyApp(APP_NAME)
-    }
-
 
 }
