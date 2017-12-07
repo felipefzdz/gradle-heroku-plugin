@@ -8,6 +8,7 @@ class HerokuApp {
     String teamName
     String stack
     Boolean personalApp
+    Boolean recreate
     NamedDomainObjectContainer<HerokuAddon> addons
 
     HerokuApp(Project project) {

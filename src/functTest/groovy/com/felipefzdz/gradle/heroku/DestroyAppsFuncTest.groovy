@@ -35,7 +35,7 @@ class DestroyAppsFuncTest extends BaseFuncTest {
         def result = run('herokuDestroyApps')
 
         then:
-        result.output.contains("Successfully destroyed app functional-test-app")
+        result.output.contains("Successfully destroyed app $APP_NAME")
         result.task(":herokuDestroyApps").outcome == SUCCESS
 
         and:

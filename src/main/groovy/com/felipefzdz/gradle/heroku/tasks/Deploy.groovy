@@ -3,12 +3,12 @@ package com.felipefzdz.gradle.heroku.tasks
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
-import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
 import java.time.Duration
@@ -20,26 +20,7 @@ class Deploy extends DefaultTask {
     Property<String> apiKey
 
     @Internal
-    Property<String> appName
-
-    @Internal
-    @Optional
-    Property<String> teamName
-
-    @Internal
-    @Optional
-    Property<Boolean> personalApp
-
-    @Internal
-    @Optional
-    Property<String> stack
-
-    @Internal
-    @Optional
-    Property<Boolean> recreate
-
-    @Internal
-    NamedDomainObjectContainer<HerokuAddon> addons
+    Collection<HerokuApp> apps
 
     @Internal
     HerokuClient herokuClient
@@ -52,12 +33,7 @@ class Deploy extends DefaultTask {
 
     Deploy() {
         this.apiKey = project.objects.property(String)
-        this.appName = project.objects.property(String)
-        this.teamName = project.objects.property(String)
-        this.personalApp = project.objects.property(Boolean)
-        this.stack = project.objects.property(String)
-        this.recreate = project.objects.property(Boolean)
-        this.addons = project.container(HerokuAddon)
+        this.apps = project.objects.listProperty(HerokuApp) as List<HerokuApp>
         this.herokuClient = new DefaultHerokuClient()
         this.installAddonsService = new InstallAddonsService(this.herokuClient)
         outputs.upToDateWhen { false }
@@ -66,12 +42,14 @@ class Deploy extends DefaultTask {
     @TaskAction
     def deploy() {
         herokuClient.init(apiKey.get())
-        maybeCreateApplication(appName.get(), teamName.getOrElse(''), recreate.get(), stack.getOrElse('heroku-16'))
-        installAddons()
-        println "Successfully deployed app ${appName.get()}"
+        apps.each { HerokuApp app ->
+            maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp)
+            installAddons(app.addons.toList(), app.name)
+            println "Successfully deployed app ${app.name}"
+        }
     }
 
-    void maybeCreateApplication(String appName, String teamName, boolean recreate, String stack) {
+    void maybeCreateApplication(String appName, String teamName, boolean recreate, String stack, boolean personalApp) {
         boolean exists = herokuClient.appExists(appName)
         if (exists && recreate) {
             herokuClient.destroyApp(appName)
@@ -82,13 +60,13 @@ class Deploy extends DefaultTask {
         if (exists) {
             println "App $appName already exists and won't be created"
         } else {
-            herokuClient.createApp(appName, teamName, personalApp.get(), stack)
+            herokuClient.createApp(appName, teamName, personalApp, stack)
             println "Successfully created app $appName"
         }
     }
 
-    void installAddons() {
-       installAddonsService.installAddons(addons.toList(), apiKey.get(), appName.get())
+    void installAddons(List<HerokuAddon> addons, String appName) {
+       installAddonsService.installAddons(addons, apiKey.get(), appName)
     }
 
     private delay(Duration duration) {
@@ -100,64 +78,15 @@ class Deploy extends DefaultTask {
         this.apiKey.set(apiKey)
     }
 
-    void setAppName(String appName) {
-        this.appName.set(appName)
-    }
-
-    void setTeamName(String teamName) {
-        this.teamName.set(teamName)
-    }
-
-    void setStack(String stack) {
-        this.stack.set(stack)
-    }
-
-    void setPersonalApp(Boolean personalApp) {
-        this.personalApp.set(personalApp)
-    }
-
-    void setRecreate(Boolean recreate) {
-        this.recreate.set(recreate)
-    }
-
     void setApiKey(Property<String> apiKey) {
         this.apiKey = apiKey
     }
 
-    void setAppName(Property<String> appName) {
-        this.appName = appName
-    }
-
-    void setTeamName(Property<String> teamName) {
-        this.teamName = teamName
-    }
-
-    void setPersonalApp(Property<Boolean> personalApp) {
-        this.personalApp = personalApp
-    }
-
-    void setStack(Property<String> stack) {
-        this.stack = stack
-    }
-
-    void setRecreate(Property<Boolean> recreate) {
-        this.recreate = recreate
+    void setApps(Collection<HerokuApp> apps) {
+        this.apps = apps
     }
 
     void setHerokuClient(HerokuClient herokuClient) {
         this.herokuClient = herokuClient
-    }
-
-    void setAddons(NamedDomainObjectContainer<HerokuAddon> addons) {
-        this.addons = addons
-    }
-
-    void setAddons(List<HerokuAddon> addons) {
-        addons.each { HerokuAddon addon ->
-            this.addons.create(addon.name, { HerokuAddon it ->
-                it.plan = addon.plan
-                it.waitUntilStarted = addon.waitUntilStarted
-            })
-        }
     }
 }

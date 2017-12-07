@@ -17,7 +17,7 @@ class CreateAppsIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    CreateApps createApp
+    CreateApps createApps
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
@@ -27,16 +27,16 @@ class CreateAppsIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        createApp = project.tasks.create('createApps', CreateApps)
-        createApp.herokuClient = herokuClient
-        createApp.apiKey = API_KEY
+        createApps = project.tasks.create('createApps', CreateApps)
+        createApps.herokuClient = herokuClient
+        createApps.apiKey = API_KEY
 
         def app = new HerokuApp(project)
         app.name = APP_NAME
         app.teamName = TEAM_NAME
         app.personalApp = PERSONAL_APP
         app.stack = STACK
-        createApp.apps = [app]
+        createApps.apps = [app]
     }
 
 
@@ -45,7 +45,7 @@ class CreateAppsIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        createApp.createApp()
+        createApps.createApp()
 
         then:
         1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
@@ -56,7 +56,7 @@ class CreateAppsIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        createApp.createApp()
+        createApps.createApp()
 
         then:
         0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)

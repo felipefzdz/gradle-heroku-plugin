@@ -4,6 +4,7 @@ import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.Deploy
 import com.felipefzdz.gradle.heroku.tasks.InstallAddonsService
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -34,15 +35,20 @@ class DeployIntegTest extends Specification {
         deploy.herokuClient = herokuClient
         deploy.installAddonsService = new InstallAddonsService(herokuClient)
         deploy.apiKey = API_KEY
-        deploy.appName = APP_NAME
-        deploy.teamName = TEAM_NAME
-        deploy.stack = STACK
-        deploy.personalApp = PERSONAL_APP
-        deploy.recreate = false
+
+        def app = new HerokuApp(project)
+        app.name = APP_NAME
+        app.teamName = TEAM_NAME
+        app.personalApp = PERSONAL_APP
+        app.stack = STACK
+        app.recreate = false
+
         def redisAddon = new HerokuAddon('redis')
         redisAddon.plan = PLAN
         redisAddon.waitUntilStarted = false
-        deploy.addons = [redisAddon]
+        app.addons = [redisAddon]
+
+        deploy.apps = [app]
 
         herokuClient.getAddonAttachments(APP_NAME) >> []
     }
@@ -72,7 +78,7 @@ class DeployIntegTest extends Specification {
 
     def "destroy and create an app when recreate"() {
         given:
-        deploy.recreate = true
+        deploy.apps[0].recreate = true
         deploy.delayAfterDestroyApp = 0
         herokuClient.appExists(APP_NAME) >> true
 
@@ -86,7 +92,7 @@ class DeployIntegTest extends Specification {
 
     def "skip destroying an app when missing"() {
         given:
-        deploy.recreate = true
+        deploy.apps[0].recreate = true
         herokuClient.appExists(APP_NAME) >> false
 
         when:

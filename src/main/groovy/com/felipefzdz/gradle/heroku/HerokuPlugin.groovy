@@ -17,12 +17,7 @@ class HerokuPlugin implements Plugin<Project> {
 
         project.tasks.create("herokuDeploy", Deploy.class, {
             it.apiKey = extension.apiKey
-            it.appName = extension.appName
-            it.teamName = extension.teamName
-            it.stack = extension.stack
-            it.personalApp = extension.personalApp
-            it.recreate = extension.recreate
-            it.addons = project.extensions.getByName('addons') as NamedDomainObjectContainer<HerokuAddon>
+            it.apps = extension.apps
         })
 
     }

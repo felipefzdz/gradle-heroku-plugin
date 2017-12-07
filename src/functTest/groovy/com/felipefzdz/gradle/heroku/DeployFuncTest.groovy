@@ -25,15 +25,19 @@ class DeployFuncTest extends BaseFuncTest {
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
-                appName = '$APP_NAME'
-                teamName = 'test'
-                stack = 'heroku-16'
-                personalApp = true
-                addons {
-                    database {
-                        plan = 'heroku-postgresql:hobby-dev'
-                        waitUntilStarted = true
-                    } 
+                apps {
+                    app {
+                        name = '$APP_NAME'
+                        teamName = 'test'
+                        stack = 'heroku-16'
+                        personalApp = true
+                        addons {
+                            database {
+                                plan = 'heroku-postgresql:hobby-dev'
+                                waitUntilStarted = true
+                            } 
+                        }
+                    }
                 }
             }
         """
@@ -42,7 +46,7 @@ class DeployFuncTest extends BaseFuncTest {
         def result = run('herokuDeploy')
 
         then:
-        result.output.contains("Successfully deployed app functional-test-app")
+        result.output.contains("Successfully deployed app $APP_NAME")
         result.task(":herokuDeploy").outcome == SUCCESS
 
         and:

@@ -45,6 +45,7 @@ class InstallAddonsIntegTest extends Specification {
         redisAddon.plan = PLAN
         redisAddon.waitUntilStarted = true
         app.addons = [redisAddon]
+
         installAddons.apps = [app]
     }
 

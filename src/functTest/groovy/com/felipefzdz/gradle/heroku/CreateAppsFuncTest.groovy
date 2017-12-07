@@ -40,7 +40,7 @@ class CreateAppsFuncTest extends BaseFuncTest {
         def result = run('herokuCreateApps')
 
         then:
-        result.output.contains("Successfully created app functional-test-app")
+        result.output.contains("Successfully created app $APP_NAME")
         result.task(":herokuCreateApps").outcome == SUCCESS
 
         and:
