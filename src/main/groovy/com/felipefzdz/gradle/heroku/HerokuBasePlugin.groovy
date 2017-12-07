@@ -4,8 +4,8 @@ import com.felipefzdz.gradle.heroku.tasks.InstallAddons
 import com.felipefzdz.gradle.heroku.tasks.CreateApp
 import com.felipefzdz.gradle.heroku.tasks.DestroyApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -14,9 +14,9 @@ class HerokuBasePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        HerokuExtension extension = project.extensions.create('heroku', HerokuExtension.class, project)
-        NamedDomainObjectContainer<HerokuAddon> addonsContainer = project.container(HerokuAddon)
-        project.extensions.add('addons', addonsContainer)
+        HerokuExtension extension = project.extensions.create('heroku', HerokuExtension, project)
+        project.extensions.create('apps', HerokuApp, project)
+        project.extensions.add('addons', project.container(HerokuAddon))
 
         project.tasks.create('herokuCreateApp', CreateApp, {
             it.apiKey = extension.apiKey
@@ -33,8 +33,7 @@ class HerokuBasePlugin implements Plugin<Project> {
 
         project.tasks.create('herokuInstallAddons', InstallAddons, {
             it.apiKey = extension.apiKey
-            it.appName = extension.appName
-            it.addons = addonsContainer
+            it.apps = extension.apps
         })
     }
 }

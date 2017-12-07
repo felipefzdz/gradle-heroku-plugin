@@ -1,6 +1,9 @@
 package com.felipefzdz.gradle.heroku
 
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 
@@ -13,6 +16,8 @@ class HerokuExtension {
     Property<String> stack
     Property<Boolean> personalApp
     Property<Boolean> recreate
+    Collection<HerokuApp> apps = new ArrayList<>()
+    Project project
 
     HerokuExtension(Project project) {
         this.apiKey = project.objects.property(String)
@@ -21,5 +26,14 @@ class HerokuExtension {
         this.stack = project.objects.property(String)
         this.personalApp = project.objects.property(Boolean)
         this.recreate = project.objects.property(Boolean)
+        this.project = project
+    }
+
+
+    HerokuApp app(Closure closure) {
+        HerokuApp app = project.configure(new HerokuApp(project), closure) as HerokuApp
+        app.addons = project.extensions.getByName('addons') as NamedDomainObjectContainer<HerokuAddon>
+        apps << app
+        app
     }
 }

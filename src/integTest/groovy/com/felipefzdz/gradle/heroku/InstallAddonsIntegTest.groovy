@@ -5,6 +5,7 @@ import com.felipefzdz.gradle.heroku.tasks.Deploy
 import com.felipefzdz.gradle.heroku.tasks.InstallAddons
 import com.felipefzdz.gradle.heroku.tasks.InstallAddonsService
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.heroku.api.Addon
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
@@ -37,11 +38,13 @@ class InstallAddonsIntegTest extends Specification {
         installAddons = project.tasks.create('installAddons', InstallAddons)
         installAddons.installAddonsService = new InstallAddonsService(herokuClient)
         installAddons.apiKey = API_KEY
-        installAddons.appName = APP_NAME
+        def app = new HerokuApp(project)
+        app.name = APP_NAME
         def redisAddon = new HerokuAddon('redis')
         redisAddon.plan = PLAN
         redisAddon.waitUntilStarted = true
-        installAddons.addons = [redisAddon]
+        app.addons = [redisAddon]
+        installAddons.apps = [app]
     }
 
     def "install an addon when missing"() {

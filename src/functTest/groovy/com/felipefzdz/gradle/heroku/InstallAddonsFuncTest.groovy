@@ -9,7 +9,7 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 })
 class InstallAddonsFuncTest extends BaseFuncTest {
 
-    String APP_NAME = 'functional-test-app'
+    String APP_NAME = 'functionaltestapp'
 
     @Override
     def getSubjectPlugin() {
@@ -27,11 +27,15 @@ class InstallAddonsFuncTest extends BaseFuncTest {
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
-                appName = '$APP_NAME'
-                addons {
-                    redis {
-                        plan = 'heroku-redis:hobby-dev'
-                    } 
+                apps {
+                    app {
+                        name = '$APP_NAME'
+                        addons {
+                            redis {
+                                plan = 'heroku-redis:hobby-dev'
+                            } 
+                        }
+                    }
                 }
             }
         """
