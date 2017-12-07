@@ -66,6 +66,7 @@ class InstallAddons extends DefaultTask {
         addons.each { HerokuAddon addon ->
             this.addons.create(addon.name, { HerokuAddon it ->
                 it.plan = addon.plan
+                it.waitUntilStarted = addon.waitUntilStarted
             })
         }
     }

@@ -9,6 +9,8 @@ import com.heroku.api.Addon
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Subject
 
@@ -17,10 +19,14 @@ class InstallAddonsIntegTest extends Specification {
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()
 
-    HerokuClient herokuClient = Mock(HerokuClient)
-
     @Subject
     InstallAddons installAddons
+
+    @Shared
+    @AutoCleanup
+    ServerSocket serverSocket = new ServerSocket(0)
+
+    HerokuClient herokuClient = Mock(HerokuClient)
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
@@ -34,12 +40,14 @@ class InstallAddonsIntegTest extends Specification {
         installAddons.appName = APP_NAME
         def redisAddon = new HerokuAddon('redis')
         redisAddon.plan = PLAN
+        redisAddon.waitUntilStarted = true
         installAddons.addons = [redisAddon]
     }
 
     def "install an addon when missing"() {
         given:
         herokuClient.getAddonAttachments(APP_NAME) >> []
+        herokuClient.listConfig(APP_NAME) >> ['REDIS_URL': "http://127.0.0.1:${serverSocket.localPort}"]
 
         when:
         installAddons.installAddons()

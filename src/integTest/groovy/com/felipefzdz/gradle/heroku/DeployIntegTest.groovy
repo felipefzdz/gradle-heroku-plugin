@@ -41,6 +41,7 @@ class DeployIntegTest extends Specification {
         deploy.recreate = false
         def redisAddon = new HerokuAddon('redis')
         redisAddon.plan = PLAN
+        redisAddon.waitUntilStarted = false
         deploy.addons = [redisAddon]
 
         herokuClient.getAddonAttachments(APP_NAME) >> []

@@ -3,7 +3,6 @@ package com.felipefzdz.gradle.heroku.tasks
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
-import com.felipefzdz.gradle.heroku.utils.AsyncUtil
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.NamedDomainObjectContainer
@@ -13,8 +12,6 @@ import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
 import java.time.Duration
-
-import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 
 @CompileStatic
 class Deploy extends DefaultTask {
@@ -70,8 +67,7 @@ class Deploy extends DefaultTask {
     def deploy() {
         herokuClient.init(apiKey.get())
         maybeCreateApplication(appName.get(), teamName.getOrElse(''), recreate.get(), stack.getOrElse('heroku-16'))
-        def added = maybeAddAddons()
-        waitForDbIfAdded(appName.get(), added.keySet())
+        installAddons()
         println "Successfully deployed app ${appName.get()}"
     }
 
@@ -83,49 +79,21 @@ class Deploy extends DefaultTask {
             delay(Duration.ofSeconds(delayAfterDestroyApp))
             exists = false
         }
-        if (!exists) {
+        if (exists) {
+            println "App $appName already exists and won't be created"
+        } else {
             herokuClient.createApp(appName, teamName, personalApp.get(), stack)
+            println "Successfully created app $appName"
         }
     }
 
-    Map<HerokuAddon, Map<String, ?>> maybeAddAddons() {
+    void installAddons() {
        installAddonsService.installAddons(addons.toList(), apiKey.get(), appName.get())
     }
 
     private delay(Duration duration) {
         println "Delaying for ${duration.toMillis()} milliseconds..."
         sleep(duration.toMillis())
-    }
-
-    private void waitForDbIfAdded(String appName, Collection<HerokuAddon> addedAddons) {
-        if (addedAddons.find { it.plan.startsWith('heroku-redis') }) {
-            def dbUrl = waitForDatabaseUrl(appName)
-            waitForSocketAvailable(dbUrl.host, dbUrl.port)
-        }
-    }
-
-    private URI waitForDatabaseUrl(String appName) {
-        println "Waiting for DATABASE_URL to be set on app $appName"
-        return waitFor(Duration.ofMinutes(5), Duration.ofSeconds(5), "DATABASE_URL to be set on app $appName") {
-            return URI.create(herokuClient.listConfig(appName).REDIS_URL)
-        }
-    }
-
-    private void waitForSocketAvailable(String host, int port) {
-        println "Waiting for connection on $host:$port"
-        waitFor(Duration.ofMinutes(5), Duration.ofSeconds(5), "database to appear at $host:$port") {
-            tryConnect(host, port)
-        }
-    }
-
-    private void tryConnect(String host, int port) throws IOException {
-        Socket s
-        try {
-            s = new Socket(host, port)
-            true
-        } finally {
-            s?.close()
-        }
     }
 
     void setApiKey(String apiKey) {
@@ -188,6 +156,7 @@ class Deploy extends DefaultTask {
         addons.each { HerokuAddon addon ->
             this.addons.create(addon.name, { HerokuAddon it ->
                 it.plan = addon.plan
+                it.waitUntilStarted = addon.waitUntilStarted
             })
         }
     }

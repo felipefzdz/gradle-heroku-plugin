@@ -32,6 +32,7 @@ class DeployFuncTest extends BaseFuncTest {
                 addons {
                     database {
                         plan = 'heroku-postgresql:hobby-dev'
+                        waitUntilStarted = true
                     } 
                 }
             }
