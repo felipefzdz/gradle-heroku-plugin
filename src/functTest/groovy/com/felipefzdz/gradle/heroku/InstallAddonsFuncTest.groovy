@@ -22,7 +22,7 @@ class InstallAddonsFuncTest extends BaseFuncTest {
 
     def "can install addons for an app"() {
         given:
-        herokuClient.createApp(APP_NAME, 'test', true)
+        herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
 
         buildFile << """
             heroku {

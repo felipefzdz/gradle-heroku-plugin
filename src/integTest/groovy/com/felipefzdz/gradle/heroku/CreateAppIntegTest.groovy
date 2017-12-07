@@ -2,7 +2,6 @@ package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.CreateApp
-import com.felipefzdz.gradle.heroku.tasks.Deploy
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -23,6 +22,7 @@ class CreateAppIntegTest extends Specification {
     String APP_NAME = 'appName'
     String TEAM_NAME = 'teamName'
     Boolean PERSONAL_APP = true
+    String STACK = 'cedar-14'
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
@@ -32,6 +32,7 @@ class CreateAppIntegTest extends Specification {
         createApp.appName = APP_NAME
         createApp.teamName = TEAM_NAME
         createApp.personalApp = PERSONAL_APP
+        createApp.stack = STACK
     }
 
 
@@ -43,7 +44,7 @@ class CreateAppIntegTest extends Specification {
         createApp.createApp()
 
         then:
-        1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP)
+        1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
     }
 
     def "skip creating an app when already exists"() {
@@ -54,7 +55,7 @@ class CreateAppIntegTest extends Specification {
         createApp.createApp()
 
         then:
-        0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP)
+        0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
     }
 
 }

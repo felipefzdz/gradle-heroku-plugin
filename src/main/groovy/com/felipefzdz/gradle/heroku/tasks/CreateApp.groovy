@@ -27,6 +27,10 @@ class CreateApp extends DefaultTask {
     Property<Boolean> personalApp
 
     @Internal
+    @Optional
+    Property<String> stack
+
+    @Internal
     HerokuClient herokuClient
 
     CreateApp() {
@@ -34,6 +38,7 @@ class CreateApp extends DefaultTask {
         this.appName = project.objects.property(String)
         this.teamName = project.objects.property(String)
         this.personalApp = project.objects.property(Boolean)
+        this.stack = project.objects.property(String)
         this.herokuClient = new DefaultHerokuClient()
         outputs.upToDateWhen { false }
     }
@@ -44,7 +49,7 @@ class CreateApp extends DefaultTask {
         if (herokuClient.appExists(appName.get())) {
             println "App ${appName.get()} already exists and won't be created."
         } else {
-            herokuClient.createApp(appName.get(), teamName.getOrElse(''), personalApp.get())
+            herokuClient.createApp(appName.get(), teamName.getOrElse(''), personalApp.get(), stack.getOrElse('heroku-16'))
             println "Successfully created app ${appName.get()}"
         }
     }
@@ -59,6 +64,10 @@ class CreateApp extends DefaultTask {
 
     void setTeamName(String teamName) {
         this.teamName.set(teamName)
+    }
+
+    void setStack(String stack) {
+        this.stack.set(stack)
     }
 
     void setPersonalApp(Boolean personalApp) {
@@ -79,6 +88,10 @@ class CreateApp extends DefaultTask {
 
     void setPersonalApp(Property<Boolean> personalApp) {
         this.personalApp = personalApp
+    }
+
+    void setStack(Property<String> stack) {
+        this.stack = stack
     }
 
     void setHerokuClient(HerokuClient herokuClient) {

@@ -8,7 +8,7 @@ interface HerokuClient {
 
     void destroyApp(String appName)
 
-    void createApp(String appName, String teamName, boolean personalApp)
+    void createApp(String appName, String teamName, boolean personalApp, String stack)
 
     boolean appExists(String appName)
 

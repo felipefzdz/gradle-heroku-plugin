@@ -32,6 +32,10 @@ class Deploy extends DefaultTask {
 
     @Internal
     @Optional
+    Property<String> stack
+
+    @Internal
+    @Optional
     Property<Boolean> recreate
 
     @Internal
@@ -51,6 +55,7 @@ class Deploy extends DefaultTask {
         this.appName = project.objects.property(String)
         this.teamName = project.objects.property(String)
         this.personalApp = project.objects.property(Boolean)
+        this.stack = project.objects.property(String)
         this.recreate = project.objects.property(Boolean)
         this.addons = project.container(HerokuAddon)
         this.herokuClient = new DefaultHerokuClient()
@@ -61,12 +66,12 @@ class Deploy extends DefaultTask {
     @TaskAction
     def deploy() {
         herokuClient.init(apiKey.get())
-        maybeCreateApplication(appName.get(), teamName.getOrElse(''), recreate.get())
+        maybeCreateApplication(appName.get(), teamName.getOrElse(''), recreate.get(), stack.getOrElse('heroku-16'))
         maybeAddAddons()
         println "Successfully deployed app ${appName.get()}"
     }
 
-    void maybeCreateApplication(String appName, String teamName, boolean recreate) {
+    void maybeCreateApplication(String appName, String teamName, boolean recreate, String stack) {
         boolean exists = herokuClient.appExists(appName)
         if (exists && recreate) {
             herokuClient.destroyApp(appName)
@@ -75,7 +80,7 @@ class Deploy extends DefaultTask {
             exists = false
         }
         if (!exists) {
-            herokuClient.createApp(appName, teamName, personalApp.get())
+            herokuClient.createApp(appName, teamName, personalApp.get(), stack)
         }
     }
 
@@ -100,6 +105,10 @@ class Deploy extends DefaultTask {
         this.teamName.set(teamName)
     }
 
+    void setStack(String stack) {
+        this.stack.set(stack)
+    }
+
     void setPersonalApp(Boolean personalApp) {
         this.personalApp.set(personalApp)
     }
@@ -122,6 +131,10 @@ class Deploy extends DefaultTask {
 
     void setPersonalApp(Property<Boolean> personalApp) {
         this.personalApp = personalApp
+    }
+
+    void setStack(Property<String> stack) {
+        this.stack = stack
     }
 
     void setRecreate(Property<Boolean> recreate) {

@@ -18,7 +18,7 @@ class DestroyAppFuncTest extends BaseFuncTest {
 
     def "can destroy an app"() {
         given:
-        herokuClient.createApp(APP_NAME, 'test', true)
+        herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
 
         buildFile << """
             heroku {

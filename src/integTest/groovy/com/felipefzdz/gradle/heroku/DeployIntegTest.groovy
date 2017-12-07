@@ -23,6 +23,7 @@ class DeployIntegTest extends Specification {
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
     String TEAM_NAME = 'teamName'
+    String STACK = 'cedar-14'
     Boolean PERSONAL_APP = true
     String PLAN = 'heroku-redis:hobby-dev'
 
@@ -35,6 +36,7 @@ class DeployIntegTest extends Specification {
         deploy.apiKey = API_KEY
         deploy.appName = APP_NAME
         deploy.teamName = TEAM_NAME
+        deploy.stack = STACK
         deploy.personalApp = PERSONAL_APP
         deploy.recreate = false
         def redisAddon = new HerokuAddon('redis')
@@ -53,7 +55,7 @@ class DeployIntegTest extends Specification {
         deploy.deploy()
 
         then:
-        1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP)
+        1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
     }
 
     def "skip creating an app when already exists"() {
@@ -64,7 +66,7 @@ class DeployIntegTest extends Specification {
         deploy.deploy()
 
         then:
-        0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP)
+        0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
     }
 
     def "destroy and create an app when recreate"() {
@@ -78,7 +80,7 @@ class DeployIntegTest extends Specification {
 
         then:
         1 * herokuClient.destroyApp(APP_NAME)
-        1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP)
+        1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
     }
 
     def "skip destroying an app when missing"() {

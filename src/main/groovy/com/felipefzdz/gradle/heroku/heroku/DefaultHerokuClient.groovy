@@ -31,9 +31,9 @@ class DefaultHerokuClient implements HerokuClient {
     }
 
     @Override
-    void createApp(String appName, String teamName, boolean personalApp) {
+    void createApp(String appName, String teamName, boolean personalApp, String stack) {
         println "Creating heroku app $appName for team $teamName"
-        api3(new OrganizationAppCreateRequest(appName, teamName, Heroku.Stack.Cedar14, personalApp))
+        api3(new OrganizationAppCreateRequest(appName, teamName, stack, personalApp))
     }
 
     @Override

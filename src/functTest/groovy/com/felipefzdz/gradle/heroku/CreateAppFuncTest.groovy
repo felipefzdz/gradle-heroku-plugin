@@ -27,6 +27,7 @@ class CreateAppFuncTest extends BaseFuncTest {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 appName = '$APP_NAME'
                 teamName = 'test'
+                stack = 'cedar-14'
                 personalApp = true
             }
         """
