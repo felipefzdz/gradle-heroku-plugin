@@ -51,6 +51,11 @@ class DefaultHerokuClient implements HerokuClient {
         api3(new GetAddonAttachmentsRequest(appName))
     }
 
+    @Override
+    Map<String, String> listConfig(String appName) {
+        herokuAPI.listConfig(appName)
+    }
+
     private <T> T api3(Request<T> request) {
         herokuAPI.connection.execute(request, apiKey)
     }

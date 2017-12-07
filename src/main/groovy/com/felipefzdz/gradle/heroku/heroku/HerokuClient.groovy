@@ -15,4 +15,6 @@ interface HerokuClient {
     AddonChange installAddon(String appName, String plan)
 
     List<Map<String,?>> getAddonAttachments(String appName)
+
+    Map<String, String> listConfig(String appName)
 }
