@@ -6,7 +6,6 @@ import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
@@ -14,13 +13,13 @@ import org.gradle.api.tasks.TaskAction
 import java.time.Duration
 
 @CompileStatic
-class Deploy extends DefaultTask {
+class DeployBundle extends DefaultTask {
 
     @Internal
     Property<String> apiKey
 
     @Internal
-    Collection<HerokuApp> apps
+    Collection<HerokuApp> bundle
 
     @Internal
     HerokuClient herokuClient
@@ -31,9 +30,9 @@ class Deploy extends DefaultTask {
     @Internal
     int delayAfterDestroyApp = 20
 
-    Deploy() {
+    DeployBundle() {
         this.apiKey = project.objects.property(String)
-        this.apps = project.objects.listProperty(HerokuApp) as List<HerokuApp>
+        this.bundle = project.objects.listProperty(HerokuApp) as List<HerokuApp>
         this.herokuClient = new DefaultHerokuClient()
         this.installAddonsService = new InstallAddonsService(this.herokuClient)
         outputs.upToDateWhen { false }
@@ -42,7 +41,7 @@ class Deploy extends DefaultTask {
     @TaskAction
     def deploy() {
         herokuClient.init(apiKey.get())
-        apps.each { HerokuApp app ->
+        bundle.each { HerokuApp app ->
             maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp)
             installAddons(app.addons.toList(), app.name)
             println "Successfully deployed app ${app.name}"
@@ -82,8 +81,8 @@ class Deploy extends DefaultTask {
         this.apiKey = apiKey
     }
 
-    void setApps(Collection<HerokuApp> apps) {
-        this.apps = apps
+    void setBundle(Collection<HerokuApp> bundle) {
+        this.bundle = bundle
     }
 
     void setHerokuClient(HerokuClient herokuClient) {

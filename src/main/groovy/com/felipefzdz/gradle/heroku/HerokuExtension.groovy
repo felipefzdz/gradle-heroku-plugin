@@ -16,7 +16,7 @@ class HerokuExtension {
     Property<String> stack
     Property<Boolean> personalApp
     Property<Boolean> recreate
-    Collection<HerokuApp> apps = new ArrayList<>()
+    Collection<HerokuApp> bundle = new ArrayList<>()
     Project project
 
     HerokuExtension(Project project) {
@@ -33,7 +33,7 @@ class HerokuExtension {
     HerokuApp app(Closure closure) {
         HerokuApp app = project.configure(new HerokuApp(project), closure) as HerokuApp
         app.addons = project.extensions.getByName('addons') as NamedDomainObjectContainer<HerokuAddon>
-        apps << app
+        bundle << app
         app
     }
 }

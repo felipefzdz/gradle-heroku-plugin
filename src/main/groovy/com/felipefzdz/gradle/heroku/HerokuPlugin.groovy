@@ -1,9 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
-import com.felipefzdz.gradle.heroku.tasks.Deploy
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
+import com.felipefzdz.gradle.heroku.tasks.DeployBundle
 import groovy.transform.CompileStatic
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -15,9 +13,9 @@ class HerokuPlugin implements Plugin<Project> {
         project.apply(plugin: HerokuBasePlugin)
         HerokuExtension extension = project.extensions.findByType(HerokuExtension)
 
-        project.tasks.create("herokuDeploy", Deploy.class, {
+        project.tasks.create("herokuDeployBundle", DeployBundle.class, {
             it.apiKey = extension.apiKey
-            it.apps = extension.apps
+            it.bundle = extension.bundle
         })
 
     }

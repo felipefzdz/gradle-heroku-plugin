@@ -1,7 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.Deploy
+import com.felipefzdz.gradle.heroku.tasks.DeployBundle
 import com.felipefzdz.gradle.heroku.tasks.InstallAddonsService
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
@@ -11,7 +11,7 @@ import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 import spock.lang.Subject
 
-class DeployIntegTest extends Specification {
+class DeployBundleIntegTest extends Specification {
 
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()
@@ -19,7 +19,7 @@ class DeployIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    Deploy deploy
+    DeployBundle deploy
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
@@ -30,7 +30,7 @@ class DeployIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        deploy = project.tasks.create('deploy', Deploy)
+        deploy = project.tasks.create('deploy', DeployBundle)
 
         deploy.herokuClient = herokuClient
         deploy.installAddonsService = new InstallAddonsService(herokuClient)
@@ -48,7 +48,7 @@ class DeployIntegTest extends Specification {
         redisAddon.waitUntilStarted = false
         app.addons = [redisAddon]
 
-        deploy.apps = [app]
+        deploy.bundle = [app]
 
         herokuClient.getAddonAttachments(APP_NAME) >> []
     }
@@ -78,7 +78,7 @@ class DeployIntegTest extends Specification {
 
     def "destroy and create an app when recreate"() {
         given:
-        deploy.apps[0].recreate = true
+        deploy.bundle[0].recreate = true
         deploy.delayAfterDestroyApp = 0
         herokuClient.appExists(APP_NAME) >> true
 
@@ -92,7 +92,7 @@ class DeployIntegTest extends Specification {
 
     def "skip destroying an app when missing"() {
         given:
-        deploy.apps[0].recreate = true
+        deploy.bundle[0].recreate = true
         herokuClient.appExists(APP_NAME) >> false
 
         when:

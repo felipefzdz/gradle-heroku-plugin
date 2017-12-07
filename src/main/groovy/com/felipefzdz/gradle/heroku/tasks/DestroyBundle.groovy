@@ -7,39 +7,42 @@ import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
-import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class CreateApps extends DefaultTask {
+class DestroyBundle extends DefaultTask {
 
     @Internal
     Property<String> apiKey
 
     @Internal
-    Collection<HerokuApp> apps
+    Collection<HerokuApp> bundle
 
     @Internal
     HerokuClient herokuClient
 
-    CreateApps() {
+    DestroyBundle() {
         this.apiKey = project.objects.property(String)
-        this.apps = project.objects.listProperty(HerokuApp) as List<HerokuApp>
+        this.bundle = project.objects.listProperty(HerokuApp) as List<HerokuApp>
         this.herokuClient = new DefaultHerokuClient()
         outputs.upToDateWhen { false }
     }
 
     @TaskAction
-    def createApp() {
+    def destroyApp() {
         herokuClient.init(apiKey.get())
-        apps.each {HerokuApp app ->
+        bundle.each { HerokuApp app ->
             if (herokuClient.appExists(app.name)) {
-                println "App ${app.name} already exists and won't be created."
+                herokuClient.destroyApp(app.name)
+                println "Successfully destroyed app ${app.name}"
             } else {
-                herokuClient.createApp(app.name, app.teamName, app.personalApp, app.stack)
-                println "Successfully created app ${app.name}"
+                println "App ${app.name} doesn't exist and won't be destroyed."
             }
         }
+    }
+
+    void setHerokuClient(HerokuClient herokuClient) {
+        this.herokuClient = herokuClient
     }
 
     void setApiKey(String apiKey) {
@@ -50,12 +53,8 @@ class CreateApps extends DefaultTask {
         this.apiKey = apiKey
     }
 
-    void setApps(Collection<HerokuApp> apps) {
-        this.apps = apps
-    }
-
-    void setHerokuClient(HerokuClient herokuClient) {
-        this.herokuClient = herokuClient
+    void setBundle(Collection<HerokuApp> bundle) {
+        this.bundle = bundle
     }
 }
 

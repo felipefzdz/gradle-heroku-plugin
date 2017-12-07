@@ -1,12 +1,10 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.Deploy
 import com.felipefzdz.gradle.heroku.tasks.InstallAddons
 import com.felipefzdz.gradle.heroku.tasks.InstallAddonsService
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
-import com.heroku.api.Addon
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -46,7 +44,7 @@ class InstallAddonsIntegTest extends Specification {
         redisAddon.waitUntilStarted = true
         app.addons = [redisAddon]
 
-        installAddons.apps = [app]
+        installAddons.bundle = [app]
     }
 
     def "install an addon when missing"() {

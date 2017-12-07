@@ -7,7 +7,7 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 @Requires({
     GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
 })
-class CreateAppsFuncTest extends BaseFuncTest {
+class CreateBundleFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
 
@@ -25,7 +25,7 @@ class CreateAppsFuncTest extends BaseFuncTest {
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
-                apps {
+                bundle {
                     app {
                         name = '$APP_NAME'
                         teamName = 'test'
@@ -37,11 +37,11 @@ class CreateAppsFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run('herokuCreateApps')
+        def result = run('herokuCreateBundle')
 
         then:
         result.output.contains("Successfully created app $APP_NAME")
-        result.task(":herokuCreateApps").outcome == SUCCESS
+        result.task(":herokuCreateBundle").outcome == SUCCESS
 
         and:
         herokuClient.appExists(APP_NAME)

@@ -1,7 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.CreateApps
+import com.felipefzdz.gradle.heroku.tasks.CreateBundle
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
@@ -9,7 +9,7 @@ import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 import spock.lang.Subject
 
-class CreateAppsIntegTest extends Specification {
+class CreateBundleIntegTest extends Specification {
 
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()
@@ -17,7 +17,7 @@ class CreateAppsIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    CreateApps createApps
+    CreateBundle createBundle
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
@@ -27,16 +27,16 @@ class CreateAppsIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        createApps = project.tasks.create('createApps', CreateApps)
-        createApps.herokuClient = herokuClient
-        createApps.apiKey = API_KEY
+        createBundle = project.tasks.create('createBundle', CreateBundle)
+        createBundle.herokuClient = herokuClient
+        createBundle.apiKey = API_KEY
 
         def app = new HerokuApp(project)
         app.name = APP_NAME
         app.teamName = TEAM_NAME
         app.personalApp = PERSONAL_APP
         app.stack = STACK
-        createApps.apps = [app]
+        createBundle.bundle = [app]
     }
 
 
@@ -45,7 +45,7 @@ class CreateAppsIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        createApps.createApp()
+        createBundle.createApp()
 
         then:
         1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
@@ -56,7 +56,7 @@ class CreateAppsIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        createApps.createApp()
+        createBundle.createApp()
 
         then:
         0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)

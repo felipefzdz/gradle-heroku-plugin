@@ -27,7 +27,7 @@ class InstallAddonsFuncTest extends BaseFuncTest {
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
-                apps {
+                bundle {
                     app {
                         name = '$APP_NAME'
                         addons {

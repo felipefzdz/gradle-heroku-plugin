@@ -1,8 +1,8 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.tasks.InstallAddons
-import com.felipefzdz.gradle.heroku.tasks.CreateApps
-import com.felipefzdz.gradle.heroku.tasks.DestroyApps
+import com.felipefzdz.gradle.heroku.tasks.CreateBundle
+import com.felipefzdz.gradle.heroku.tasks.DestroyBundle
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
@@ -15,22 +15,22 @@ class HerokuBasePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         HerokuExtension extension = project.extensions.create('heroku', HerokuExtension, project)
-        project.extensions.create('apps', HerokuApp, project)
+        project.extensions.create('bundle', HerokuApp, project)
         project.extensions.add('addons', project.container(HerokuAddon))
 
-        project.tasks.create('herokuCreateApps', CreateApps, {
+        project.tasks.create('herokuCreateBundle', CreateBundle, {
             it.apiKey = extension.apiKey
-            it.apps = extension.apps
+            it.bundle = extension.bundle
         })
 
-        project.tasks.create('herokuDestroyApps', DestroyApps, {
+        project.tasks.create('herokuDestroyBundle', DestroyBundle, {
             it.apiKey = extension.apiKey
-            it.apps = extension.apps
+            it.bundle = extension.bundle
         })
 
         project.tasks.create('herokuInstallAddons', InstallAddons, {
             it.apiKey = extension.apiKey
-            it.apps = extension.apps
+            it.bundle = extension.bundle
         })
     }
 }

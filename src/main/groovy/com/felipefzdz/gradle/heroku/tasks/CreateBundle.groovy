@@ -10,39 +10,35 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class DestroyApps extends DefaultTask {
+class CreateBundle extends DefaultTask {
 
     @Internal
     Property<String> apiKey
 
     @Internal
-    Collection<HerokuApp> apps
+    Collection<HerokuApp> bundle
 
     @Internal
     HerokuClient herokuClient
 
-    DestroyApps() {
+    CreateBundle() {
         this.apiKey = project.objects.property(String)
-        this.apps = project.objects.listProperty(HerokuApp) as List<HerokuApp>
+        this.bundle = project.objects.listProperty(HerokuApp) as List<HerokuApp>
         this.herokuClient = new DefaultHerokuClient()
         outputs.upToDateWhen { false }
     }
 
     @TaskAction
-    def destroyApp() {
+    def createApp() {
         herokuClient.init(apiKey.get())
-        apps.each { HerokuApp app ->
+        bundle.each { HerokuApp app ->
             if (herokuClient.appExists(app.name)) {
-                herokuClient.destroyApp(app.name)
-                println "Successfully destroyed app ${app.name}"
+                println "App ${app.name} already exists and won't be created."
             } else {
-                println "App ${app.name} doesn't exist and won't be destroyed."
+                herokuClient.createApp(app.name, app.teamName, app.personalApp, app.stack)
+                println "Successfully created app ${app.name}"
             }
         }
-    }
-
-    void setHerokuClient(HerokuClient herokuClient) {
-        this.herokuClient = herokuClient
     }
 
     void setApiKey(String apiKey) {
@@ -53,8 +49,12 @@ class DestroyApps extends DefaultTask {
         this.apiKey = apiKey
     }
 
-    void setApps(Collection<HerokuApp> apps) {
-        this.apps = apps
+    void setBundle(Collection<HerokuApp> bundle) {
+        this.bundle = bundle
+    }
+
+    void setHerokuClient(HerokuClient herokuClient) {
+        this.herokuClient = herokuClient
     }
 }
 

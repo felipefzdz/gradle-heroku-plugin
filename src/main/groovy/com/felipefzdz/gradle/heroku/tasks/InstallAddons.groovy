@@ -15,21 +15,21 @@ class InstallAddons extends DefaultTask {
     Property<String> apiKey
 
     @Internal
-    Collection<HerokuApp> apps
+    Collection<HerokuApp> bundle
 
     @Internal
     InstallAddonsService installAddonsService
 
     InstallAddons() {
         this.apiKey = project.objects.property(String)
-        this.apps = project.objects.listProperty(HerokuApp) as List<HerokuApp>
+        this.bundle = project.objects.listProperty(HerokuApp) as List<HerokuApp>
         this.installAddonsService = new InstallAddonsService(new DefaultHerokuClient())
         outputs.upToDateWhen { false }
     }
 
     @TaskAction
     def installAddons() {
-        apps.each { HerokuApp app ->
+        bundle.each { HerokuApp app ->
             installAddonsService.installAddons(app.addons.toList(), apiKey.get(), app.name)
         }
     }
@@ -46,8 +46,8 @@ class InstallAddons extends DefaultTask {
         this.apiKey.set(apiKey)
     }
 
-    void setApps(Collection<HerokuApp> apps) {
-        this.apps = apps
+    void setBundle(Collection<HerokuApp> bundle) {
+        this.bundle = bundle
     }
 }
 
