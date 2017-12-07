@@ -2,28 +2,28 @@ package com.felipefzdz.gradle.heroku.tasks
 
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
-
 @CompileStatic
-class DestroyApp extends DefaultTask {
+class DestroyApps extends DefaultTask {
 
     @Internal
     Property<String> apiKey
 
     @Internal
-    Property<String> appName
+    Collection<HerokuApp> apps
 
     @Internal
     HerokuClient herokuClient
 
-    DestroyApp() {
+    DestroyApps() {
         this.apiKey = project.objects.property(String)
-        this.appName = project.objects.property(String)
+        this.apps = project.objects.listProperty(HerokuApp) as List<HerokuApp>
         this.herokuClient = new DefaultHerokuClient()
         outputs.upToDateWhen { false }
     }
@@ -31,11 +31,13 @@ class DestroyApp extends DefaultTask {
     @TaskAction
     def destroyApp() {
         herokuClient.init(apiKey.get())
-        if (herokuClient.appExists(appName.get())) {
-            herokuClient.destroyApp(appName.get())
-            println "Successfully destroyed app ${appName.get()}"
-        } else {
-            println "App ${appName.get()} doesn't exist and won't be destroyed."
+        apps.each { HerokuApp app ->
+            if (herokuClient.appExists(app.name)) {
+                herokuClient.destroyApp(app.name)
+                println "Successfully destroyed app ${app.name}"
+            } else {
+                println "App ${app.name} doesn't exist and won't be destroyed."
+            }
         }
     }
 
@@ -47,17 +49,12 @@ class DestroyApp extends DefaultTask {
         this.apiKey.set(apiKey)
     }
 
-    void setAppName(String appName) {
-        this.appName.set(appName)
-    }
-
     void setApiKey(Property<String> apiKey) {
         this.apiKey = apiKey
     }
 
-    void setAppName(Property<String> appName) {
-        this.appName = appName
+    void setApps(Collection<HerokuApp> apps) {
+        this.apps = apps
     }
-
 }
 

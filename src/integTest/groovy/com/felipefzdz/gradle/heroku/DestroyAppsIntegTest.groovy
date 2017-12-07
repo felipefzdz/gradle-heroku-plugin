@@ -1,14 +1,15 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.DestroyApp
+import com.felipefzdz.gradle.heroku.tasks.DestroyApps
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 import spock.lang.Subject
 
-class DestroyAppIntegTest extends Specification {
+class DestroyAppsIntegTest extends Specification {
 
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()
@@ -16,17 +17,20 @@ class DestroyAppIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    DestroyApp destroyApp
+    DestroyApps destroyApp
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        destroyApp = project.tasks.create('destroyApp', DestroyApp)
+        destroyApp = project.tasks.create('destroyApps', DestroyApps)
         destroyApp.herokuClient = herokuClient
         destroyApp.apiKey = API_KEY
-        destroyApp.appName = APP_NAME
+
+        def app = new HerokuApp(project)
+        app.name = APP_NAME
+        destroyApp.apps = [app]
     }
 
     def "skip destroying an app when missing"() {

@@ -2,7 +2,7 @@ package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.tasks.InstallAddons
 import com.felipefzdz.gradle.heroku.tasks.CreateApps
-import com.felipefzdz.gradle.heroku.tasks.DestroyApp
+import com.felipefzdz.gradle.heroku.tasks.DestroyApps
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
@@ -23,9 +23,9 @@ class HerokuBasePlugin implements Plugin<Project> {
             it.apps = extension.apps
         })
 
-        project.tasks.create('herokuDestroyApp', DestroyApp, {
+        project.tasks.create('herokuDestroyApps', DestroyApps, {
             it.apiKey = extension.apiKey
-            it.appName = extension.appName
+            it.apps = extension.apps
         })
 
         project.tasks.create('herokuInstallAddons', InstallAddons, {

@@ -27,7 +27,7 @@ class CreateAppsIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        createApp = project.tasks.create('createApp', CreateApps)
+        createApp = project.tasks.create('createApps', CreateApps)
         createApp.herokuClient = herokuClient
         createApp.apiKey = API_KEY
 
