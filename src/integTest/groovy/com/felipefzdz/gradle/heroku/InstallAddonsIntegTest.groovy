@@ -38,6 +38,7 @@ class InstallAddonsIntegTest extends Specification {
         installAddons = project.tasks.create('installAddons', InstallAddons)
         installAddons.installAddonsService = new InstallAddonsService(herokuClient)
         installAddons.apiKey = API_KEY
+
         def app = new HerokuApp(project)
         app.name = APP_NAME
         def redisAddon = new HerokuAddon('redis')

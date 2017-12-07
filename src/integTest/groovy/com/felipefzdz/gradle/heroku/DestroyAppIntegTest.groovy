@@ -1,7 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.CreateApp
 import com.felipefzdz.gradle.heroku.tasks.DestroyApp
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule

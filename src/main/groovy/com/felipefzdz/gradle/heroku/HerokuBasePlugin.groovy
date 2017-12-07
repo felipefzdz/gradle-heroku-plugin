@@ -1,7 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.tasks.InstallAddons
-import com.felipefzdz.gradle.heroku.tasks.CreateApp
+import com.felipefzdz.gradle.heroku.tasks.CreateApps
 import com.felipefzdz.gradle.heroku.tasks.DestroyApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
@@ -18,12 +18,9 @@ class HerokuBasePlugin implements Plugin<Project> {
         project.extensions.create('apps', HerokuApp, project)
         project.extensions.add('addons', project.container(HerokuAddon))
 
-        project.tasks.create('herokuCreateApp', CreateApp, {
+        project.tasks.create('herokuCreateApps', CreateApps, {
             it.apiKey = extension.apiKey
-            it.appName = extension.appName
-            it.teamName = extension.teamName
-            it.stack = extension.stack
-            it.personalApp = extension.personalApp
+            it.apps = extension.apps
         })
 
         project.tasks.create('herokuDestroyApp', DestroyApp, {

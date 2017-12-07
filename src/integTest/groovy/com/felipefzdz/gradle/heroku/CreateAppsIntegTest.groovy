@@ -1,14 +1,15 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.CreateApp
+import com.felipefzdz.gradle.heroku.tasks.CreateApps
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 import spock.lang.Subject
 
-class CreateAppIntegTest extends Specification {
+class CreateAppsIntegTest extends Specification {
 
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()
@@ -16,7 +17,7 @@ class CreateAppIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    CreateApp createApp
+    CreateApps createApp
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
@@ -26,13 +27,16 @@ class CreateAppIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        createApp = project.tasks.create('createApp', CreateApp)
+        createApp = project.tasks.create('createApp', CreateApps)
         createApp.herokuClient = herokuClient
         createApp.apiKey = API_KEY
-        createApp.appName = APP_NAME
-        createApp.teamName = TEAM_NAME
-        createApp.personalApp = PERSONAL_APP
-        createApp.stack = STACK
+
+        def app = new HerokuApp(project)
+        app.name = APP_NAME
+        app.teamName = TEAM_NAME
+        app.personalApp = PERSONAL_APP
+        app.stack = STACK
+        createApp.apps = [app]
     }
 
 

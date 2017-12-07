@@ -26,4 +26,12 @@ class HerokuApp {
     void setAddons(NamedDomainObjectContainer<HerokuAddon> addons) {
         this.addons = addons
     }
+
+    String getTeamName() {
+        return teamName ?: ''
+    }
+
+    String getStack() {
+        return stack ?: 'heroku-16'
+    }
 }
