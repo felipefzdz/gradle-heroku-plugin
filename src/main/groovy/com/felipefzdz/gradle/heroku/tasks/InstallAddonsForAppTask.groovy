@@ -24,7 +24,6 @@ class InstallAddonsForAppTask extends DefaultTask {
     @Internal
     InstallAddonsService installAddonsService
 
-
     @TaskAction
     void installAddonForApp() {
         herokuClient.init(apiKey.get())
