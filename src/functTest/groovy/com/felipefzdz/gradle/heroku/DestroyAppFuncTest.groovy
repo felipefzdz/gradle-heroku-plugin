@@ -7,7 +7,7 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 @Requires({
     GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
 })
-class CreateBundleFuncTest extends BaseFuncTest {
+class DestroyAppFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
     String ANOTHER_APP_NAME = 'another-functional-test-app'
@@ -17,13 +17,10 @@ class CreateBundleFuncTest extends BaseFuncTest {
         'heroku-base'
     }
 
-    def cleanup() {
-        herokuClient.destroyApp(APP_NAME)
-        herokuClient.destroyApp(ANOTHER_APP_NAME)
-    }
-
-    def "can create a bundle"() {
+    def "can destroy an app"() {
         given:
+        herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
+
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
@@ -43,15 +40,13 @@ class CreateBundleFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run('herokuCreateBundle')
+        def result = run("herokuDestroy${APP_NAME.capitalize()}")
 
         then:
-        result.output.contains("Successfully created app $APP_NAME")
-        result.output.contains("Successfully created app $ANOTHER_APP_NAME")
-        result.task(":herokuCreateBundle").outcome == SUCCESS
+        result.output.contains("Successfully destroyed app $APP_NAME")
+        result.task(":herokuDestroy${APP_NAME.capitalize()}").outcome == SUCCESS
 
         and:
-        herokuClient.appExists(APP_NAME)
-        herokuClient.appExists(ANOTHER_APP_NAME)
+        !herokuClient.appExists(APP_NAME)
     }
 }

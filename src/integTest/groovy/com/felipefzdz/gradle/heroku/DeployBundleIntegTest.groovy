@@ -1,10 +1,14 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.DeployBundle
-import com.felipefzdz.gradle.heroku.tasks.InstallAddonsService
+import com.felipefzdz.gradle.heroku.tasks.DeployBundleTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.services.DeployService
+import com.felipefzdz.gradle.heroku.tasks.services.InstallAddonsService
+import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.internal.DefaultDomainObjectCollection
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -19,7 +23,7 @@ class DeployBundleIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    DeployBundle deploy
+    DeployBundleTask deploy
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
@@ -30,36 +34,37 @@ class DeployBundleIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        deploy = project.tasks.create('deploy', DeployBundle)
+        deploy = project.tasks.create('deployBundleTask', DeployBundleTask)
 
         deploy.herokuClient = herokuClient
-        deploy.installAddonsService = new InstallAddonsService(herokuClient)
-        deploy.apiKey = API_KEY
+        deploy.deployService = new DeployService(new InstallAddonsService(herokuClient), herokuClient)
 
-        def app = new HerokuApp(project)
-        app.name = APP_NAME
+        def apiKeyProperty = project.objects.property(String)
+        apiKeyProperty.set(API_KEY)
+        deploy.apiKey = apiKeyProperty
+
+        def redisAddon = new HerokuAddon('redis')
+        redisAddon.plan = PLAN
+        redisAddon.waitUntilStarted = false
+        def addons = new DefaultDomainObjectCollection(HerokuAddon, [redisAddon]) as NamedDomainObjectContainer<HerokuAddon>
+
+        def app = new HerokuWebApp(APP_NAME, addons)
         app.teamName = TEAM_NAME
         app.personalApp = PERSONAL_APP
         app.stack = STACK
         app.recreate = false
 
-        def redisAddon = new HerokuAddon('redis')
-        redisAddon.plan = PLAN
-        redisAddon.waitUntilStarted = false
-        app.addons = [redisAddon]
-
-        deploy.bundle = [app]
+        deploy.bundle = new DefaultDomainObjectCollection(HerokuApp, [app]) as HerokuAppContainer
 
         herokuClient.getAddonAttachments(APP_NAME) >> []
     }
-
 
     def "create an app when missing"() {
         given:
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        deploy.deploy()
+        deploy.deployBundle()
 
         then:
         1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
@@ -70,7 +75,7 @@ class DeployBundleIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        deploy.deploy()
+        deploy.deployBundle()
 
         then:
         0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
@@ -83,7 +88,7 @@ class DeployBundleIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        deploy.deploy()
+        deploy.deployBundle()
 
         then:
         1 * herokuClient.destroyApp(APP_NAME)
@@ -96,11 +101,9 @@ class DeployBundleIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        deploy.deploy()
+        deploy.deployBundle()
 
         then:
         0 * herokuClient.destroyApp(APP_NAME)
     }
-
-
 }

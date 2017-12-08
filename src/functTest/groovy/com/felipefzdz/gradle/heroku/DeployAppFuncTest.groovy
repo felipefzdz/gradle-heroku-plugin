@@ -7,22 +7,20 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 @Requires({
     GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
 })
-class CreateBundleFuncTest extends BaseFuncTest {
+class DeployAppFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
-    String ANOTHER_APP_NAME = 'another-functional-test-app'
 
     @Override
     def getSubjectPlugin() {
-        'heroku-base'
+        'heroku'
     }
 
     def cleanup() {
         herokuClient.destroyApp(APP_NAME)
-        herokuClient.destroyApp(ANOTHER_APP_NAME)
     }
 
-    def "can create a bundle"() {
+    def "can deploy an app"() {
         given:
         buildFile << """
             heroku {
@@ -30,28 +28,31 @@ class CreateBundleFuncTest extends BaseFuncTest {
                 bundle {
                     '$APP_NAME' {
                         teamName = 'test'
-                        stack = 'cedar-14'
-                        personalApp = true
-                    }
-                    '$ANOTHER_APP_NAME' {
-                        teamName = 'test'
                         stack = 'heroku-16'
                         personalApp = true
+                        addons {
+                            database {
+                                plan = 'heroku-postgresql:hobby-dev'
+                                waitUntilStarted = true
+                            } 
+                        }
                     }
                 }
             }
         """
 
         when:
-        def result = run('herokuCreateBundle')
+        def result = run("herokuDeploy${APP_NAME.capitalize()}")
 
         then:
-        result.output.contains("Successfully created app $APP_NAME")
-        result.output.contains("Successfully created app $ANOTHER_APP_NAME")
-        result.task(":herokuCreateBundle").outcome == SUCCESS
+        result.output.contains("Successfully deployed app $APP_NAME")
+        result.task(":herokuDeploy${APP_NAME.capitalize()}").outcome == SUCCESS
 
         and:
         herokuClient.appExists(APP_NAME)
-        herokuClient.appExists(ANOTHER_APP_NAME)
+
+        and:
+        herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']
     }
+
 }

@@ -1,8 +1,9 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.DestroyBundle
+import com.felipefzdz.gradle.heroku.tasks.DestroyBundleTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import org.gradle.api.internal.DefaultDomainObjectCollection
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -17,20 +18,21 @@ class DestroyBundleIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    DestroyBundle destroyApp
+    DestroyBundleTask destroyBundleTask
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        destroyApp = project.tasks.create('destroyBundle', DestroyBundle)
-        destroyApp.herokuClient = herokuClient
-        destroyApp.apiKey = API_KEY
+        destroyBundleTask = project.tasks.create('destroyBundle', DestroyBundleTask)
+        destroyBundleTask.herokuClient = herokuClient
+        def apiKeyProperty = project.objects.property(String)
+        apiKeyProperty.set(API_KEY)
+        destroyBundleTask.apiKey = apiKeyProperty
 
-        def app = new HerokuApp(project)
-        app.name = APP_NAME
-        destroyApp.bundle = [app]
+        def app = new HerokuApp(APP_NAME)
+        destroyBundleTask.bundle = new DefaultDomainObjectCollection(HerokuApp, [app]) as HerokuAppContainer
     }
 
     def "skip destroying an app when missing"() {
@@ -38,7 +40,7 @@ class DestroyBundleIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        destroyApp.destroyApp()
+        destroyBundleTask.destroyBundle()
 
         then:
         0 * herokuClient.destroyApp(APP_NAME)
@@ -49,7 +51,7 @@ class DestroyBundleIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        destroyApp.destroyApp()
+        destroyBundleTask.destroyBundle()
 
         then:
         1 * herokuClient.destroyApp(APP_NAME)

@@ -1,8 +1,9 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.CreateBundle
+import com.felipefzdz.gradle.heroku.tasks.CreateBundleTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import org.gradle.api.internal.DefaultDomainObjectCollection
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -17,7 +18,7 @@ class CreateBundleIntegTest extends Specification {
     HerokuClient herokuClient = Mock(HerokuClient)
 
     @Subject
-    CreateBundle createBundle
+    CreateBundleTask createBundleTask
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
@@ -27,16 +28,17 @@ class CreateBundleIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        createBundle = project.tasks.create('createBundle', CreateBundle)
-        createBundle.herokuClient = herokuClient
-        createBundle.apiKey = API_KEY
+        createBundleTask = project.tasks.create('createBundleTask', CreateBundleTask)
+        createBundleTask.herokuClient = herokuClient
+        def apiKeyProperty = project.objects.property(String)
+        apiKeyProperty.set(API_KEY)
+        createBundleTask.apiKey = apiKeyProperty
 
-        def app = new HerokuApp(project)
-        app.name = APP_NAME
+        def app = new HerokuApp(APP_NAME)
         app.teamName = TEAM_NAME
         app.personalApp = PERSONAL_APP
         app.stack = STACK
-        createBundle.bundle = [app]
+        createBundleTask.bundle = new DefaultDomainObjectCollection(HerokuApp, [app]) as HerokuAppContainer
     }
 
 
@@ -45,7 +47,7 @@ class CreateBundleIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        createBundle.createApp()
+        createBundleTask.createBundle()
 
         then:
         1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
@@ -56,7 +58,7 @@ class CreateBundleIntegTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        createBundle.createApp()
+        createBundleTask.createBundle()
 
         then:
         0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)

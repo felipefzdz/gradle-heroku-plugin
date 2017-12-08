@@ -1,31 +1,39 @@
 package com.felipefzdz.gradle.heroku.tasks.model
 
-import org.gradle.api.NamedDomainObjectContainer
-import org.gradle.api.Project
+import groovy.transform.CompileStatic
+import org.gradle.api.Named
 
-class HerokuApp {
+@CompileStatic
+class HerokuApp implements Named {
+
     String name
     String teamName
     String stack
     Boolean personalApp
     Boolean recreate
-    NamedDomainObjectContainer<HerokuAddon> addons
 
-    HerokuApp(Project project) {
-        this.addons = project.container(HerokuAddon)
+    HerokuApp(String name) {
+        this.name = name
     }
 
-    void setAddons(List<HerokuAddon> addons) {
-        addons.each { HerokuAddon addon ->
-            this.addons.create(addon.name, { HerokuAddon it ->
-                it.plan = addon.plan
-                it.waitUntilStarted = addon.waitUntilStarted
-            })
-        }
+    HerokuApp teamName(String teamName) {
+        this.teamName = teamName
+        this
     }
 
-    void setAddons(NamedDomainObjectContainer<HerokuAddon> addons) {
-        this.addons = addons
+    HerokuApp stack(String stack) {
+        this.stack = stack
+        this
+    }
+
+    HerokuApp personalApp(Boolean personalApp) {
+        this.personalApp = personalApp
+        this
+    }
+
+    HerokuApp recreate(Boolean recreate) {
+        this.recreate = recreate
+        this
     }
 
     String getTeamName() {

@@ -10,22 +10,31 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 class DestroyBundleFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
+    String ANOTHER_APP_NAME = 'another-functional-test-app'
 
     @Override
     def getSubjectPlugin() {
         'heroku-base'
     }
 
-    def "can destroy an app"() {
+    def "can destroy a bundle"() {
         given:
         herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
+        herokuClient.createApp(ANOTHER_APP_NAME, 'test', true, 'cedar-14')
 
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
-                    app {
-                        name = '$APP_NAME'
+                    '$APP_NAME' {
+                        teamName = 'test'
+                        stack = 'cedar-14'
+                        personalApp = true
+                    }
+                    '$ANOTHER_APP_NAME' {
+                        teamName = 'test'
+                        stack = 'heroku-16'
+                        personalApp = true
                     }
                 }
             }
@@ -36,9 +45,11 @@ class DestroyBundleFuncTest extends BaseFuncTest {
 
         then:
         result.output.contains("Successfully destroyed app $APP_NAME")
+        result.output.contains("Successfully destroyed app $ANOTHER_APP_NAME")
         result.task(":herokuDestroyBundle").outcome == SUCCESS
 
         and:
         !herokuClient.appExists(APP_NAME)
+        !herokuClient.appExists(ANOTHER_APP_NAME)
     }
 }

@@ -1,10 +1,13 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.InstallAddons
-import com.felipefzdz.gradle.heroku.tasks.InstallAddonsService
+import com.felipefzdz.gradle.heroku.tasks.InstallAddonsForBundleTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.services.InstallAddonsService
+import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.internal.DefaultDomainObjectCollection
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -13,13 +16,13 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Subject
 
-class InstallAddonsIntegTest extends Specification {
+class InstallAddonsForBundleIntegTest extends Specification {
 
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()
 
     @Subject
-    InstallAddons installAddons
+    InstallAddonsForBundleTask installAddons
 
     @Shared
     @AutoCleanup
@@ -33,18 +36,21 @@ class InstallAddonsIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        installAddons = project.tasks.create('installAddons', InstallAddons)
+        installAddons = project.tasks.create('installAddonsForBundleTask', InstallAddonsForBundleTask)
+        installAddons.herokuClient = herokuClient
         installAddons.installAddonsService = new InstallAddonsService(herokuClient)
-        installAddons.apiKey = API_KEY
+        def apiKeyProperty = project.objects.property(String)
+        apiKeyProperty.set(API_KEY)
+        installAddons.apiKey = apiKeyProperty
 
-        def app = new HerokuApp(project)
-        app.name = APP_NAME
         def redisAddon = new HerokuAddon('redis')
         redisAddon.plan = PLAN
         redisAddon.waitUntilStarted = true
-        app.addons = [redisAddon]
+        def addons = new DefaultDomainObjectCollection(HerokuAddon, [redisAddon]) as NamedDomainObjectContainer<HerokuAddon>
 
-        installAddons.bundle = [app]
+        def app = new HerokuWebApp(APP_NAME, addons)
+
+        installAddons.bundle = new DefaultDomainObjectCollection(HerokuApp, [app]) as HerokuAppContainer
     }
 
     def "install an addon when missing"() {
@@ -53,7 +59,7 @@ class InstallAddonsIntegTest extends Specification {
         herokuClient.listConfig(APP_NAME) >> ['REDIS_URL': "http://127.0.0.1:${serverSocket.localPort}"]
 
         when:
-        installAddons.installAddons()
+        installAddons.installAddonsForBundle()
 
         then:
         1 * herokuClient.installAddon(APP_NAME, PLAN)
@@ -64,7 +70,7 @@ class InstallAddonsIntegTest extends Specification {
         herokuClient.getAddonAttachments(APP_NAME) >> [['name': 'REDIS']]
 
         when:
-        installAddons.installAddons()
+        installAddons.installAddonsForBundle()
 
         then:
         0 * herokuClient.installAddon(APP_NAME, PLAN)

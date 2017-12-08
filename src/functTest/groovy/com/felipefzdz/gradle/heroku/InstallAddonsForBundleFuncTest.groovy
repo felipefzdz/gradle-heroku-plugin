@@ -7,14 +7,14 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 @Requires({
     GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
 })
-class DeployBundleFuncTest extends BaseFuncTest {
+class InstallAddonsForBundleFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
     String ANOTHER_APP_NAME = 'another-functional-test-app'
 
     @Override
     def getSubjectPlugin() {
-        'heroku'
+        'heroku-base'
     }
 
     def cleanup() {
@@ -22,15 +22,17 @@ class DeployBundleFuncTest extends BaseFuncTest {
         herokuClient.destroyApp(ANOTHER_APP_NAME)
     }
 
-    def "can deploy an app"() {
+    def "can install addons for a bundle"() {
         given:
+        herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
+        herokuClient.createApp(ANOTHER_APP_NAME, 'test', true, 'cedar-14')
         buildFile << """
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
                     '$APP_NAME' {
                         teamName = 'test'
-                        stack = 'heroku-16'
+                        stack = 'cedar-14'
                         personalApp = true
                         addons {
                             database {
@@ -55,19 +57,15 @@ class DeployBundleFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuDeployBundle")
+        def result = run("herokuInstallAddonsForBundle")
 
         then:
-        result.output.contains("Successfully deployed app $APP_NAME")
-        result.task(":herokuDeployBundle").outcome == SUCCESS
-
-        and:
-        herokuClient.appExists(APP_NAME)
-        herokuClient.appExists(ANOTHER_APP_NAME)
+        result.output.contains("Successfully installed addon DATABASE")
+        result.output.contains("Successfully installed addon RABBITMQ-BIGWIG")
+        result.task(":herokuInstallAddonsForBundle").outcome == SUCCESS
 
         and:
         herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']
         herokuClient.getAddonAttachments(ANOTHER_APP_NAME)*.name == ['RABBITMQ_BIGWIG']
     }
-
 }

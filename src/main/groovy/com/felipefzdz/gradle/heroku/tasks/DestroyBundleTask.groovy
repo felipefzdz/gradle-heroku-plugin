@@ -1,6 +1,6 @@
 package com.felipefzdz.gradle.heroku.tasks
 
-import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
+import com.felipefzdz.gradle.heroku.HerokuAppContainer
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
@@ -10,28 +10,21 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class DestroyBundle extends DefaultTask {
+class DestroyBundleTask extends DefaultTask {
 
     @Internal
     Property<String> apiKey
 
     @Internal
-    Collection<HerokuApp> bundle
+    HerokuAppContainer bundle
 
     @Internal
     HerokuClient herokuClient
 
-    DestroyBundle() {
-        this.apiKey = project.objects.property(String)
-        this.bundle = project.objects.listProperty(HerokuApp) as List<HerokuApp>
-        this.herokuClient = new DefaultHerokuClient()
-        outputs.upToDateWhen { false }
-    }
-
     @TaskAction
-    def destroyApp() {
+    void destroyBundle() {
         herokuClient.init(apiKey.get())
-        bundle.each { HerokuApp app ->
+        bundle.all { HerokuApp app ->
             if (herokuClient.appExists(app.name)) {
                 herokuClient.destroyApp(app.name)
                 println "Successfully destroyed app ${app.name}"
@@ -40,21 +33,4 @@ class DestroyBundle extends DefaultTask {
             }
         }
     }
-
-    void setHerokuClient(HerokuClient herokuClient) {
-        this.herokuClient = herokuClient
-    }
-
-    void setApiKey(String apiKey) {
-        this.apiKey.set(apiKey)
-    }
-
-    void setApiKey(Property<String> apiKey) {
-        this.apiKey = apiKey
-    }
-
-    void setBundle(Collection<HerokuApp> bundle) {
-        this.bundle = bundle
-    }
 }
-

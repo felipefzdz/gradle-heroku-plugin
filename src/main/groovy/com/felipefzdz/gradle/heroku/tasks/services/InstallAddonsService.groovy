@@ -1,4 +1,4 @@
-package com.felipefzdz.gradle.heroku.tasks
+package com.felipefzdz.gradle.heroku.tasks.services
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
@@ -38,7 +38,7 @@ class InstallAddonsService {
         addedAddons.findAll { HerokuAddon addon ->
             addon.waitUntilStarted
         }.each { HerokuAddon addon ->
-            def addonUrl = waitForAddonUrl(appName, "${addon.name}_URL")
+            def addonUrl = waitForAddonUrl(appName, "${addon.name.replace('-', '_')}_URL")
             waitForSocketAvailable(addonUrl.host, addonUrl.port)
         }
     }
