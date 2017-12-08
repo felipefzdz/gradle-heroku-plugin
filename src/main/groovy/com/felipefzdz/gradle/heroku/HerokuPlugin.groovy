@@ -3,6 +3,7 @@ package com.felipefzdz.gradle.heroku
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
 import com.felipefzdz.gradle.heroku.tasks.services.DeployService
 import com.felipefzdz.gradle.heroku.tasks.DeployWebTask
 import com.felipefzdz.gradle.heroku.tasks.DeployBundleTask
@@ -25,7 +26,8 @@ class HerokuPlugin implements Plugin<Project> {
     private static void createDeployTasks(HerokuExtension extension, Project project) {
         HerokuClient herokuClient = new DefaultHerokuClient()
         InstallAddonsService installAddonsService = new InstallAddonsService(herokuClient)
-        DeployService defaultDeployService = new DeployService(installAddonsService, herokuClient)
+        ConfigureLogDrainsService configureLogDrainsService = new ConfigureLogDrainsService(herokuClient)
+        DeployService defaultDeployService = new DeployService(installAddonsService, herokuClient, configureLogDrainsService)
 
         extension.bundle.all { HerokuApp app ->
             if (app instanceof HerokuWebApp) {

@@ -1,7 +1,6 @@
 package com.felipefzdz.gradle.heroku.tasks.services
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 import groovy.transform.CompileStatic
 
@@ -10,17 +9,20 @@ import java.time.Duration
 @CompileStatic
 class DeployService {
 
-    InstallAddonsService installAddonsService
-    HerokuClient herokuClient
+    private final InstallAddonsService installAddonsService
+    private final HerokuClient herokuClient
+    private final ConfigureLogDrainsService configureLogDrainsService
 
-    DeployService(InstallAddonsService installAddonsService, HerokuClient herokuClient) {
+    DeployService(InstallAddonsService installAddonsService, HerokuClient herokuClient, ConfigureLogDrainsService configureLogDrainsService) {
         this.installAddonsService = installAddonsService
         this.herokuClient = herokuClient
+        this.configureLogDrainsService = configureLogDrainsService
     }
 
     void deployWeb(HerokuWebApp app, int delayAfterDestroyApp, String apiKey) {
         maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp, delayAfterDestroyApp)
-        installAddons(app.addons.toList(), app.name, apiKey)
+        installAddonsService.installAddons(app.addons.toList(), apiKey, app.name)
+        configureLogDrainsService.configureLogDrains(app.logDrains, apiKey, app.name)
         println "Successfully deployed app ${app.name}"
     }
 
@@ -40,9 +42,6 @@ class DeployService {
         }
     }
 
-    void installAddons(List<HerokuAddon> addons, String appName, String apiKey) {
-        installAddonsService.installAddons(addons, apiKey, appName)
-    }
 
     private delay(Duration duration) {
         println "Delaying for ${duration.toMillis()} milliseconds..."

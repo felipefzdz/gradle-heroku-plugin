@@ -1,6 +1,8 @@
 package com.felipefzdz.gradle.heroku.heroku
 
+import com.felipefzdz.gradle.heroku.heroku.api.AddDrainRequest
 import com.felipefzdz.gradle.heroku.heroku.api.GetAddonAttachmentsRequest
+import com.felipefzdz.gradle.heroku.heroku.api.ListLogDrainsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
 import com.heroku.api.AddonChange
 import com.heroku.api.Heroku
@@ -54,6 +56,16 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     Map<String, String> listConfig(String appName) {
         herokuAPI.listConfig(appName)
+    }
+
+    @Override
+    List<Map<String, ?>> listLogDrains(String appName) {
+        api3(new ListLogDrainsRequest(appName))
+    }
+
+    @Override
+    void addLogDrain(String appName, String logDrain) {
+        api3(new AddDrainRequest(appName, logDrain))
     }
 
     private <T> T api3(Request<T> request) {

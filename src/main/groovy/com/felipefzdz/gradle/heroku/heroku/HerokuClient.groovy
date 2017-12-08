@@ -17,4 +17,8 @@ interface HerokuClient {
     List<Map<String,?>> getAddonAttachments(String appName)
 
     Map<String, String> listConfig(String appName)
+
+    List<Map<String,?>> listLogDrains(String appName)
+
+    void addLogDrain(String appName, String logDrain)
 }

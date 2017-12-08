@@ -11,6 +11,7 @@ class HerokuApp implements Named {
     String stack
     Boolean personalApp
     Boolean recreate
+    List<String> logDrains
 
     HerokuApp(String name) {
         this.name = name
@@ -33,6 +34,11 @@ class HerokuApp implements Named {
 
     HerokuApp recreate(Boolean recreate) {
         this.recreate = recreate
+        this
+    }
+
+    HerokuApp logDrains(List<String> logDrains) {
+        this.logDrains = logDrains
         this
     }
 

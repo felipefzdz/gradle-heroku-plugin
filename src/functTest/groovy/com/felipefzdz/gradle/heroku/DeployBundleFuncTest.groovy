@@ -11,6 +11,8 @@ class DeployBundleFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
     String ANOTHER_APP_NAME = 'another-functional-test-app'
+    String LOG_DRAIN_URL = 'syslog://logs.example.com'
+    String ANOTHER_LOG_DRAIN_URL = 'syslog://another-logs.example.com'
 
     @Override
     def getSubjectPlugin() {
@@ -38,6 +40,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                                 waitUntilStarted = true
                             } 
                         }
+                        logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
                     }
                     '$ANOTHER_APP_NAME' {
                         teamName = 'test'
@@ -68,6 +71,9 @@ class DeployBundleFuncTest extends BaseFuncTest {
         and:
         herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']
         herokuClient.getAddonAttachments(ANOTHER_APP_NAME)*.name == ['RABBITMQ_BIGWIG']
+
+        and:
+        herokuClient.listLogDrains(APP_NAME)*.url.containsAll([LOG_DRAIN_URL, ANOTHER_LOG_DRAIN_URL])
     }
 
 }

@@ -6,6 +6,7 @@ import com.felipefzdz.gradle.heroku.tasks.*
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
 import com.felipefzdz.gradle.heroku.tasks.services.InstallAddonsService
 import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
@@ -36,6 +37,7 @@ class HerokuBasePlugin implements Plugin<Project> {
     private static void createBaseTasks(HerokuExtension extension, Project project) {
         HerokuClient herokuClient = new DefaultHerokuClient()
         InstallAddonsService installAddonsService = new InstallAddonsService(herokuClient)
+        ConfigureLogDrainsService configureLogDrainsService = new ConfigureLogDrainsService(herokuClient)
 
         extension.bundle.all { HerokuApp app ->
             project.tasks.create("herokuCreate${app.name.capitalize()}", CreateAppTask) { CreateAppTask task ->
@@ -43,10 +45,18 @@ class HerokuBasePlugin implements Plugin<Project> {
                 task.app = app
                 task.herokuClient = herokuClient
             }
+
             project.tasks.create("herokuDestroy${app.name.capitalize()}", DestroyAppTask) { DestroyAppTask task ->
                 task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
+            }
+
+            project.tasks.create("herokuConfigureLogDrainsFor${app.name.capitalize()}", ConfigureLogDrainsForAppTask) { ConfigureLogDrainsForAppTask task ->
+                task.apiKey = extension.apiKey
+                task.app = app
+                task.herokuClient = herokuClient
+                task.configureLogDrainsService = configureLogDrainsService
             }
 
             if (app instanceof HerokuWebApp) {
@@ -76,6 +86,13 @@ class HerokuBasePlugin implements Plugin<Project> {
             task.bundle = extension.bundle
             task.herokuClient = herokuClient
             task.installAddonsService = installAddonsService
+        }
+
+        project.tasks.create("herokuConfigureLogDrainsForBundle", ConfigureLogDrainsForBundleTask) { ConfigureLogDrainsForBundleTask task ->
+            task.apiKey = extension.apiKey
+            task.bundle = extension.bundle
+            task.herokuClient = herokuClient
+            task.configureLogDrainsService = configureLogDrainsService
         }
     }
 

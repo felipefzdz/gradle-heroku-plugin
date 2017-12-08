@@ -5,6 +5,7 @@ import com.felipefzdz.gradle.heroku.tasks.DeployBundleTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
 import com.felipefzdz.gradle.heroku.tasks.services.DeployService
 import com.felipefzdz.gradle.heroku.tasks.services.InstallAddonsService
 import org.gradle.api.NamedDomainObjectContainer
@@ -37,7 +38,7 @@ class DeployBundleIntegTest extends Specification {
         deploy = project.tasks.create('deployBundleTask', DeployBundleTask)
 
         deploy.herokuClient = herokuClient
-        deploy.deployService = new DeployService(new InstallAddonsService(herokuClient), herokuClient)
+        deploy.deployService = new DeployService(new InstallAddonsService(herokuClient), herokuClient, new ConfigureLogDrainsService(herokuClient))
 
         def apiKeyProperty = project.objects.property(String)
         apiKeyProperty.set(API_KEY)
