@@ -10,7 +10,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class ConfigureLogDrainsForAppTask extends DefaultTask {
+class ConfigureLogDrainsTask extends DefaultTask {
     @Internal
     Property<String> apiKey
 

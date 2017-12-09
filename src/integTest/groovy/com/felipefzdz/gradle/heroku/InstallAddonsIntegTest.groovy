@@ -1,7 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.InstallAddonsForBundleTask
+import com.felipefzdz.gradle.heroku.tasks.InstallAddonsTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
@@ -16,13 +16,13 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Subject
 
-class InstallAddonsForBundleIntegTest extends Specification {
+class InstallAddonsIntegTest extends Specification {
 
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()
 
     @Subject
-    InstallAddonsForBundleTask installAddons
+    InstallAddonsTask installAddons
 
     @Shared
     @AutoCleanup
@@ -36,7 +36,7 @@ class InstallAddonsForBundleIntegTest extends Specification {
 
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        installAddons = project.tasks.create('installAddonsForBundleTask', InstallAddonsForBundleTask)
+        installAddons = project.tasks.create('installAddonsTask', InstallAddonsTask)
         installAddons.herokuClient = herokuClient
         installAddons.installAddonsService = new InstallAddonsService(herokuClient)
         def apiKeyProperty = project.objects.property(String)
@@ -50,7 +50,7 @@ class InstallAddonsForBundleIntegTest extends Specification {
 
         def app = new HerokuWebApp(APP_NAME, addons)
 
-        installAddons.bundle = new DefaultDomainObjectCollection(HerokuApp, [app]) as HerokuAppContainer
+        installAddons.app = app
     }
 
     def "install an addon when missing"() {
@@ -59,7 +59,7 @@ class InstallAddonsForBundleIntegTest extends Specification {
         herokuClient.listConfig(APP_NAME) >> ['REDIS_URL': "http://127.0.0.1:${serverSocket.localPort}"]
 
         when:
-        installAddons.installAddonsForBundle()
+        installAddons.installAddons()
 
         then:
         1 * herokuClient.installAddon(APP_NAME, PLAN)
@@ -70,7 +70,7 @@ class InstallAddonsForBundleIntegTest extends Specification {
         herokuClient.getAddonAttachments(APP_NAME) >> [['name': 'REDIS']]
 
         when:
-        installAddons.installAddonsForBundle()
+        installAddons.installAddons()
 
         then:
         0 * herokuClient.installAddon(APP_NAME, PLAN)

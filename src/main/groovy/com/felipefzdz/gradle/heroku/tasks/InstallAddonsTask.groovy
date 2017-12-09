@@ -10,7 +10,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class InstallAddonsForAppTask extends DefaultTask {
+class InstallAddonsTask extends DefaultTask {
 
     @Internal
     Property<String> apiKey
@@ -26,7 +26,7 @@ class InstallAddonsForAppTask extends DefaultTask {
 
 
     @TaskAction
-    void installAddonForApp() {
+    void installAddons() {
         herokuClient.init(apiKey.get())
         installAddonsService.installAddons(app.addons.toList(), apiKey.get(), app.name)
     }

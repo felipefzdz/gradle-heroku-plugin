@@ -52,7 +52,7 @@ class HerokuBasePlugin implements Plugin<Project> {
                 task.herokuClient = herokuClient
             }
 
-            project.tasks.create("herokuConfigureLogDrainsFor${app.name.capitalize()}", ConfigureLogDrainsForAppTask) { ConfigureLogDrainsForAppTask task ->
+            project.tasks.create("herokuConfigureLogDrainsFor${app.name.capitalize()}", ConfigureLogDrainsTask) { ConfigureLogDrainsTask task ->
                 task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
@@ -60,7 +60,7 @@ class HerokuBasePlugin implements Plugin<Project> {
             }
 
             if (app instanceof HerokuWebApp) {
-                project.tasks.create("herokuInstallAddonsFor${app.name.capitalize()}", InstallAddonsForAppTask) { InstallAddonsForAppTask task ->
+                project.tasks.create("herokuInstallAddonsFor${app.name.capitalize()}", InstallAddonsTask) { InstallAddonsTask task ->
                     task.apiKey = extension.apiKey
                     task.app = app as HerokuWebApp
                     task.herokuClient = herokuClient
@@ -79,20 +79,6 @@ class HerokuBasePlugin implements Plugin<Project> {
             task.apiKey = extension.apiKey
             task.bundle = extension.bundle
             task.herokuClient = herokuClient
-        }
-
-        project.tasks.create("herokuInstallAddonsForBundle", InstallAddonsForBundleTask) { InstallAddonsForBundleTask task ->
-            task.apiKey = extension.apiKey
-            task.bundle = extension.bundle
-            task.herokuClient = herokuClient
-            task.installAddonsService = installAddonsService
-        }
-
-        project.tasks.create("herokuConfigureLogDrainsForBundle", ConfigureLogDrainsForBundleTask) { ConfigureLogDrainsForBundleTask task ->
-            task.apiKey = extension.apiKey
-            task.bundle = extension.bundle
-            task.herokuClient = herokuClient
-            task.configureLogDrainsService = configureLogDrainsService
         }
     }
 
