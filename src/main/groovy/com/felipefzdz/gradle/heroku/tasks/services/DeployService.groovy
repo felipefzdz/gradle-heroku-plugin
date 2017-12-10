@@ -13,17 +13,19 @@ class DeployService {
     private final HerokuClient herokuClient
     private final ConfigureLogDrainsService configureLogDrainsService
     private final CreateBuildService createBuildService
+    private final EnableFeaturesService enableFeaturesService
 
     DeployService(
             InstallAddonsService installAddonsService,
             HerokuClient herokuClient,
             ConfigureLogDrainsService configureLogDrainsService,
-            CreateBuildService createBuildService)
-    {
+            CreateBuildService createBuildService,
+            EnableFeaturesService enableFeaturesService) {
         this.installAddonsService = installAddonsService
         this.herokuClient = herokuClient
         this.configureLogDrainsService = configureLogDrainsService
         this.createBuildService = createBuildService
+        this.enableFeaturesService = enableFeaturesService
     }
 
     void deployWeb(HerokuWebApp app, int delayAfterDestroyApp, String apiKey) {
@@ -32,6 +34,8 @@ class DeployService {
         configureLogDrainsService.configureLogDrains(app.logDrains, apiKey, app.name)
         createBuildService.createBuild(app.buildSource, apiKey, app.name)
         addConfig(app.config, app.name)
+        enableFeaturesService.enableFeatures(app.features, apiKey, app.name)
+
         println "Successfully deployed app ${app.name}"
     }
 
@@ -58,6 +62,7 @@ class DeployService {
             println "Added environment config for $appName"
         }
     }
+
 
     private delay(Duration duration) {
         println "Delaying for ${duration.toMillis()} milliseconds..."

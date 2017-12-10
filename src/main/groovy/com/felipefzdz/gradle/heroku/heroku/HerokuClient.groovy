@@ -31,4 +31,8 @@ interface HerokuClient {
     List<Map<String, ?>> listBuilds(String appName)
 
     void updateConfig(String appName, Map<String, String> config)
+
+    void enableFeature(String appName, String feature)
+
+    Map<String, ?> getFeature(String appName, String feature)
 }

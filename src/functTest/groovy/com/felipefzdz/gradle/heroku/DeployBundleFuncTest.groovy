@@ -13,6 +13,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
     String ANOTHER_APP_NAME = 'another-functional-test-app'
     String LOG_DRAIN_URL = 'syslog://logs.example.com'
     String ANOTHER_LOG_DRAIN_URL = 'syslog://another-logs.example.com'
+    String FEATURE = 'http-session-affinity'
 
     @Override
     def getSubjectPlugin() {
@@ -49,6 +50,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             buildVersion = '666'
                         }
                         config = ['MODE': 'dev', 'API_KEY': 'secret']
+                        features = ['$FEATURE']
                     }
                     '$ANOTHER_APP_NAME'(HerokuWebApp) {
                         teamName = 'test'
@@ -90,6 +92,9 @@ class DeployBundleFuncTest extends BaseFuncTest {
         def config = herokuClient.listConfig(APP_NAME)
         config.keySet().containsAll(['MODE', 'API_KEY'])
         config.values().containsAll(['dev', 'secret'])
+
+        and:
+        herokuClient.getFeature(APP_NAME, FEATURE).enabled
     }
 
 }

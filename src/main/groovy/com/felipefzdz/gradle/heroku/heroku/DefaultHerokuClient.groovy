@@ -2,8 +2,10 @@ package com.felipefzdz.gradle.heroku.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.api.AddDrainRequest
 import com.felipefzdz.gradle.heroku.heroku.api.CreateBuildRequest
+import com.felipefzdz.gradle.heroku.heroku.api.EnableFeature
 import com.felipefzdz.gradle.heroku.heroku.api.GetAddonAttachmentsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.GetBuildRequest
+import com.felipefzdz.gradle.heroku.heroku.api.GetFeature
 import com.felipefzdz.gradle.heroku.heroku.api.ListBuildsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.ListLogDrainsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
@@ -94,6 +96,17 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     void updateConfig(String appName, Map<String, String> config) {
         herokuAPI.updateConfig(appName, config)
+    }
+
+    @Override
+    void enableFeature(String appName, String feature) {
+        api3(new EnableFeature(appName, feature))
+
+    }
+
+    @Override
+    Map<String, ?> getFeature(String appName, String feature) {
+        api3(new GetFeature(appName, feature))
     }
 
     private <T> T api3(Request<T> request) {

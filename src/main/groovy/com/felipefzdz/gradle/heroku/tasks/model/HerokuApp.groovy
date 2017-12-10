@@ -16,6 +16,7 @@ class HerokuApp implements Named {
     List<String> logDrains
     BuildSource buildSource
     Map<String, String> config
+    List<String> features
 
     HerokuApp(String name) {
         this.name = name
@@ -58,6 +59,11 @@ class HerokuApp implements Named {
 
     HerokuApp config(Map<String, String> config) {
         this.config = config
+        this
+    }
+
+    HerokuApp features(List<String> features) {
+        this.features = features
         this
     }
 
