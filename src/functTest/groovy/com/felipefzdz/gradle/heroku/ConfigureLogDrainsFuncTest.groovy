@@ -15,7 +15,7 @@ class ConfigureLogDrainsFuncTest extends BaseFuncTest {
 
     @Override
     def getSubjectPlugin() {
-        'heroku'
+        'heroku-base'
     }
 
     def cleanup() {
@@ -26,10 +26,12 @@ class ConfigureLogDrainsFuncTest extends BaseFuncTest {
         given:
         herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
         buildFile << """
+            import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
-                    '$APP_NAME' {
+                    '$APP_NAME'(HerokuWebApp) {
                         logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
                     }
                 }

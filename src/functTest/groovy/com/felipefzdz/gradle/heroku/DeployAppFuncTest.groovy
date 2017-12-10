@@ -23,10 +23,12 @@ class DeployAppFuncTest extends BaseFuncTest {
     def "can deploy an app"() {
         given:
         buildFile << """
+            import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
-                    '$APP_NAME' {
+                    '$APP_NAME'(HerokuWebApp) {
                         teamName = 'test'
                         stack = 'heroku-16'
                         personalApp = true

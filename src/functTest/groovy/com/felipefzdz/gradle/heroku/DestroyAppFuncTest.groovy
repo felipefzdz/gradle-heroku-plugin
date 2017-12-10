@@ -22,15 +22,17 @@ class DestroyAppFuncTest extends BaseFuncTest {
         herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
 
         buildFile << """
+            import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
-                    '$APP_NAME' {
+                    '$APP_NAME'(HerokuWebApp) {
                         teamName = 'test'
                         stack = 'cedar-14'
                         personalApp = true
                     }
-                    '$ANOTHER_APP_NAME' {
+                    '$ANOTHER_APP_NAME'(HerokuWebApp) {
                         teamName = 'test'
                         stack = 'heroku-16'
                         personalApp = true
