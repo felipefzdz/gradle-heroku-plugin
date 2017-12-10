@@ -1,7 +1,6 @@
 package com.felipefzdz.gradle.heroku.tasks
 
-import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.services.InstallAddonsService
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
@@ -16,10 +15,7 @@ class InstallAddonsTask extends DefaultTask {
     Property<String> apiKey
 
     @Internal
-    HerokuWebApp app
-
-    @Internal
-    HerokuClient herokuClient
+    HerokuApp app
 
     @Internal
     InstallAddonsService installAddonsService
@@ -27,7 +23,6 @@ class InstallAddonsTask extends DefaultTask {
 
     @TaskAction
     void installAddons() {
-        herokuClient.init(apiKey.get())
         installAddonsService.installAddons(app.addons.toList(), apiKey.get(), app.name)
     }
 }

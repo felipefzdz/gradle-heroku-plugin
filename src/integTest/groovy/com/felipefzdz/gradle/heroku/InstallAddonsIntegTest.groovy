@@ -37,7 +37,6 @@ class InstallAddonsIntegTest extends Specification {
     def setup() {
         def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
         installAddons = project.tasks.create('installAddonsTask', InstallAddonsTask)
-        installAddons.herokuClient = herokuClient
         installAddons.installAddonsService = new InstallAddonsService(herokuClient)
         def apiKeyProperty = project.objects.property(String)
         apiKeyProperty.set(API_KEY)
@@ -48,9 +47,10 @@ class InstallAddonsIntegTest extends Specification {
         redisAddon.waitUntilStarted = true
         def addons = new DefaultDomainObjectCollection(HerokuAddon, [redisAddon]) as NamedDomainObjectContainer<HerokuAddon>
 
-        def app = new HerokuWebApp(APP_NAME, addons)
+        def app = new HerokuWebApp(APP_NAME, addons, null)
 
         installAddons.app = app
+
     }
 
     def "install an addon when missing"() {

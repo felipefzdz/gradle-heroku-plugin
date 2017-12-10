@@ -25,7 +25,7 @@ class CreateBundleTask extends DefaultTask {
     @TaskAction
     void createBundle() {
         herokuClient.init(apiKey.get())
-        bundle.all { HerokuApp app ->
+        bundle.toList().reverse().each { HerokuApp app ->
             if (herokuClient.appExists(app.name)) {
                 println "App ${app.name} already exists and won't be created."
             } else {

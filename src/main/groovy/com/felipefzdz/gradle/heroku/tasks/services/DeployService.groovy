@@ -1,8 +1,12 @@
 package com.felipefzdz.gradle.heroku.tasks.services
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddonAttachment
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 import groovy.transform.CompileStatic
+import org.gradle.api.NamedDomainObjectContainer
 
 import java.time.Duration
 
@@ -14,27 +18,31 @@ class DeployService {
     private final ConfigureLogDrainsService configureLogDrainsService
     private final CreateBuildService createBuildService
     private final EnableFeaturesService enableFeaturesService
+    private final AddAddonAttachmentsService addAddonAttachmentsService
 
     DeployService(
             InstallAddonsService installAddonsService,
             HerokuClient herokuClient,
             ConfigureLogDrainsService configureLogDrainsService,
             CreateBuildService createBuildService,
-            EnableFeaturesService enableFeaturesService) {
+            EnableFeaturesService enableFeaturesService,
+            AddAddonAttachmentsService addAddonAttachmentsService) {
         this.installAddonsService = installAddonsService
         this.herokuClient = herokuClient
         this.configureLogDrainsService = configureLogDrainsService
         this.createBuildService = createBuildService
         this.enableFeaturesService = enableFeaturesService
+        this.addAddonAttachmentsService = addAddonAttachmentsService
     }
 
-    void deployWeb(HerokuWebApp app, int delayAfterDestroyApp, String apiKey) {
+    void deploy(HerokuApp app, int delayAfterDestroyApp, String apiKey) {
         maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp, delayAfterDestroyApp)
-        installAddonsService.installAddons(app.addons.toList(), apiKey, app.name)
+        installAddons(app.addons, apiKey, app.name)
         configureLogDrainsService.configureLogDrains(app.logDrains, apiKey, app.name)
         createBuildService.createBuild(app.buildSource, apiKey, app.name)
         addConfig(app.config, app.name)
         enableFeaturesService.enableFeatures(app.features, apiKey, app.name)
+        addAddonAttachments(app.addonAttachments ,apiKey, app.name)
 
         println "Successfully deployed app ${app.name}"
     }
@@ -52,6 +60,18 @@ class DeployService {
         } else {
             herokuClient.createApp(appName, teamName, personalApp, stack)
             println "Successfully created app $appName"
+        }
+    }
+
+    private void installAddons(NamedDomainObjectContainer<HerokuAddon> addons, String apiKey, String appName) {
+        if (addons) {
+            installAddonsService.installAddons(addons.toList(), apiKey, appName)
+        }
+    }
+
+    private void addAddonAttachments(NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments, String apiKey, String appName) {
+        if (addonAttachments) {
+            addAddonAttachmentsService.addAddonAttachments(addonAttachments.toList(), apiKey, appName)
         }
     }
 

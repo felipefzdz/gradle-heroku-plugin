@@ -1,8 +1,7 @@
 package com.felipefzdz.gradle.heroku.tasks
 
-import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
-import com.felipefzdz.gradle.heroku.tasks.services.DeployService
+import com.felipefzdz.gradle.heroku.tasks.services.AddAddonAttachmentsService
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
@@ -10,7 +9,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class DeployWebTask extends DefaultTask {
+class AddAddonAttachmentsTask extends DefaultTask {
 
     @Internal
     Property<String> apiKey
@@ -19,18 +18,11 @@ class DeployWebTask extends DefaultTask {
     HerokuApp app
 
     @Internal
-    HerokuClient herokuClient
+    AddAddonAttachmentsService addAddonAttachmentsService
 
-    @Internal
-    DeployService deployService
-
-    @Internal
-    int delayAfterDestroyApp = 20
 
     @TaskAction
-    void deployWeb() {
-        herokuClient.init(apiKey.get())
-        deployService.deploy(app, delayAfterDestroyApp, apiKey.get())
+    void addAddonAttachments() {
+        addAddonAttachmentsService.addAddonAttachments(app.addonAttachments.toList(), apiKey.get(), app.name)
     }
-
 }

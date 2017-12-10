@@ -3,6 +3,7 @@ package com.felipefzdz.gradle.heroku
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import com.felipefzdz.gradle.heroku.tasks.services.AddAddonAttachmentsService
 import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
 import com.felipefzdz.gradle.heroku.tasks.services.CreateBuildService
 import com.felipefzdz.gradle.heroku.tasks.services.DeployService
@@ -31,20 +32,18 @@ class HerokuPlugin implements Plugin<Project> {
         ConfigureLogDrainsService configureLogDrainsService = new ConfigureLogDrainsService(herokuClient)
         CreateBuildService createBuildService = new CreateBuildService(herokuClient)
         EnableFeaturesService enableFeaturesService = new EnableFeaturesService(herokuClient)
+        AddAddonAttachmentsService addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient)
         DeployService defaultDeployService =
-                new DeployService(installAddonsService, herokuClient, configureLogDrainsService, createBuildService, enableFeaturesService)
+                new DeployService(installAddonsService, herokuClient, configureLogDrainsService,
+                        createBuildService, enableFeaturesService, addAddonAttachmentsService)
 
         extension.bundle.all { HerokuApp app ->
-            if (app instanceof HerokuWebApp) {
-                HerokuWebApp webApp = app as HerokuWebApp
-                project.tasks.create("herokuDeploy${app.name.capitalize()}", DeployWebTask) { DeployWebTask task ->
-                    task.apiKey = extension.apiKey
-                    task.app = webApp
-                    task.herokuClient = herokuClient
-                    task.deployService = defaultDeployService
-                }
+            project.tasks.create("herokuDeploy${app.name.capitalize()}", DeployWebTask) { DeployWebTask task ->
+                task.apiKey = extension.apiKey
+                task.app = app
+                task.herokuClient = herokuClient
+                task.deployService = defaultDeployService
             }
-
         }
 
         project.tasks.create("herokuDeployBundle", DeployBundleTask) { DeployBundleTask task ->

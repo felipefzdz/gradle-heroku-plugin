@@ -31,7 +31,7 @@ class DestroyBundleIntegTest extends Specification {
         apiKeyProperty.set(API_KEY)
         destroyBundleTask.apiKey = apiKeyProperty
 
-        def app = new HerokuApp(APP_NAME)
+        def app = new HerokuApp(APP_NAME, null, null)
         destroyBundleTask.bundle = new DefaultDomainObjectCollection(HerokuApp, [app]) as HerokuAppContainer
     }
 

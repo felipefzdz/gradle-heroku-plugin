@@ -34,7 +34,7 @@ class ConfigureLogDrainsIntegTest extends Specification {
         apiKeyProperty.set(API_KEY)
         configureTask.apiKey = apiKeyProperty
 
-        def app = new HerokuApp(APP_NAME)
+        def app = new HerokuApp(APP_NAME, null, null)
         app.logDrains(['test1', 'test2'])
 
         configureTask.app = app

@@ -42,7 +42,7 @@ class CreateBuildIntegTest extends Specification {
         buildSource.buildVersion = BUILD_VERSION
         buildSource.buildpackUrl = BUILDPACK_URL
 
-        def app = new HerokuApp(APP_NAME)
+        def app = new HerokuApp(APP_NAME, null, null)
         app.buildSource = buildSource
 
         createBuild.app = app

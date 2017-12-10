@@ -17,9 +17,13 @@ class HerokuApp implements Named {
     BuildSource buildSource
     Map<String, String> config
     List<String> features
+    NamedDomainObjectContainer<HerokuAddon> addons
+    NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments
 
-    HerokuApp(String name) {
+    HerokuApp(String name, NamedDomainObjectContainer<HerokuAddon> addons, NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments) {
         this.name = name
+        this.addons = addons
+        this.addonAttachments = addonAttachments
     }
 
     HerokuApp teamName(String teamName) {
@@ -65,6 +69,14 @@ class HerokuApp implements Named {
     HerokuApp features(List<String> features) {
         this.features = features
         this
+    }
+
+    void addons(Action<? super NamedDomainObjectContainer<HerokuAddon>> action) {
+        action.execute(addons)
+    }
+
+    void addonAttachments(Action<? super NamedDomainObjectContainer<HerokuAddonAttachment>> action) {
+        action.execute(addonAttachments)
     }
 
     String getTeamName() {

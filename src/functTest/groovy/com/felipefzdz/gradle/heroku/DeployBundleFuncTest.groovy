@@ -62,6 +62,11 @@ class DeployBundleFuncTest extends BaseFuncTest {
                                 waitUntilStarted = true
                             } 
                         }
+                        addonAttachments {
+                            database {
+                                owningApp = '$APP_NAME'
+                            } 
+                        }
                     }
                 }
             }
@@ -80,7 +85,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
 
         and:
         herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']
-        herokuClient.getAddonAttachments(ANOTHER_APP_NAME)*.name == ['RABBITMQ_BIGWIG']
+        herokuClient.getAddonAttachments(ANOTHER_APP_NAME)*.name.containsAll(['RABBITMQ_BIGWIG', 'DATABASE'])
 
         and:
         herokuClient.listLogDrains(APP_NAME)*.url.containsAll([LOG_DRAIN_URL, ANOTHER_LOG_DRAIN_URL])

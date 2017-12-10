@@ -1,6 +1,7 @@
 package com.felipefzdz.gradle.heroku.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.api.AddDrainRequest
+import com.felipefzdz.gradle.heroku.heroku.api.CreateAddonAttachmentRequest
 import com.felipefzdz.gradle.heroku.heroku.api.CreateBuildRequest
 import com.felipefzdz.gradle.heroku.heroku.api.EnableFeature
 import com.felipefzdz.gradle.heroku.heroku.api.GetAddonAttachmentsRequest
@@ -107,6 +108,11 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     Map<String, ?> getFeature(String appName, String feature) {
         api3(new GetFeature(appName, feature))
+    }
+
+    @Override
+    void createAddonAttachment(String appName, String addonId, String addonName) {
+        api3(new CreateAddonAttachmentRequest(appName, addonId, addonName))
     }
 
     private <T> T api3(Request<T> request) {

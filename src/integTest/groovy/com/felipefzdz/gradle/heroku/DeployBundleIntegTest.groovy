@@ -5,6 +5,7 @@ import com.felipefzdz.gradle.heroku.tasks.DeployBundleTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.services.AddAddonAttachmentsService
 import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
 import com.felipefzdz.gradle.heroku.tasks.services.CreateBuildService
 import com.felipefzdz.gradle.heroku.tasks.services.DeployService
@@ -42,18 +43,13 @@ class DeployBundleIntegTest extends Specification {
         deploy.herokuClient = herokuClient
         deploy.deployService = new DeployService(new InstallAddonsService(herokuClient), herokuClient,
                 new ConfigureLogDrainsService(herokuClient), new CreateBuildService(herokuClient),
-                new EnableFeaturesService(herokuClient))
+                new EnableFeaturesService(herokuClient), new AddAddonAttachmentsService(herokuClient))
 
         def apiKeyProperty = project.objects.property(String)
         apiKeyProperty.set(API_KEY)
         deploy.apiKey = apiKeyProperty
 
-        def redisAddon = new HerokuAddon('redis')
-        redisAddon.plan = PLAN
-        redisAddon.waitUntilStarted = false
-        def addons = new DefaultDomainObjectCollection(HerokuAddon, [redisAddon]) as NamedDomainObjectContainer<HerokuAddon>
-
-        def app = new HerokuWebApp(APP_NAME, addons)
+        def app = new HerokuWebApp(APP_NAME, null, null)
         app.teamName = TEAM_NAME
         app.personalApp = PERSONAL_APP
         app.stack = STACK

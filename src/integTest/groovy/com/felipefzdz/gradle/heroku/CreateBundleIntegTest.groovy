@@ -34,7 +34,7 @@ class CreateBundleIntegTest extends Specification {
         apiKeyProperty.set(API_KEY)
         createBundleTask.apiKey = apiKeyProperty
 
-        def app = new HerokuApp(APP_NAME)
+        def app = new HerokuApp(APP_NAME, null, null)
         app.teamName = TEAM_NAME
         app.personalApp = PERSONAL_APP
         app.stack = STACK

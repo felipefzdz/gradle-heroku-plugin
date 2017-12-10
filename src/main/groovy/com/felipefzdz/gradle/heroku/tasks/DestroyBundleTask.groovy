@@ -24,7 +24,7 @@ class DestroyBundleTask extends DefaultTask {
     @TaskAction
     void destroyBundle() {
         herokuClient.init(apiKey.get())
-        bundle.all { HerokuApp app ->
+        bundle.toList().reverse().each { HerokuApp app ->
             if (herokuClient.appExists(app.name)) {
                 herokuClient.destroyApp(app.name)
                 println "Successfully destroyed app ${app.name}"
