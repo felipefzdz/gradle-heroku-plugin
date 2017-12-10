@@ -48,6 +48,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             buildUrl = 'https://github.com/ratpack/ratpack/archive/v1.1.1.tar.gz'
                             buildVersion = '666'
                         }
+                        config = ['MODE': 'dev', 'API_KEY': 'secret']
                     }
                     '$ANOTHER_APP_NAME'(HerokuWebApp) {
                         teamName = 'test'
@@ -84,6 +85,11 @@ class DeployBundleFuncTest extends BaseFuncTest {
 
         and:
         herokuClient.listBuilds(APP_NAME)*.status == ['succeeded']
+
+        and:
+        def config = herokuClient.listConfig(APP_NAME)
+        config.keySet().containsAll(['MODE', 'API_KEY'])
+        config.values().containsAll(['dev', 'secret'])
     }
 
 }

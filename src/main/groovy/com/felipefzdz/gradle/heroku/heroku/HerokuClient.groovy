@@ -29,4 +29,6 @@ interface HerokuClient {
     Map<String, ?> getBuildRequest(String appName, String buildId)
 
     List<Map<String, ?>> listBuilds(String appName)
+
+    void updateConfig(String appName, Map<String, String> config)
 }

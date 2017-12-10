@@ -91,6 +91,11 @@ class DefaultHerokuClient implements HerokuClient {
         api3(new ListBuildsRequest(appName))
     }
 
+    @Override
+    void updateConfig(String appName, Map<String, String> config) {
+        herokuAPI.updateConfig(appName, config)
+    }
+
     private <T> T api3(Request<T> request) {
         herokuAPI.connection.execute(request, apiKey)
     }

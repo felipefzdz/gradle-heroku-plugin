@@ -68,6 +68,12 @@ class HerokuBasePlugin implements Plugin<Project> {
                 task.createBuildService = createBuildService
             }
 
+            project.tasks.create("herokuAddEnvironmentConfigFor${app.name.capitalize()}", AddEnvironmentConfigTask) { AddEnvironmentConfigTask task ->
+                task.apiKey = extension.apiKey
+                task.app = app
+                task.herokuClient = herokuClient
+            }
+
             if (app instanceof HerokuWebApp) {
                 project.tasks.create("herokuInstallAddonsFor${app.name.capitalize()}", InstallAddonsTask) { InstallAddonsTask task ->
                     task.apiKey = extension.apiKey

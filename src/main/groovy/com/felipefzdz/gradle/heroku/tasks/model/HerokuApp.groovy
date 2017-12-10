@@ -15,6 +15,7 @@ class HerokuApp implements Named {
     Boolean recreate
     List<String> logDrains
     BuildSource buildSource
+    Map<String, String> config
 
     HerokuApp(String name) {
         this.name = name
@@ -52,6 +53,11 @@ class HerokuApp implements Named {
 
     HerokuApp build(BuildSource build) {
         this.buildSource = build
+        this
+    }
+
+    HerokuApp config(Map<String, String> config) {
+        this.config = config
         this
     }
 

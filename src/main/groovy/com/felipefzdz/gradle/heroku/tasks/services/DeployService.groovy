@@ -31,10 +31,11 @@ class DeployService {
         installAddonsService.installAddons(app.addons.toList(), apiKey, app.name)
         configureLogDrainsService.configureLogDrains(app.logDrains, apiKey, app.name)
         createBuildService.createBuild(app.buildSource, apiKey, app.name)
+        addConfig(app.config, app.name)
         println "Successfully deployed app ${app.name}"
     }
 
-    void maybeCreateApplication(String appName, String teamName, boolean recreate, String stack, boolean personalApp, int delayAfterDestroyApp) {
+    private void maybeCreateApplication(String appName, String teamName, boolean recreate, String stack, boolean personalApp, int delayAfterDestroyApp) {
         boolean exists = herokuClient.appExists(appName)
         if (exists && recreate) {
             herokuClient.destroyApp(appName)
@@ -50,6 +51,13 @@ class DeployService {
         }
     }
 
+    private void addConfig(Map<String, String> config, String appName) {
+        if (config) {
+            println "Setting env config variables ${config.keySet().toList().sort()}"
+            herokuClient.updateConfig(appName, config)
+            println "Added environment config for $appName"
+        }
+    }
 
     private delay(Duration duration) {
         println "Delaying for ${duration.toMillis()} milliseconds..."
