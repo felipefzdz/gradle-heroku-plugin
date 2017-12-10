@@ -11,7 +11,7 @@ import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 import spock.lang.Subject
 
-class ConfigureLogDrainsntegTest extends Specification {
+class ConfigureLogDrainsIntegTest extends Specification {
 
     @Rule
     TemporaryFolder temporaryFolder = new TemporaryFolder()

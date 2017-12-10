@@ -12,17 +12,25 @@ class DeployService {
     private final InstallAddonsService installAddonsService
     private final HerokuClient herokuClient
     private final ConfigureLogDrainsService configureLogDrainsService
+    private final CreateBuildService createBuildService
 
-    DeployService(InstallAddonsService installAddonsService, HerokuClient herokuClient, ConfigureLogDrainsService configureLogDrainsService) {
+    DeployService(
+            InstallAddonsService installAddonsService,
+            HerokuClient herokuClient,
+            ConfigureLogDrainsService configureLogDrainsService,
+            CreateBuildService createBuildService)
+    {
         this.installAddonsService = installAddonsService
         this.herokuClient = herokuClient
         this.configureLogDrainsService = configureLogDrainsService
+        this.createBuildService = createBuildService
     }
 
     void deployWeb(HerokuWebApp app, int delayAfterDestroyApp, String apiKey) {
         maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp, delayAfterDestroyApp)
         installAddonsService.installAddons(app.addons.toList(), apiKey, app.name)
         configureLogDrainsService.configureLogDrains(app.logDrains, apiKey, app.name)
+        createBuildService.createBuild(app.buildSource, apiKey, app.name)
         println "Successfully deployed app ${app.name}"
     }
 

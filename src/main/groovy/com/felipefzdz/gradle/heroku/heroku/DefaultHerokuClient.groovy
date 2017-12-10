@@ -1,11 +1,14 @@
 package com.felipefzdz.gradle.heroku.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.api.AddDrainRequest
+import com.felipefzdz.gradle.heroku.heroku.api.CreateBuildRequest
 import com.felipefzdz.gradle.heroku.heroku.api.GetAddonAttachmentsRequest
+import com.felipefzdz.gradle.heroku.heroku.api.GetBuildRequest
+import com.felipefzdz.gradle.heroku.heroku.api.ListBuildsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.ListLogDrainsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
+import com.felipefzdz.gradle.heroku.heroku.api.SetBuildpackRequest
 import com.heroku.api.AddonChange
-import com.heroku.api.Heroku
 import com.heroku.api.HerokuAPI
 import com.heroku.api.request.Request
 import com.heroku.api.request.addon.AddonInstall
@@ -66,6 +69,26 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     void addLogDrain(String appName, String logDrain) {
         api3(new AddDrainRequest(appName, logDrain))
+    }
+
+    @Override
+    void setBuildPack(String appName, String buildpackUrl) {
+        api3(new SetBuildpackRequest(appName, buildpackUrl))
+    }
+
+    @Override
+    Map<String, ?> createBuild(String appName, String buildVersion, String buildUrl) {
+        api3(new CreateBuildRequest(appName, buildVersion, buildUrl))
+    }
+
+    @Override
+    Map<String, ?> getBuildRequest(String appName, String buildId) {
+        api3(new GetBuildRequest(appName, buildId))
+    }
+
+    @Override
+    List<Map<String, ?>> listBuilds(String appName) {
+        api3(new ListBuildsRequest(appName))
     }
 
     private <T> T api3(Request<T> request) {

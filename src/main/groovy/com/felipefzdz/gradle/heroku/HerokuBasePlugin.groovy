@@ -7,6 +7,7 @@ import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
+import com.felipefzdz.gradle.heroku.tasks.services.CreateBuildService
 import com.felipefzdz.gradle.heroku.tasks.services.InstallAddonsService
 import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
@@ -38,6 +39,7 @@ class HerokuBasePlugin implements Plugin<Project> {
         HerokuClient herokuClient = new DefaultHerokuClient()
         InstallAddonsService installAddonsService = new InstallAddonsService(herokuClient)
         ConfigureLogDrainsService configureLogDrainsService = new ConfigureLogDrainsService(herokuClient)
+        CreateBuildService createBuildService = new CreateBuildService(herokuClient)
 
         extension.bundle.all { HerokuApp app ->
             project.tasks.create("herokuCreate${app.name.capitalize()}", CreateAppTask) { CreateAppTask task ->
@@ -57,6 +59,13 @@ class HerokuBasePlugin implements Plugin<Project> {
                 task.app = app
                 task.herokuClient = herokuClient
                 task.configureLogDrainsService = configureLogDrainsService
+            }
+
+            project.tasks.create("herokuCreateBuildFor${app.name.capitalize()}", CreateBuildTask) { CreateBuildTask task ->
+                task.apiKey = extension.apiKey
+                task.app = app
+                task.herokuClient = herokuClient
+                task.createBuildService = createBuildService
             }
 
             if (app instanceof HerokuWebApp) {

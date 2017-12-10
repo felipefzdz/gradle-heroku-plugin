@@ -1,7 +1,9 @@
 package com.felipefzdz.gradle.heroku.tasks.model
 
 import groovy.transform.CompileStatic
+import org.gradle.api.Action
 import org.gradle.api.Named
+import org.gradle.api.NamedDomainObjectContainer
 
 @CompileStatic
 class HerokuApp implements Named {
@@ -12,6 +14,7 @@ class HerokuApp implements Named {
     Boolean personalApp
     Boolean recreate
     List<String> logDrains
+    BuildSource buildSource
 
     HerokuApp(String name) {
         this.name = name
@@ -39,6 +42,16 @@ class HerokuApp implements Named {
 
     HerokuApp logDrains(List<String> logDrains) {
         this.logDrains = logDrains
+        this
+    }
+
+    void build(Action<? super BuildSource> source) {
+        this.buildSource = new BuildSource()
+        source.execute(buildSource)
+    }
+
+    HerokuApp build(BuildSource build) {
+        this.buildSource = build
         this
     }
 

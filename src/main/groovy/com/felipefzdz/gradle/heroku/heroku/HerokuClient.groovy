@@ -21,4 +21,12 @@ interface HerokuClient {
     List<Map<String,?>> listLogDrains(String appName)
 
     void addLogDrain(String appName, String logDrain)
+
+    void setBuildPack(String appName, String buildpackUrl)
+
+    Map<String, ?> createBuild(String appName, String buildVersion, String buildUrl)
+
+    Map<String, ?> getBuildRequest(String appName, String buildId)
+
+    List<Map<String, ?>> listBuilds(String appName)
 }

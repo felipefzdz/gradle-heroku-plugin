@@ -7,21 +7,22 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 @Requires({
     GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
 })
-class DeployAppFuncTest extends BaseFuncTest {
+class CreateBuildFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
 
     @Override
     def getSubjectPlugin() {
-        'heroku'
+        'heroku-base'
     }
 
     def cleanup() {
         herokuClient.destroyApp(APP_NAME)
     }
 
-    def "can deploy an app"() {
+    def "can create a build for an app"() {
         given:
+        herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
         buildFile << """
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
@@ -29,14 +30,10 @@ class DeployAppFuncTest extends BaseFuncTest {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
                     '$APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                        addons {
-                            database {
-                                plan = 'heroku-postgresql:hobby-dev'
-                                waitUntilStarted = true
-                            } 
+                        build {
+                            buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
+                            buildUrl = 'https://github.com/ratpack/ratpack/archive/v1.1.1.tar.gz'
+                            buildVersion = '666'
                         }
                     }
                 }
@@ -44,17 +41,14 @@ class DeployAppFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuDeploy${APP_NAME.capitalize()}")
+        def result = run("herokuCreateBuildFor${APP_NAME.capitalize()}")
 
         then:
-        result.output.contains("Successfully deployed app $APP_NAME")
-        result.task(":herokuDeploy${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.output.contains("Created build for $APP_NAME")
+        result.task(":herokuCreateBuildFor${APP_NAME.capitalize()}").outcome == SUCCESS
 
         and:
-        herokuClient.appExists(APP_NAME)
-
-        and:
-        herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']
+        herokuClient.listBuilds(APP_NAME)*.status == ['succeeded']
     }
 
 }

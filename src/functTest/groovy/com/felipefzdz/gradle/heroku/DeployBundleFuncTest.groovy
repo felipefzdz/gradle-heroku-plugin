@@ -43,6 +43,11 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             } 
                         }
                         logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
+                        build {
+                            buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
+                            buildUrl = 'https://github.com/ratpack/ratpack/archive/v1.1.1.tar.gz'
+                            buildVersion = '666'
+                        }
                     }
                     '$ANOTHER_APP_NAME'(HerokuWebApp) {
                         teamName = 'test'
@@ -76,6 +81,9 @@ class DeployBundleFuncTest extends BaseFuncTest {
 
         and:
         herokuClient.listLogDrains(APP_NAME)*.url.containsAll([LOG_DRAIN_URL, ANOTHER_LOG_DRAIN_URL])
+
+        and:
+        herokuClient.listBuilds(APP_NAME)*.status == ['succeeded']
     }
 
 }
