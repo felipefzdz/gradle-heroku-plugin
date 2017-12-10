@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'io.ratpack:ratpack-gradle:1.0.0'
+    }
+}
+
+if (!JavaVersion.current().java8Compatible) {
+  throw new IllegalStateException("Must be built with Java 8 or higher")
+}
+
+apply plugin: "io.ratpack.ratpack-java"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    runtime 'org.slf4j:slf4j-simple:1.7.10'
+}
+
+task createHerokuFiles {
+    def heroku = file("$buildDir/heroku")
+    outputs.dir heroku
+    doLast {
+        heroku.mkdirs()
+        new File(heroku, "Procfile").write("web: bin/example-ratpack-gradle-java-app")
+        new File(heroku, "system.properties").write("java.runtime.version=1.8")
+    }
+}
+
+distributions {
+    main {
+        contents {
+            from(createHerokuFiles) {
+                into ""
+            }
+        }
+    }
+}
+
+mainClassName = "ratpack.example.java.MyApp"
