@@ -1,1 +1,3 @@
 rootProject.name = 'gradle-heroku-plugin'
+
+include 'example'
