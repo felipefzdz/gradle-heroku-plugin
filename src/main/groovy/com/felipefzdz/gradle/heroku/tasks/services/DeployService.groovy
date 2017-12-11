@@ -1,10 +1,11 @@
 package com.felipefzdz.gradle.heroku.tasks.services
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
+import com.felipefzdz.gradle.heroku.tasks.model.BuildSource
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddonAttachment
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.utils.AsyncUtil
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
 
@@ -42,9 +43,20 @@ class DeployService {
         createBuildService.createBuild(app.buildSource, apiKey, app.name)
         addConfig(app.config, app.name)
         enableFeaturesService.enableFeatures(app.features, apiKey, app.name)
-        addAddonAttachments(app.addonAttachments ,apiKey, app.name)
+        addAddonAttachments(app.addonAttachments, apiKey, app.name)
+        waitForAppFormation(app.name, app.buildSource)
 
         println "Successfully deployed app ${app.name}"
+    }
+
+    private void waitForAppFormation(String appName, BuildSource buildSource) {
+        if (buildSource) {
+            println "Checking for existence of resource formation …"
+            AsyncUtil.waitFor(Duration.ofMinutes(5), Duration.ofSeconds(3), "waiting for process formation for $appName") {
+                def formation = herokuClient.getFormations(appName)
+                assert !formation.isEmpty()
+            }
+        }
     }
 
     private void maybeCreateApplication(String appName, String teamName, boolean recreate, String stack, boolean personalApp, int delayAfterDestroyApp) {

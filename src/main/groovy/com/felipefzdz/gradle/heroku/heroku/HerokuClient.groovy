@@ -37,4 +37,6 @@ interface HerokuClient {
     Map<String, ?> getFeature(String appName, String feature)
 
     void createAddonAttachment(String appName, String addonId, String addonName)
+
+    List<Map<String, ?>> getFormations(String appName)
 }

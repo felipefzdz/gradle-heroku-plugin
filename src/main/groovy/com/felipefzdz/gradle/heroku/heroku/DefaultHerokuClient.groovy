@@ -7,6 +7,7 @@ import com.felipefzdz.gradle.heroku.heroku.api.EnableFeature
 import com.felipefzdz.gradle.heroku.heroku.api.GetAddonAttachmentsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.GetBuildRequest
 import com.felipefzdz.gradle.heroku.heroku.api.GetFeature
+import com.felipefzdz.gradle.heroku.heroku.api.GetFormationRequest
 import com.felipefzdz.gradle.heroku.heroku.api.ListBuildsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.ListLogDrainsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
@@ -113,6 +114,11 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     void createAddonAttachment(String appName, String addonId, String addonName) {
         api3(new CreateAddonAttachmentRequest(appName, addonId, addonName))
+    }
+
+    @Override
+    List<Map<String, ?>> getFormations(String appName) {
+        api3(new GetFormationRequest(appName))
     }
 
     private <T> T api3(Request<T> request) {

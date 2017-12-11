@@ -25,7 +25,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
         herokuClient.destroyApp(ANOTHER_APP_NAME)
     }
 
-    def "can deploy an app"() {
+    def "can deploy a bundle"() {
         given:
         buildFile << """
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
@@ -46,7 +46,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                         logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
                         build {
                             buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
-                            buildUrl = 'https://github.com/ratpack/ratpack/archive/v1.1.1.tar.gz'
+                            buildUrl = 'https://www.dropbox.com/s/xevzjhc381s07ak/example.tgz'
                             buildVersion = '666'
                         }
                         config = ['MODE': 'dev', 'API_KEY': 'secret']
