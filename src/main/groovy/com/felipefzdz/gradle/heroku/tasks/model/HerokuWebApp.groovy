@@ -6,7 +6,6 @@ import org.gradle.api.NamedDomainObjectContainer
 @CompileStatic
 class HerokuWebApp extends HerokuApp {
 
-
     HerokuWebApp(String name, NamedDomainObjectContainer<HerokuAddon> addons, NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments) {
         super(name, addons, addonAttachments)
     }

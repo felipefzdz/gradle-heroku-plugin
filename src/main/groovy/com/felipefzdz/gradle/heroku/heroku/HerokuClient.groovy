@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku.heroku
 
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuProcess
 import com.heroku.api.AddonChange
 
 interface HerokuClient {
@@ -39,4 +40,6 @@ interface HerokuClient {
     void createAddonAttachment(String appName, String addonId, String addonName)
 
     List<Map<String, ?>> getFormations(String appName)
+
+    void updateProcessFormations(String appName, List<HerokuProcess> processes)
 }

@@ -19,8 +19,12 @@ class HerokuApp implements Named {
     List<String> features
     NamedDomainObjectContainer<HerokuAddon> addons
     NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments
+    List<HerokuProcess> processes = []
 
-    HerokuApp(String name, NamedDomainObjectContainer<HerokuAddon> addons, NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments) {
+    HerokuApp(String name,
+              NamedDomainObjectContainer<HerokuAddon> addons,
+              NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments
+    ) {
         this.name = name
         this.addons = addons
         this.addonAttachments = addonAttachments
@@ -69,6 +73,12 @@ class HerokuApp implements Named {
     HerokuApp features(List<String> features) {
         this.features = features
         this
+    }
+
+    void process(Action<? super HerokuProcess> action) {
+        HerokuProcess process = new HerokuProcess()
+        action.execute(process)
+        processes.add(process)
     }
 
     void addons(Action<? super NamedDomainObjectContainer<HerokuAddon>> action) {

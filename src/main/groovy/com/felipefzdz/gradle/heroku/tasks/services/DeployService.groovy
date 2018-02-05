@@ -5,6 +5,7 @@ import com.felipefzdz.gradle.heroku.tasks.model.BuildSource
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddonAttachment
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuProcess
 import com.felipefzdz.gradle.heroku.utils.AsyncUtil
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
@@ -45,6 +46,7 @@ class DeployService {
         enableFeaturesService.enableFeatures(app.features, apiKey, app.name)
         addAddonAttachments(app.addonAttachments, apiKey, app.name)
         waitForAppFormation(app.name, app.buildSource)
+        updateProcessFormations(app.name, app.processes)
 
         println "Successfully deployed app ${app.name}"
     }
@@ -95,6 +97,14 @@ class DeployService {
         }
     }
 
+    private void updateProcessFormations(String appName, List<HerokuProcess> processes) {
+        println "Updating process formations for app ${appName}"
+        if (!processes.isEmpty()) {
+            herokuClient.updateProcessFormations(appName, processes)
+        } else {
+            println "No process formations for app ${appName}"
+        }
+    }
 
     private delay(Duration duration) {
         println "Delaying for ${duration.toMillis()} milliseconds..."

@@ -12,6 +12,8 @@ import com.felipefzdz.gradle.heroku.heroku.api.ListBuildsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.ListLogDrainsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
 import com.felipefzdz.gradle.heroku.heroku.api.SetBuildpackRequest
+import com.felipefzdz.gradle.heroku.heroku.api.SetFormationRequest
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuProcess
 import com.heroku.api.AddonChange
 import com.heroku.api.HerokuAPI
 import com.heroku.api.request.Request
@@ -119,6 +121,11 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     List<Map<String, ?>> getFormations(String appName) {
         api3(new GetFormationRequest(appName))
+    }
+
+    @Override
+    void updateProcessFormations(String appName, List<HerokuProcess> processes) {
+        api3(new SetFormationRequest(appName, processes))
     }
 
     private <T> T api3(Request<T> request) {

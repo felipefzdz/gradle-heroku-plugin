@@ -51,6 +51,13 @@ class DeployBundleFuncTest extends BaseFuncTest {
                         }
                         config = ['MODE': 'dev', 'API_KEY': 'secret']
                         features = ['$FEATURE']
+                        processes = [
+                            process {
+                                type = 'web'
+                                size = 'free'
+                                quantity = 2
+                            }
+                        ]
                     }
                     '$ANOTHER_APP_NAME'(HerokuWebApp) {
                         teamName = 'test'
@@ -100,6 +107,11 @@ class DeployBundleFuncTest extends BaseFuncTest {
 
         and:
         herokuClient.getFeature(APP_NAME, FEATURE).enabled
+
+        and:
+        herokuClient.getFormations(APP_NAME)*.type == ['web']
+        herokuClient.getFormations(APP_NAME)*.size == ['free']
+        herokuClient.getFormations(APP_NAME)*.quantity == [2]
     }
 
 }

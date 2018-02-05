@@ -54,6 +54,7 @@ class DeployBundleIntegTest extends Specification {
         app.personalApp = PERSONAL_APP
         app.stack = STACK
         app.recreate = false
+        app.processes = []
 
         deploy.bundle = new DefaultDomainObjectCollection(HerokuApp, [app]) as HerokuAppContainer
 
