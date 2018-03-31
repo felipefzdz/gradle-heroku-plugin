@@ -1,0 +1,28 @@
+{
+  "id" : "d70cc366-a98f-4e83-957e-37a1cc0f2f18",
+  "name" : "apps_functional-test-app_builds_de197962-1a3d-491f-8f1c-41d46c028c81",
+  "request" : {
+    "url" : "/apps/functional-test-app/builds/de197962-1a3d-491f-8f1c-41d46c028c81",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"app\": {\n    \"id\": \"75c9d447-d243-4a63-9799-51bbee37bd55\"\n  },\n  \"buildpacks\": [\n    {\n      \"url\": \"https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz\"\n    }\n  ],\n  \"created_at\": \"2018-03-31T20:00:14Z\",\n  \"id\": \"de197962-1a3d-491f-8f1c-41d46c028c81\",\n  \"output_stream_url\": \"https://build-output.heroku.com/streams/75/75c9d447-d243-4a63-9799-51bbee37bd55/logs/de/de197962-1a3d-491f-8f1c-41d46c028c81.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIQI6BAUWXGR4S77Q%2F20180331%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180331T200014Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=c296359f9c5a3dff7fd90ad69c8aba28f16ac25737ec724473b91742c3c4b60e\",\n  \"release\": null,\n  \"slug\": null,\n  \"source_blob\": {\n    \"checksum\": null,\n    \"url\": \"https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz\",\n    \"version\": \"666\",\n    \"version_description\": \"Build 666\"\n  },\n  \"stack\": \"heroku-16\",\n  \"status\": \"pending\",\n  \"updated_at\": \"2018-03-31T20:00:14Z\",\n  \"user\": {\n    \"email\": \"olid16@gmail.com\",\n    \"id\": \"47633683-9987-4be5-b8a7-e18c9fcf3b84\"\n  }\n}",
+    "headers" : {
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 20:00:14 GMT",
+      "Request-Id" : "02fa047d-c62a-5bac-d55c-04111223bd51",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Ratelimit-Limit" : "5626",
+      "X-Ratelimit-Remaining" : "5625",
+      "X-Ratelimit-Reset" : "1"
+    }
+  },
+  "uuid" : "d70cc366-a98f-4e83-957e-37a1cc0f2f18",
+  "persistent" : true,
+  "scenarioName" : "scenario-builds-de197962-1a3d-491f-8f1c-41d46c028c81",
+  "requiredScenarioState" : "Started",
+  "newScenarioState" : "scenario-builds-de197962-1a3d-491f-8f1c-41d46c028c81-2",
+  "insertionIndex" : 11
+}

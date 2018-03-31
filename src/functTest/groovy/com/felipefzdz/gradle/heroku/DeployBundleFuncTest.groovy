@@ -1,10 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
-import spock.lang.Ignore
-
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-@Ignore
 class DeployBundleFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
@@ -16,6 +13,11 @@ class DeployBundleFuncTest extends BaseFuncTest {
     @Override
     def getSubjectPlugin() {
         'heroku'
+    }
+
+    @Override
+    def getMappingsDirectory() {
+        'deployBundle'
     }
 
     def cleanup() {
@@ -44,18 +46,16 @@ class DeployBundleFuncTest extends BaseFuncTest {
                         logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
                         build {
                             buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
-                            buildUrl = 'https://www.dropbox.com/s/xevzjhc381s07ak/example.tgz'
+                            buildUrl = 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz'
                             buildVersion = '666'
                         }
                         config = ['MODE': 'dev', 'API_KEY': 'secret']
                         features = ['$FEATURE']
-                        processes = [
-                            process {
-                                type = 'web'
-                                size = 'free'
-                                quantity = 2
-                            }
-                        ]
+                        process {
+                            type = 'web'
+                            size = 'standard-1x'
+                            quantity = 2
+                        }
                     }
                     '$ANOTHER_APP_NAME'(HerokuWebApp) {
                         teamName = 'test'
@@ -108,7 +108,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
 
         and:
         herokuClient.getFormations(APP_NAME)*.type == ['web']
-        herokuClient.getFormations(APP_NAME)*.size == ['free']
+        herokuClient.getFormations(APP_NAME)*.size == ['Standard-1X']
         herokuClient.getFormations(APP_NAME)*.quantity == [2]
     }
 

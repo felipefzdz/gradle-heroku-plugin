@@ -41,5 +41,5 @@ interface HerokuClient {
 
     List<Map<String, ?>> getFormations(String appName)
 
-    void updateProcessFormations(String appName, List<HerokuProcess> processes)
+    void updateProcessFormations(String appName, HerokuProcess process)
 }

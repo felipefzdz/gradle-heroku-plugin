@@ -1,0 +1,31 @@
+{
+  "id" : "cca0c5fe-2c7b-46e8-a70d-be7834476310",
+  "name" : "apps_another-functional-test-app_config-vars",
+  "request" : {
+    "url" : "/apps/another-functional-test-app/config-vars",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"RABBITMQ_BIGWIG_REST_API_URL\":\"https://1kokRGq4:gHNH876I6tdnGBoLxtYIe_J0pt5E65J_@bigwig.lshift.net/management/176222/api\",\"RABBITMQ_BIGWIG_RX_URL\":\"amqp://1kokRGq4:gHNH876I6tdnGBoLxtYIe_J0pt5E65J_@skinny-marjoram-771.bigwig.lshift.net:10859/uGa66kAlxSEh\",\"RABBITMQ_BIGWIG_TX_URL\":\"amqp://1kokRGq4:gHNH876I6tdnGBoLxtYIe_J0pt5E65J_@skinny-marjoram-771.bigwig.lshift.net:10858/uGa66kAlxSEh\",\"RABBITMQ_BIGWIG_URL\":\"amqp://1kokRGq4:gHNH876I6tdnGBoLxtYIe_J0pt5E65J_@skinny-marjoram-771.bigwig.lshift.net:10858/uGa66kAlxSEh\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 20:00:35 GMT",
+      "Etag" : "\"d2f9f085675e55252742c580dde738fa\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 20:00:34 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read-protected write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4495",
+      "Request-Id" : "1f9342cb-d844-4abd-bab9-a746d5c1ff09,d2e1aa68-ede7-b501-f2fe-3014995ba21b,abf10e33-8cb4-56dd-913b-3e132d4a1f9d",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.052403974"
+    }
+  },
+  "uuid" : "cca0c5fe-2c7b-46e8-a70d-be7834476310",
+  "persistent" : true,
+  "insertionIndex" : 23
+}

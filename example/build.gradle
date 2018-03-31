@@ -26,7 +26,7 @@ task createHerokuFiles {
     outputs.dir heroku
     doLast {
         heroku.mkdirs()
-        new File(heroku, "Procfile").write("web: bin/example-ratpack-gradle-java-app")
+        new File(heroku, "Procfile").write("web: bin/example")
         new File(heroku, "system.properties").write("java.runtime.version=1.8")
     }
 }

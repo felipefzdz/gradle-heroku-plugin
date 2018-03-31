@@ -19,7 +19,7 @@ class HerokuApp implements Named {
     List<String> features
     NamedDomainObjectContainer<HerokuAddon> addons
     NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments
-    List<HerokuProcess> processes = []
+    HerokuProcess herokuProcess
 
     HerokuApp(String name,
               NamedDomainObjectContainer<HerokuAddon> addons,
@@ -75,10 +75,9 @@ class HerokuApp implements Named {
         this
     }
 
-    void process(Action<? super HerokuProcess> action) {
-        HerokuProcess process = new HerokuProcess()
-        action.execute(process)
-        processes.add(process)
+    void process(Action<? super HerokuProcess> process) {
+        this.herokuProcess = new HerokuProcess()
+        process.execute(herokuProcess)
     }
 
     void addons(Action<? super NamedDomainObjectContainer<HerokuAddon>> action) {

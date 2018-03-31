@@ -1,0 +1,33 @@
+{
+  "id" : "8badd969-13d3-4d58-ad03-e90ce53bbd78",
+  "name" : "apps_functional-test-app_log-drains",
+  "request" : {
+    "url" : "/apps/functional-test-app/log-drains",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[]",
+    "headers" : {
+      "Accept-Ranges" : "id, url",
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 20:00:10 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4498",
+      "Request-Id" : "4058f726-959e-40dc-b688-44beea29404c,3180b7e6-b22b-b018-4eee-3e4fe17ba671,63a550dc-11e0-297a-1b38-4a8a4d9f66bb",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.072227344"
+    }
+  },
+  "uuid" : "8badd969-13d3-4d58-ad03-e90ce53bbd78",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-log-drains",
+  "requiredScenarioState" : "Started",
+  "newScenarioState" : "scenario-functional-test-app-log-drains-2",
+  "insertionIndex" : 6
+}

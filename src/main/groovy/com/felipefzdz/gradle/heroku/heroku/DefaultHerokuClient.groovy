@@ -124,8 +124,8 @@ class DefaultHerokuClient implements HerokuClient {
     }
 
     @Override
-    void updateProcessFormations(String appName, List<HerokuProcess> processes) {
-        api3(new SetFormationRequest(appName, processes))
+    void updateProcessFormations(String appName, HerokuProcess process) {
+        api3(new SetFormationRequest(appName, [process]))
     }
 
     private <T> T api3(Request<T> request) {
