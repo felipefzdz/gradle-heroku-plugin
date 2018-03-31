@@ -7,6 +7,8 @@ import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddonAttachment
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuProcess
 import com.felipefzdz.gradle.heroku.utils.AsyncUtil
+import com.heroku.api.request.domain.DomainAdd
+import com.heroku.api.request.domain.DomainRemove
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
 
@@ -48,6 +50,7 @@ class DeployService {
         addAddonAttachments(app.addonAttachments, apiKey, app.name)
         waitForAppFormation(app.name, app.buildSource)
         updateProcessFormation(app.name, app.herokuProcess)
+        updateDomains(app)
 
         println "Successfully deployed app ${app.name}"
     }
@@ -110,5 +113,23 @@ class DeployService {
     private delay(Duration duration) {
         println "Delaying for ${duration.toMillis()} milliseconds..."
         sleep(duration.toMillis())
+    }
+
+    private void updateDomains(HerokuApp app) {
+        if (app.domains != null && !app.domains.isEmpty()) {
+            println "Fetching domain configuration"
+            def domains = herokuClient.getCustomDomains(app.name)
+
+            app.domains.each {
+                if (!(it in domains)) {
+                    herokuClient.addDomain(app.name, it)
+                }
+            }
+            domains.each {
+                if (!(it in app.domains)) {
+                    herokuClient.removeDomain(app.name, it)
+                }
+            }
+        }
     }
 }

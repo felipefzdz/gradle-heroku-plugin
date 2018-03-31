@@ -1,0 +1,35 @@
+{
+  "id" : "21394540-aa01-4999-b4d2-d3f967fac686",
+  "name" : "apps_another-functional-test-app_domains",
+  "request" : {
+    "url" : "/apps/another-functional-test-app/domains",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"acm_status\":null,\"acm_status_reason\":null,\"app\":{\"id\":\"7d1bcfcd-3c8b-4eba-9948-362a8c80649b\",\"name\":\"another-functional-test-app\"},\"cname\":null,\"created_at\":\"2018-03-31T23:21:53Z\",\"hostname\":\"another-functional-test-app.herokuapp.com\",\"id\":\"e317ad25-8090-41ed-b790-b94b162a304a\",\"kind\":\"heroku\",\"status\":\"none\",\"updated_at\":\"2018-03-31T23:21:53Z\"},{\"acm_status\":null,\"acm_status_reason\":null,\"app\":{\"id\":\"7d1bcfcd-3c8b-4eba-9948-362a8c80649b\",\"name\":\"another-functional-test-app\"},\"cname\":\"my.domain.com.herokudns.com\",\"created_at\":\"2018-03-31T23:21:57Z\",\"hostname\":\"my.domain.com\",\"id\":\"a6e61a4b-f50f-49a8-a6dd-b4f5ee751e6f\",\"kind\":\"custom\",\"status\":\"pending\",\"updated_at\":\"2018-03-31T23:21:57Z\"},{\"acm_status\":null,\"acm_status_reason\":null,\"app\":{\"id\":\"7d1bcfcd-3c8b-4eba-9948-362a8c80649b\",\"name\":\"another-functional-test-app\"},\"cname\":\"my.domain.org.herokudns.com\",\"created_at\":\"2018-03-31T23:21:57Z\",\"hostname\":\"my.domain.org\",\"id\":\"f342d28f-012f-4552-bc42-3d056d978ef9\",\"kind\":\"custom\",\"status\":\"pending\",\"updated_at\":\"2018-03-31T23:21:58Z\"}]",
+    "headers" : {
+      "Accept-Ranges" : "hostname, id",
+      "Cache-Control" : "private, no-cache",
+      "Content-Range" : "hostname another-functional-test-app.herokuapp.com..my.domain.org",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 23:22:02 GMT",
+      "Etag" : "\"3b1e4733072ec735cc581691a4948c11\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 23:21:58 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4485",
+      "Request-Id" : "193d2081-d133-4e7e-84eb-2ca99ebe16ce,053bff57-8a51-f328-f34a-2a90f5483d5d,ec397688-8a43-d7a0-22c0-d980c4ed2158",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.062485266"
+    }
+  },
+  "uuid" : "21394540-aa01-4999-b4d2-d3f967fac686",
+  "persistent" : true,
+  "scenarioName" : "scenario-another-functional-test-app-domains",
+  "requiredScenarioState" : "scenario-another-functional-test-app-domains-2",
+  "insertionIndex" : 40
+}

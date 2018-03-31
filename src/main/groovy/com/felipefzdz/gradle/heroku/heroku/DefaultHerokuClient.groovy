@@ -9,6 +9,7 @@ import com.felipefzdz.gradle.heroku.heroku.api.GetBuildRequest
 import com.felipefzdz.gradle.heroku.heroku.api.GetFeature
 import com.felipefzdz.gradle.heroku.heroku.api.GetFormationRequest
 import com.felipefzdz.gradle.heroku.heroku.api.ListBuildsRequest
+import com.felipefzdz.gradle.heroku.heroku.api.ListDomainsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.ListLogDrainsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
 import com.felipefzdz.gradle.heroku.heroku.api.SetBuildpackRequest
@@ -18,6 +19,8 @@ import com.heroku.api.AddonChange
 import com.heroku.api.HerokuAPI
 import com.heroku.api.request.Request
 import com.heroku.api.request.addon.AddonInstall
+import com.heroku.api.request.domain.DomainAdd
+import com.heroku.api.request.domain.DomainRemove
 import groovy.transform.CompileStatic
 
 @CompileStatic
@@ -126,6 +129,25 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     void updateProcessFormations(String appName, HerokuProcess process) {
         api3(new SetFormationRequest(appName, [process]))
+    }
+
+    @Override
+    List<String> getCustomDomains(String appName) {
+        api3(new ListDomainsRequest(appName)).findAll {
+            it.kind == "custom"
+        }.collect {
+            it.hostname.toString()
+        }
+    }
+
+    @Override
+    void addDomain(String appName, String domainName) {
+        api3(new DomainAdd(appName, domainName))
+    }
+
+    @Override
+    void removeDomain(String appName, String domainName) {
+        api3(new DomainRemove(appName, domainName))
     }
 
     private <T> T api3(Request<T> request) {

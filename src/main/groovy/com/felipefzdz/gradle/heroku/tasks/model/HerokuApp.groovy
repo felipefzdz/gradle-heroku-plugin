@@ -20,6 +20,7 @@ class HerokuApp implements Named {
     NamedDomainObjectContainer<HerokuAddon> addons
     NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments
     HerokuProcess herokuProcess
+    List<String> domains
 
     HerokuApp(String name,
               NamedDomainObjectContainer<HerokuAddon> addons,
@@ -86,6 +87,11 @@ class HerokuApp implements Named {
 
     void addonAttachments(Action<? super NamedDomainObjectContainer<HerokuAddonAttachment>> action) {
         action.execute(addonAttachments)
+    }
+
+    HerokuApp domains(List<String> domains) {
+        this.domains = domains
+        this
     }
 
     String getTeamName() {

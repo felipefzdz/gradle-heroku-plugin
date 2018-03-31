@@ -1,0 +1,32 @@
+{
+  "id" : "30b36778-c89a-47c0-8525-17ddfd6efe9e",
+  "name" : "apps_another-functional-test-app",
+  "request" : {
+    "url" : "/apps/another-functional-test-app",
+    "method" : "DELETE"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":null,\"build_stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"created_at\":\"2018-03-31T23:21:53Z\",\"id\":\"7d1bcfcd-3c8b-4eba-9948-362a8c80649b\",\"git_url\":\"https://git.heroku.com/another-functional-test-app.git\",\"maintenance\":false,\"name\":\"another-functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-03-31T23:21:56Z\",\"repo_size\":null,\"slug_size\":null,\"stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"updated_at\":\"2018-03-31T23:22:04Z\",\"web_url\":\"https://another-functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "region",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 23:22:04 GMT",
+      "Etag" : "\"1c7dc4d81fcaf74e400c71419bfb11c4\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 23:21:58 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4484",
+      "Request-Id" : "0c5365e6-6b9c-41c5-8917-0fb62fe8fcb2,3ee39a65-1dda-3541-3641-f7df79d5271c,dca49c0f-c409-32f0-ac95-b2ba094e75ff",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.105014826"
+    }
+  },
+  "uuid" : "30b36778-c89a-47c0-8525-17ddfd6efe9e",
+  "persistent" : true,
+  "insertionIndex" : 42
+}

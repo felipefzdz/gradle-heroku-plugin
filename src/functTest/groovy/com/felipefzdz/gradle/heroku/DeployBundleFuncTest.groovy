@@ -9,6 +9,8 @@ class DeployBundleFuncTest extends BaseFuncTest {
     String LOG_DRAIN_URL = 'syslog://logs.example.com'
     String ANOTHER_LOG_DRAIN_URL = 'syslog://another-logs.example.com'
     String FEATURE = 'http-session-affinity'
+    String FIRST_DOMAIN = 'my.domain.com'
+    String SECOND_DOMAIN = 'my.domain.org'
 
     @Override
     def getSubjectPlugin() {
@@ -72,6 +74,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                                 owningApp = '$APP_NAME'
                             } 
                         }
+                        domains = ['$FIRST_DOMAIN', '$SECOND_DOMAIN'] 
                     }
                 }
             }
@@ -110,6 +113,9 @@ class DeployBundleFuncTest extends BaseFuncTest {
         herokuClient.getFormations(APP_NAME)*.type == ['web']
         herokuClient.getFormations(APP_NAME)*.size == ['Standard-1X']
         herokuClient.getFormations(APP_NAME)*.quantity == [2]
+
+        and:
+        herokuClient.getCustomDomains(ANOTHER_APP_NAME).containsAll([FIRST_DOMAIN, SECOND_DOMAIN])
     }
 
 }

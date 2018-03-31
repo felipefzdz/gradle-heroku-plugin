@@ -42,4 +42,10 @@ interface HerokuClient {
     List<Map<String, ?>> getFormations(String appName)
 
     void updateProcessFormations(String appName, HerokuProcess process)
+
+    List<String> getCustomDomains(String appName)
+
+    void addDomain(String appName, String domainName)
+
+    void removeDomain(String appName, String domainName)
 }

@@ -1,0 +1,36 @@
+{
+  "id" : "7ee15222-59de-458b-8a3d-3da5447bbcef",
+  "name" : "apps_functional-test-app_buildpack-installations",
+  "request" : {
+    "url" : "/apps/functional-test-app/buildpack-installations",
+    "method" : "PUT",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"updates\":[{\"buildpack\":\"https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz\"}]}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"buildpack\":{\"url\":\"urn:buildpack:heroku/jvm\",\"name\":\"heroku/jvm\"},\"ordinal\":0}]",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 23:21:38 GMT",
+      "Etag" : "\"59169bff7b6bd5cb22ba6b1b3525cb4f\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 23:21:38 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4498",
+      "Request-Id" : "34ac1625-dbdd-42c0-a4f7-1979e9019d4d,b99c74cf-61a8-4f74-790d-bedac1f47608,655e4948-e593-60d1-21f9-f019e7ed9e03",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.077593618"
+    }
+  },
+  "uuid" : "7ee15222-59de-458b-8a3d-3da5447bbcef",
+  "persistent" : true,
+  "insertionIndex" : 9
+}

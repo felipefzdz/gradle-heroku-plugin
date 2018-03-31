@@ -1,0 +1,27 @@
+{
+  "id" : "61731954-795d-46df-9a79-26ae81f93efa",
+  "name" : "apps_functional-test-app_builds",
+  "request" : {
+    "url" : "/apps/functional-test-app/builds",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[\n  {\n    \"app\": {\n      \"id\": \"5e0c4e66-b783-4f89-9c0f-0574a9f65614\"\n    },\n    \"buildpacks\": [\n      {\n        \"url\": \"https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz\"\n      }\n    ],\n    \"created_at\": \"2018-03-31T23:21:39Z\",\n    \"id\": \"c22911e7-35f3-4e8f-b8ab-914f0c43e5b6\",\n    \"output_stream_url\": \"https://build-output.heroku.com/streams/5e/5e0c4e66-b783-4f89-9c0f-0574a9f65614/logs/c2/c22911e7-35f3-4e8f-b8ab-914f0c43e5b6.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIQI6BAUWXGR4S77Q%2F20180331%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180331T232200Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=228aaaf1ef463294e226e10ab6e871ac3aec9eb0e4790011f1a0f0b11eaa7807\",\n    \"release\": {\n      \"id\": \"553a6a12-39a1-4bb0-abf3-a3d0b91ce78f\"\n    },\n    \"slug\": {\n      \"id\": \"d01a76a8-1a75-4d38-a85b-4110cdd19035\"\n    },\n    \"source_blob\": {\n      \"checksum\": null,\n      \"url\": \"https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz\",\n      \"version\": \"666\",\n      \"version_description\": \"Build 666\"\n    },\n    \"stack\": \"heroku-16\",\n    \"status\": \"succeeded\",\n    \"updated_at\": \"2018-03-31T23:21:50Z\",\n    \"user\": {\n      \"email\": \"olid16@gmail.com\",\n      \"id\": \"47633683-9987-4be5-b8a7-e18c9fcf3b84\"\n    }\n  }\n]",
+    "headers" : {
+      "Accept-Ranges" : "created_at, id, updated_at",
+      "Content-Range" : "created_at 2018-03-31T23:21:39.618171+00:00..2018-03-31T23:21:39.618171+00:00",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 23:22:00 GMT",
+      "Request-Id" : "88dbd47f-1a74-9fd7-1833-1d7082ec9a53",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Ratelimit-Limit" : "5626",
+      "X-Ratelimit-Remaining" : "5625",
+      "X-Ratelimit-Reset" : "1"
+    }
+  },
+  "uuid" : "61731954-795d-46df-9a79-26ae81f93efa",
+  "persistent" : true,
+  "insertionIndex" : 34
+}

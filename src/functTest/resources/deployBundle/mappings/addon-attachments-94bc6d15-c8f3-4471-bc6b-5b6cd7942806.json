@@ -1,0 +1,35 @@
+{
+  "id" : "94bc6d15-c8f3-4471-bc6b-5b6cd7942806",
+  "name" : "addon-attachments",
+  "request" : {
+    "url" : "/addon-attachments",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"addon\":\"3d5dd002-3f07-4894-8a37-8b2eff41b786\",\"app\":\"another-functional-test-app\",\"name\":\"DATABASE\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"addon\":{\"id\":\"3d5dd002-3f07-4894-8a37-8b2eff41b786\",\"name\":\"postgresql-sinuous-49365\",\"app\":{\"id\":\"5e0c4e66-b783-4f89-9c0f-0574a9f65614\",\"name\":\"functional-test-app\"}},\"app\":{\"id\":\"7d1bcfcd-3c8b-4eba-9948-362a8c80649b\",\"name\":\"another-functional-test-app\"},\"id\":\"27c3aa3c-a10a-43cf-9f4d-09d174cb8c8a\",\"name\":\"DATABASE\",\"namespace\":null,\"created_at\":\"2018-03-31T23:21:56Z\",\"updated_at\":\"2018-03-31T23:21:56Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/7d1bcfcd-3c8b-4eba-9948-362a8c80649b/addons/3d5dd002-3f07-4894-8a37-8b2eff41b786\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Inclusion" : "addon:plan, config_vars",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 23:21:56 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4492",
+      "Request-Id" : "50e875e2-b37e-4eae-b7cb-abd82cf5aa93,c7f21e95-3937-bb53-0c71-1368de9e7ca2,f0a8a8f6-c354-aee7-ced9-5663f0d0eeb3",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.151404367"
+    }
+  },
+  "uuid" : "94bc6d15-c8f3-4471-bc6b-5b6cd7942806",
+  "persistent" : true,
+  "insertionIndex" : 25
+}

@@ -1,0 +1,33 @@
+{
+  "id" : "71905462-eab4-4b7c-956d-c4ff12fff3c9",
+  "name" : "apps_functional-test-app_config-vars",
+  "request" : {
+    "url" : "/apps/functional-test-app/config-vars",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"API_KEY\":\"secret\",\"DATABASE_URL\":\"postgres://qfteepfifexlvm:db183db28c3597fbbe20ed5300ddba14fd0a14b53cdb257c0e01755b2d6a6e1f@ec2-107-20-233-240.compute-1.amazonaws.com:5432/d86ndvg0d3uu8r\",\"MODE\":\"dev\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 23:22:00 GMT",
+      "Etag" : "\"dded0a701dcad617901a9780e95231f6\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 23:21:51 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read-protected write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4487",
+      "Request-Id" : "9b78d1ae-0c6b-40f7-8b0c-4bb5a50402e6,13a1fbe8-ea36-773b-2659-84bb305c0094,e2370433-16b0-a1dc-fbca-1a924d0c45c7",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.07373448"
+    }
+  },
+  "uuid" : "71905462-eab4-4b7c-956d-c4ff12fff3c9",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-config-vars",
+  "requiredScenarioState" : "scenario-functional-test-app-config-vars-2",
+  "insertionIndex" : 35
+}

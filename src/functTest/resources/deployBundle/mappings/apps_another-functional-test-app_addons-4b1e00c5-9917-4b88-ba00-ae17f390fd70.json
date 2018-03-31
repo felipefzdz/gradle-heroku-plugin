@@ -1,0 +1,35 @@
+{
+  "id" : "4b1e00c5-9917-4b88-ba00-ae17f390fd70",
+  "name" : "apps_another-functional-test-app_addons",
+  "request" : {
+    "url" : "/apps/another-functional-test-app/addons",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"plan\":\"rabbitmq-bigwig:pipkin\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"actions\":[],\"config_vars\":[\"RABBITMQ_BIGWIG_REST_API_URL\",\"RABBITMQ_BIGWIG_RX_URL\",\"RABBITMQ_BIGWIG_TX_URL\",\"RABBITMQ_BIGWIG_URL\"],\"created_at\":\"2018-03-31T23:21:54Z\",\"id\":\"b300b7c4-2557-42a9-99c0-1711037bfb39\",\"name\":\"rabbitmq-bigwig-clean-90535\",\"addon_service\":{\"id\":\"6ed5b84a-cbfe-4cc1-ac97-a11b50e7a2b5\",\"name\":\"rabbitmq-bigwig\"},\"plan\":{\"id\":\"b7732348-0b6b-4ebf-bd0e-7e51f6ffd70e\",\"name\":\"rabbitmq-bigwig:pipkin\"},\"app\":{\"id\":\"7d1bcfcd-3c8b-4eba-9948-362a8c80649b\",\"name\":\"another-functional-test-app\"},\"provider_id\":\"176254\",\"state\":\"provisioned\",\"updated_at\":\"2018-03-31T23:21:55Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/7d1bcfcd-3c8b-4eba-9948-362a8c80649b/addons/b300b7c4-2557-42a9-99c0-1711037bfb39\",\"billed_price\":{\"cents\":0,\"unit\":\"month\"}}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "addon_service, plan",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 23:21:55 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4493",
+      "Request-Id" : "b63eb9e8-52f1-4910-9e55-1e886a461076,94e37a0a-e483-de7e-2f0e-445485f7e3a8,758f676f-e1e0-1aef-d042-6456c281f252",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "1.249555483"
+    }
+  },
+  "uuid" : "4b1e00c5-9917-4b88-ba00-ae17f390fd70",
+  "persistent" : true,
+  "insertionIndex" : 21
+}

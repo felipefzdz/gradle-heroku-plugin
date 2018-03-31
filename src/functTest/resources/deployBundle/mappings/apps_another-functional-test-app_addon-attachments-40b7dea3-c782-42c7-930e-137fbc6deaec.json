@@ -1,0 +1,36 @@
+{
+  "id" : "40b7dea3-c782-42c7-930e-137fbc6deaec",
+  "name" : "apps_another-functional-test-app_addon-attachments",
+  "request" : {
+    "url" : "/apps/another-functional-test-app/addon-attachments",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"addon\":{\"id\":\"3d5dd002-3f07-4894-8a37-8b2eff41b786\",\"name\":\"postgresql-sinuous-49365\",\"app\":{\"id\":\"5e0c4e66-b783-4f89-9c0f-0574a9f65614\",\"name\":\"functional-test-app\"}},\"app\":{\"id\":\"7d1bcfcd-3c8b-4eba-9948-362a8c80649b\",\"name\":\"another-functional-test-app\"},\"id\":\"27c3aa3c-a10a-43cf-9f4d-09d174cb8c8a\",\"name\":\"DATABASE\",\"namespace\":null,\"created_at\":\"2018-03-31T23:21:56Z\",\"updated_at\":\"2018-03-31T23:21:56Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/7d1bcfcd-3c8b-4eba-9948-362a8c80649b/addons/3d5dd002-3f07-4894-8a37-8b2eff41b786\"},{\"addon\":{\"id\":\"b300b7c4-2557-42a9-99c0-1711037bfb39\",\"name\":\"rabbitmq-bigwig-clean-90535\",\"app\":{\"id\":\"7d1bcfcd-3c8b-4eba-9948-362a8c80649b\",\"name\":\"another-functional-test-app\"}},\"app\":{\"id\":\"7d1bcfcd-3c8b-4eba-9948-362a8c80649b\",\"name\":\"another-functional-test-app\"},\"id\":\"f5f24005-0aa7-4755-beb2-2b6c08cacb9f\",\"name\":\"RABBITMQ_BIGWIG\",\"namespace\":null,\"created_at\":\"2018-03-31T23:21:55Z\",\"updated_at\":\"2018-03-31T23:21:55Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/7d1bcfcd-3c8b-4eba-9948-362a8c80649b/addons/b300b7c4-2557-42a9-99c0-1711037bfb39\"}]",
+    "headers" : {
+      "Accept-Ranges" : "id, name",
+      "Cache-Control" : "private, no-cache",
+      "Content-Inclusion" : "addon:plan, config_vars",
+      "Content-Range" : "name DATABASE..RABBITMQ_BIGWIG",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 23:21:59 GMT",
+      "Etag" : "\"5ec41f00f85ad4cf148cf09bacc2f61c\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 23:21:56 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4489",
+      "Request-Id" : "76f99afe-e2b1-4313-81e8-f6618355a025,7873dcd5-fde8-871d-82f7-74c21e3fe4dc,2ebc2f7d-1b73-afa7-9d43-9d4e6e9777d8",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.123292934"
+    }
+  },
+  "uuid" : "40b7dea3-c782-42c7-930e-137fbc6deaec",
+  "persistent" : true,
+  "scenarioName" : "scenario-another-functional-test-app-addon-attachments",
+  "requiredScenarioState" : "scenario-another-functional-test-app-addon-attachments-3",
+  "insertionIndex" : 32
+}
