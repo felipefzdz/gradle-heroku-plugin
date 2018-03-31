@@ -1,15 +1,15 @@
 package com.felipefzdz.gradle.heroku
 
-import spock.lang.Requires
-
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-@Requires({
-    GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
-})
 class DeployWebFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
+
+    @Override
+    def getMappingsDirectory() {
+        'deployWeb'
+    }
 
     @Override
     def getSubjectPlugin() {

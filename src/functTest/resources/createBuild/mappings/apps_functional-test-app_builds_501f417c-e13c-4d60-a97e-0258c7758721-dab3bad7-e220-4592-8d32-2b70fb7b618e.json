@@ -1,0 +1,27 @@
+{
+  "id" : "dab3bad7-e220-4592-8d32-2b70fb7b618e",
+  "name" : "apps_functional-test-app_builds_501f417c-e13c-4d60-a97e-0258c7758721",
+  "request" : {
+    "url" : "/apps/functional-test-app/builds/501f417c-e13c-4d60-a97e-0258c7758721",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"app\": {\n    \"id\": \"3e53785e-48b4-4260-a425-ef706997963e\"\n  },\n  \"buildpacks\": [\n    {\n      \"url\": \"https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz\"\n    }\n  ],\n  \"created_at\": \"2018-03-31T13:44:53Z\",\n  \"id\": \"501f417c-e13c-4d60-a97e-0258c7758721\",\n  \"output_stream_url\": \"https://build-output.heroku.com/streams/3e/3e53785e-48b4-4260-a425-ef706997963e/logs/50/501f417c-e13c-4d60-a97e-0258c7758721.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIQI6BAUWXGR4S77Q%2F20180331%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180331T134504Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=6643f5f67e5e12644a66454bfc61a4b7e039bea6f58c5655d5dade2cae6550b9\",\n  \"release\": {\n    \"id\": \"c5dfe5ab-6a01-4acf-bd6b-5ac31b259ad6\"\n  },\n  \"slug\": {\n    \"id\": \"245a711c-c012-470f-b3cd-31934f82f951\"\n  },\n  \"source_blob\": {\n    \"checksum\": null,\n    \"url\": \"https://github.com/ratpack/ratpack/archive/v1.1.1.tar.gz\",\n    \"version\": \"666\",\n    \"version_description\": \"Build 666\"\n  },\n  \"stack\": \"cedar-14\",\n  \"status\": \"succeeded\",\n  \"updated_at\": \"2018-03-31T13:45:02Z\",\n  \"user\": {\n    \"email\": \"olid16@gmail.com\",\n    \"id\": \"47633683-9987-4be5-b8a7-e18c9fcf3b84\"\n  }\n}",
+    "headers" : {
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:45:04 GMT",
+      "Request-Id" : "4f14c596-c445-6252-1b3c-618f42ef4eaa",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Ratelimit-Limit" : "5626",
+      "X-Ratelimit-Remaining" : "5625",
+      "X-Ratelimit-Reset" : "1"
+    }
+  },
+  "uuid" : "dab3bad7-e220-4592-8d32-2b70fb7b618e",
+  "persistent" : true,
+  "scenarioName" : "scenario-builds-501f417c-e13c-4d60-a97e-0258c7758721",
+  "requiredScenarioState" : "scenario-builds-501f417c-e13c-4d60-a97e-0258c7758721-3",
+  "insertionIndex" : 6
+}

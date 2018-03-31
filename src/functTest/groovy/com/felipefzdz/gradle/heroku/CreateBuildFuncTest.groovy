@@ -1,12 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
-import spock.lang.Requires
-
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-@Requires({
-    GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
-})
 class CreateBuildFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
@@ -14,6 +9,11 @@ class CreateBuildFuncTest extends BaseFuncTest {
     @Override
     def getSubjectPlugin() {
         'heroku-base'
+    }
+
+    @Override
+    def getMappingsDirectory() {
+        'createBuild'
     }
 
     def cleanup() {

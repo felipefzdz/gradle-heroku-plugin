@@ -1,0 +1,31 @@
+{
+  "id" : "20af539e-ab20-4004-b15f-71e711589186",
+  "name" : "apps_functional-test-app_config-vars",
+  "request" : {
+    "url" : "/apps/functional-test-app/config-vars",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"API_KEY\":\"secret\",\"MODE\":\"dev\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:38:46 GMT",
+      "Etag" : "\"0b9acaa401f5f56a0e0db82eee84332d\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 13:38:46 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read-protected write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4499",
+      "Request-Id" : "427b82e4-a82b-49df-b55f-52d8d34c0e8d,b470a8e1-078c-24a7-3161-5978f80684ef,a7a64388-5cb5-f346-3099-85c7c47cc2d3",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.080938769"
+    }
+  },
+  "uuid" : "20af539e-ab20-4004-b15f-71e711589186",
+  "persistent" : true,
+  "insertionIndex" : 3
+}

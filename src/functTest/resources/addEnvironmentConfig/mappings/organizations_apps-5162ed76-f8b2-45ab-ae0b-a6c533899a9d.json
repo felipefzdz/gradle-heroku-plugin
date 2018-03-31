@@ -1,0 +1,34 @@
+{
+  "id" : "5162ed76-f8b2-45ab-ae0b-a6c533899a9d",
+  "name" : "organizations_apps",
+  "request" : {
+    "url" : "/organizations/apps",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"name\":\"functional-test-app\",\"organization\":\"test\",\"personal\":true,\"stack\":\"cedar-14\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":null,\"build_stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"created_at\":\"2018-03-31T13:38:42Z\",\"id\":\"2d3eccee-02b0-4e28-9d62-896e10474c1d\",\"git_url\":\"https://git.heroku.com/functional-test-app.git\",\"maintenance\":false,\"name\":\"functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-03-31T13:38:43Z\",\"repo_size\":null,\"slug_size\":null,\"stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"updated_at\":\"2018-03-31T13:38:43Z\",\"web_url\":\"https://functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:38:43 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "create-apps global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4499",
+      "Request-Id" : "61454777-f2ac-4c8a-b0aa-c79673578907,5a22793b-02a0-fdb9-06df-0f219c46f970,9ee378bf-c16a-ff37-a844-28c8c813fc80",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.191356303"
+    }
+  },
+  "uuid" : "5162ed76-f8b2-45ab-ae0b-a6c533899a9d",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

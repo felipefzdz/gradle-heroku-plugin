@@ -1,0 +1,31 @@
+{
+  "id" : "00e51ca4-aa2e-415a-874f-6bd3d0fd02a4",
+  "name" : "apps_functional-test-app_features_spaces-dns-discovery",
+  "request" : {
+    "url" : "/apps/functional-test-app/features/spaces-dns-discovery",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"created_at\":\"2016-09-22T16:54:30Z\",\"description\":\"Enable DNS service discovery [general]\",\"doc_url\":\"contact dogwood@\",\"id\":\"589fc22d-ec4d-4ebb-a12e-e2ddc5d00928\",\"name\":\"spaces-dns-discovery\",\"state\":\"general\",\"updated_at\":\"2017-05-24T20:34:49Z\",\"display_name\":null,\"feedback_email\":null,\"enabled\":true}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:53:55 GMT",
+      "Etag" : "\"9c1fa047a98e456f718556816d377feb\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 13:53:54 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4497",
+      "Request-Id" : "58a192f4-041d-4a74-aa69-37af8fa242f0,215fff87-f86c-485a-708b-48a95ae0d71c,ce93092c-6ba1-b25d-8f3b-90d3af43f3b7",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.044653835"
+    }
+  },
+  "uuid" : "00e51ca4-aa2e-415a-874f-6bd3d0fd02a4",
+  "persistent" : true,
+  "insertionIndex" : 5
+}

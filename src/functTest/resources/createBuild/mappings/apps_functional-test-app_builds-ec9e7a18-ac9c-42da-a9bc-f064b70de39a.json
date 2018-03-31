@@ -1,0 +1,27 @@
+{
+  "id" : "ec9e7a18-ac9c-42da-a9bc-f064b70de39a",
+  "name" : "apps_functional-test-app_builds",
+  "request" : {
+    "url" : "/apps/functional-test-app/builds",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[\n  {\n    \"app\": {\n      \"id\": \"3e53785e-48b4-4260-a425-ef706997963e\"\n    },\n    \"buildpacks\": [\n      {\n        \"url\": \"https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz\"\n      }\n    ],\n    \"created_at\": \"2018-03-31T13:44:53Z\",\n    \"id\": \"501f417c-e13c-4d60-a97e-0258c7758721\",\n    \"output_stream_url\": \"https://build-output.heroku.com/streams/3e/3e53785e-48b4-4260-a425-ef706997963e/logs/50/501f417c-e13c-4d60-a97e-0258c7758721.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIQI6BAUWXGR4S77Q%2F20180331%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180331T134505Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=343acc15d987998bc19c8bdfd9811d4d075a55a2268d48c797dfcb4100ac6364\",\n    \"release\": {\n      \"id\": \"c5dfe5ab-6a01-4acf-bd6b-5ac31b259ad6\"\n    },\n    \"slug\": {\n      \"id\": \"245a711c-c012-470f-b3cd-31934f82f951\"\n    },\n    \"source_blob\": {\n      \"checksum\": null,\n      \"url\": \"https://github.com/ratpack/ratpack/archive/v1.1.1.tar.gz\",\n      \"version\": \"666\",\n      \"version_description\": \"Build 666\"\n    },\n    \"stack\": \"cedar-14\",\n    \"status\": \"succeeded\",\n    \"updated_at\": \"2018-03-31T13:45:02Z\",\n    \"user\": {\n      \"email\": \"olid16@gmail.com\",\n      \"id\": \"47633683-9987-4be5-b8a7-e18c9fcf3b84\"\n    }\n  }\n]",
+    "headers" : {
+      "Accept-Ranges" : "created_at, id, updated_at",
+      "Content-Range" : "created_at 2018-03-31T13:44:53.222500+00:00..2018-03-31T13:44:53.222500+00:00",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:45:05 GMT",
+      "Request-Id" : "12757b5c-f286-8fd7-e465-3ce214b807ff",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Ratelimit-Limit" : "5626",
+      "X-Ratelimit-Remaining" : "5624",
+      "X-Ratelimit-Reset" : "2"
+    }
+  },
+  "uuid" : "ec9e7a18-ac9c-42da-a9bc-f064b70de39a",
+  "persistent" : true,
+  "insertionIndex" : 7
+}

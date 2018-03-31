@@ -1,12 +1,10 @@
 package com.felipefzdz.gradle.heroku
 
-import spock.lang.Requires
+import spock.lang.Ignore
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-@Requires({
-    GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
-})
+@Ignore
 class DeployBundleFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'

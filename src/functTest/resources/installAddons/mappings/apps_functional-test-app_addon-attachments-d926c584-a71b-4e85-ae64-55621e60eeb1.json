@@ -1,0 +1,36 @@
+{
+  "id" : "d926c584-a71b-4e85-ae64-55621e60eeb1",
+  "name" : "apps_functional-test-app_addon-attachments",
+  "request" : {
+    "url" : "/apps/functional-test-app/addon-attachments",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"addon\":{\"id\":\"39e0e3fd-78af-4756-b5c7-3758b7f4e561\",\"name\":\"postgresql-dimensional-55839\",\"app\":{\"id\":\"917027dc-5021-4217-b24f-a2b4718d86a1\",\"name\":\"functional-test-app\"}},\"app\":{\"id\":\"917027dc-5021-4217-b24f-a2b4718d86a1\",\"name\":\"functional-test-app\"},\"id\":\"5a0e696c-e59c-48d9-a5fd-7514732a1f9f\",\"name\":\"DATABASE\",\"namespace\":null,\"created_at\":\"2018-03-31T13:55:16Z\",\"updated_at\":\"2018-03-31T13:55:16Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/917027dc-5021-4217-b24f-a2b4718d86a1/addons/39e0e3fd-78af-4756-b5c7-3758b7f4e561\"}]",
+    "headers" : {
+      "Accept-Ranges" : "id, name",
+      "Cache-Control" : "private, no-cache",
+      "Content-Inclusion" : "addon:plan, config_vars",
+      "Content-Range" : "name DATABASE..DATABASE",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:55:17 GMT",
+      "Etag" : "\"8f0576082f701bdf899e709461b6201e\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 13:55:16 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4499",
+      "Request-Id" : "aa1418be-3faf-46ef-a4b4-4445e94f202f,d8f8f76a-73bf-b548-b4e9-dce675fda7b5,338a12c0-5ce2-0c6a-cc7e-286b750d1e74",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.114113078"
+    }
+  },
+  "uuid" : "d926c584-a71b-4e85-ae64-55621e60eeb1",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-addon-attachments",
+  "requiredScenarioState" : "scenario-functional-test-app-addon-attachments-2",
+  "insertionIndex" : 5
+}

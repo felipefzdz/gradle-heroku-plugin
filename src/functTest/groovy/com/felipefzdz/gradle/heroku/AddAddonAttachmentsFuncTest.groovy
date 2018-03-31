@@ -1,12 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
-import spock.lang.Requires
-
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-@Requires({
-    GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
-})
 class AddAddonAttachmentsFuncTest extends BaseFuncTest {
 
     String OWNING_APP_NAME = 'owning-functional-test-app'
@@ -15,6 +10,11 @@ class AddAddonAttachmentsFuncTest extends BaseFuncTest {
     @Override
     def getSubjectPlugin() {
         'heroku-base'
+    }
+
+    @Override
+    def getMappingsDirectory() {
+        'addAddonAttachments'
     }
 
     def cleanup() {

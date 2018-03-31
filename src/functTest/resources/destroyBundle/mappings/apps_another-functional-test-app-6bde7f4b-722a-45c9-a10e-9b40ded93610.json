@@ -1,0 +1,35 @@
+{
+  "id" : "6bde7f4b-722a-45c9-a10e-9b40ded93610",
+  "name" : "apps_another-functional-test-app",
+  "request" : {
+    "url" : "/apps/another-functional-test-app",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":null,\"build_stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"created_at\":\"2018-03-31T13:51:39Z\",\"id\":\"54ca13e3-87f3-4545-81df-996dc6796781\",\"git_url\":\"https://git.heroku.com/another-functional-test-app.git\",\"maintenance\":false,\"name\":\"another-functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-03-31T13:51:40Z\",\"repo_size\":null,\"slug_size\":null,\"stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"updated_at\":\"2018-03-31T13:51:40Z\",\"web_url\":\"https://another-functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "region",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:51:43 GMT",
+      "Etag" : "\"8b55fa4c6740d88759500bc64d7b7e93\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 13:51:40 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4498",
+      "Request-Id" : "996c33b3-9ea0-44c3-9bbc-e24d17cc9e89,3d111989-4c44-3fc4-e0a4-32a964293a14,52616483-5967-647b-3054-afe0ead52c1a",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.069479588"
+    }
+  },
+  "uuid" : "6bde7f4b-722a-45c9-a10e-9b40ded93610",
+  "persistent" : true,
+  "scenarioName" : "scenario-apps-another-functional-test-app",
+  "requiredScenarioState" : "Started",
+  "newScenarioState" : "scenario-apps-another-functional-test-app-2",
+  "insertionIndex" : 5
+}

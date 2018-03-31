@@ -1,0 +1,34 @@
+{
+  "id" : "6d37276c-4c12-4960-a2b6-a876e84934b9",
+  "name" : "organizations_apps",
+  "request" : {
+    "url" : "/organizations/apps",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"name\":\"another-functional-test-app\",\"organization\":\"test\",\"personal\":true,\"stack\":\"heroku-16\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":null,\"build_stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"created_at\":\"2018-03-31T13:48:18Z\",\"id\":\"8db1bf63-0fd4-40cb-99e5-675d6cb032fd\",\"git_url\":\"https://git.heroku.com/another-functional-test-app.git\",\"maintenance\":false,\"name\":\"another-functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-03-31T13:48:18Z\",\"repo_size\":null,\"slug_size\":null,\"stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"updated_at\":\"2018-03-31T13:48:18Z\",\"web_url\":\"https://another-functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:48:18 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "create-apps global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4498",
+      "Request-Id" : "f83cc4fd-9068-4836-ac77-0f327fae00b8,5772fe0d-13e8-84bf-170f-54ce779f2fd6,45f26869-ea98-d241-1f9f-f146e65950d3",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.143805473"
+    }
+  },
+  "uuid" : "6d37276c-4c12-4960-a2b6-a876e84934b9",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

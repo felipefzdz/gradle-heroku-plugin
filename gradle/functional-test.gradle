@@ -12,6 +12,7 @@ task functionalTest(type: Test) {
     group = 'verification'
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
+    environment "HEROKU_HOST", "http://localhost:8080"
     mustRunAfter test, integrationTest
 }
 

@@ -1,0 +1,36 @@
+{
+  "id" : "2709232d-58bc-4c48-a150-0acca85d7c78",
+  "name" : "apps_functional-test-app_config-vars",
+  "request" : {
+    "url" : "/apps/functional-test-app/config-vars",
+    "method" : "PATCH",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"MODE\":\"dev\",\"API_KEY\":\"secret\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"API_KEY\":\"secret\",\"MODE\":\"dev\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:38:46 GMT",
+      "Etag" : "\"a757da8a86be9063bc1fe625de1c3213\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 13:38:43 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4499",
+      "Request-Id" : "85f32950-25ba-4a19-b2b6-b9de397efecb,417b70d7-ba77-1c70-8dba-fedd1febaa2c,d2b31477-0784-86a9-1e01-0d904f1a14fa",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.117213079"
+    }
+  },
+  "uuid" : "2709232d-58bc-4c48-a150-0acca85d7c78",
+  "persistent" : true,
+  "insertionIndex" : 2
+}

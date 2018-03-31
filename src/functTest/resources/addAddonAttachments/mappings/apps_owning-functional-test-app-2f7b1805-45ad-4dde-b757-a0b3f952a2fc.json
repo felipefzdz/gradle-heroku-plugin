@@ -1,0 +1,32 @@
+{
+  "id" : "2f7b1805-45ad-4dde-b757-a0b3f952a2fc",
+  "name" : "apps_owning-functional-test-app",
+  "request" : {
+    "url" : "/apps/owning-functional-test-app",
+    "method" : "DELETE"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":null,\"build_stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"created_at\":\"2018-03-31T13:35:21Z\",\"id\":\"2c3e5494-b1f8-4c7c-b090-f5ee4d4bb18e\",\"git_url\":\"https://git.heroku.com/owning-functional-test-app.git\",\"maintenance\":false,\"name\":\"owning-functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-03-31T13:35:22Z\",\"repo_size\":null,\"slug_size\":null,\"stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"updated_at\":\"2018-03-31T13:35:27Z\",\"web_url\":\"https://owning-functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "region",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:35:28 GMT",
+      "Etag" : "\"7f932dfe01a513fd00b248254beecd38\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 13:35:22 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4496",
+      "Request-Id" : "f1108ccb-bc3f-4040-9e7e-d57a69df8ba4,b4b252e0-c904-77b2-1890-d812316b9e16,17645fb8-b604-e717-d851-ba8f7167b916",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.08151173"
+    }
+  },
+  "uuid" : "2f7b1805-45ad-4dde-b757-a0b3f952a2fc",
+  "persistent" : true,
+  "insertionIndex" : 9
+}

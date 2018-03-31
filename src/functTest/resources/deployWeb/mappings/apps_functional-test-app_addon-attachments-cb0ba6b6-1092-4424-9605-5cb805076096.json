@@ -1,0 +1,36 @@
+{
+  "id" : "cb0ba6b6-1092-4424-9605-5cb805076096",
+  "name" : "apps_functional-test-app_addon-attachments",
+  "request" : {
+    "url" : "/apps/functional-test-app/addon-attachments",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"addon\":{\"id\":\"6ba6622f-9a61-49b2-afee-4e67a9dfd27c\",\"name\":\"postgresql-rigid-89132\",\"app\":{\"id\":\"e92cb9a0-6242-48da-9e71-36883414e90d\",\"name\":\"functional-test-app\"}},\"app\":{\"id\":\"e92cb9a0-6242-48da-9e71-36883414e90d\",\"name\":\"functional-test-app\"},\"id\":\"d27135e2-5a0f-45f5-aabf-546a43e2f5c0\",\"name\":\"DATABASE\",\"namespace\":null,\"created_at\":\"2018-03-31T13:12:05Z\",\"updated_at\":\"2018-03-31T13:12:05Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/e92cb9a0-6242-48da-9e71-36883414e90d/addons/6ba6622f-9a61-49b2-afee-4e67a9dfd27c\"}]",
+    "headers" : {
+      "Accept-Ranges" : "id, name",
+      "Cache-Control" : "private, no-cache",
+      "Content-Inclusion" : "addon:plan, config_vars",
+      "Content-Range" : "name DATABASE..DATABASE",
+      "Content-Type" : "application/json",
+      "Date" : "Sat, 31 Mar 2018 13:12:07 GMT",
+      "Etag" : "\"b5558ea03d65a03ab1c8ad88d7ed03aa\"",
+      "Last-Modified" : "Sat, 31 Mar 2018 13:12:05 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4497",
+      "Request-Id" : "1e1d0408-b4d8-42dc-b722-b67d3420f5e0,b68400ed-61ae-5cdb-c4db-102e5dab3929,46e4db66-414e-70cb-32a4-b04fde4711ad",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.067945108"
+    }
+  },
+  "uuid" : "cb0ba6b6-1092-4424-9605-5cb805076096",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-addon-attachments",
+  "requiredScenarioState" : "scenario-functional-test-app-addon-attachments-2",
+  "insertionIndex" : 7
+}

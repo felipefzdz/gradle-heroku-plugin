@@ -1,12 +1,7 @@
 package com.felipefzdz.gradle.heroku
 
-import spock.lang.Requires
-
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-@Requires({
-    GRADLE_HEROKU_PLUGIN_API_KEY && !GRADLE_HEROKU_PLUGIN_API_KEY.equals('null')
-})
 class CreateAppFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
@@ -17,8 +12,9 @@ class CreateAppFuncTest extends BaseFuncTest {
         'heroku-base'
     }
 
-    def cleanup() {
-        herokuClient.destroyApp(APP_NAME)
+    @Override
+    def getMappingsDirectory() {
+        'createApp'
     }
 
     def "can create an app"() {
