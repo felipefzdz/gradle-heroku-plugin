@@ -31,7 +31,6 @@ class DeployAppTest extends Specification {
         app.personalApp = PERSONAL_APP
         app.stack = STACK
         app.recreate = false
-        app.processes = []
 
         herokuClient.getAddonAttachments(APP_NAME) >> []
     }
