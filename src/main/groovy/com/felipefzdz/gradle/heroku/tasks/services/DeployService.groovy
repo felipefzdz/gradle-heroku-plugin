@@ -47,7 +47,7 @@ class DeployService {
         enableFeaturesService.enableFeatures(app.features, apiKey, app.name)
         addAddonAttachments(app.addonAttachments, apiKey, app.name)
         waitForAppFormation(app.name, app.buildSource)
-        updateProcessFormations(app.name, app.herokuProcess)
+        updateProcessFormation(app.name, app.herokuProcess)
 
         println "Successfully deployed app ${app.name}"
     }
@@ -98,7 +98,7 @@ class DeployService {
         }
     }
 
-    private void updateProcessFormations(String appName, HerokuProcess process) {
+    private void updateProcessFormation(String appName, HerokuProcess process) {
         println "Updating process formations for app ${appName}"
         if (process != null) {
             herokuClient.updateProcessFormations(appName, process)
