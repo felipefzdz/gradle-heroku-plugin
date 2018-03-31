@@ -38,6 +38,7 @@ class DeployService {
     }
 
     void deploy(HerokuApp app, int delayAfterDestroyApp, String apiKey) {
+        herokuClient.init(apiKey)
         maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp, delayAfterDestroyApp)
         installAddons(app.addons, apiKey, app.name)
         configureLogDrainsService.configureLogDrains(app.logDrains, apiKey, app.name)

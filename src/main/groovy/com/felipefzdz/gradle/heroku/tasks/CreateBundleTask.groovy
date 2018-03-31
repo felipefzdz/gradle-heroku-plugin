@@ -3,7 +3,7 @@ package com.felipefzdz.gradle.heroku.tasks
 import com.felipefzdz.gradle.heroku.HerokuAppContainer
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.services.CreateAppService
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
@@ -22,16 +22,13 @@ class CreateBundleTask extends DefaultTask {
     @Internal
     HerokuClient herokuClient
 
+    @Internal
+    CreateAppService createAppService
+
     @TaskAction
     void createBundle() {
-        herokuClient.init(apiKey.get())
         bundle.toList().reverse().each { HerokuApp app ->
-            if (herokuClient.appExists(app.name)) {
-                println "App ${app.name} already exists and won't be created."
-            } else {
-                herokuClient.createApp(app.name, app.teamName, app.personalApp, app.stack)
-                println "Successfully created app ${app.name}"
-            }
+            createAppService.createApp(app, apiKey.get(), app.name)
         }
     }
 }

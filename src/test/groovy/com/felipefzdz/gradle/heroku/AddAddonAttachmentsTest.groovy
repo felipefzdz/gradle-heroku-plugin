@@ -1,49 +1,26 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.AddAddonAttachmentsTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddonAttachment
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 import com.felipefzdz.gradle.heroku.tasks.services.AddAddonAttachmentsService
-import org.gradle.api.NamedDomainObjectContainer
-import org.gradle.api.internal.DefaultDomainObjectCollection
-import org.gradle.testfixtures.ProjectBuilder
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
-import spock.lang.Subject
 
-class AddAddonAttachmentsIntegTest extends Specification {
+class AddAddonAttachmentsTest extends Specification {
 
-    @Rule
-    TemporaryFolder temporaryFolder = new TemporaryFolder()
-
-    @Subject
-    AddAddonAttachmentsTask addAddonAttachments
-
+    AddAddonAttachmentsService addAddonAttachmentsService
     HerokuClient herokuClient = Mock(HerokuClient)
 
     String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
     String PLAN = 'heroku-redis:hobby-dev'
     String OWNING_APP_NAME = 'owningAppName'
+    List<HerokuAddonAttachment> addonAttachments
 
     def setup() {
-        def project = ProjectBuilder.builder().withProjectDir(temporaryFolder.root).build()
-        addAddonAttachments = project.tasks.create('addAddonAttachmentsTask', AddAddonAttachmentsTask)
-        addAddonAttachments.addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient)
-        def apiKeyProperty = project.objects.property(String)
-        apiKeyProperty.set(API_KEY)
-        addAddonAttachments.apiKey = apiKeyProperty
-
+        addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient)
         def redisAddonAttachment = new HerokuAddonAttachment('redis')
         redisAddonAttachment.owningApp = OWNING_APP_NAME
-        def addonAttachments = new DefaultDomainObjectCollection(HerokuAddonAttachment, [redisAddonAttachment]) as NamedDomainObjectContainer<HerokuAddonAttachment>
-
-        def app = new HerokuWebApp(APP_NAME, null, addonAttachments)
-
-        addAddonAttachments.app = app
-
+        addonAttachments = [redisAddonAttachment]
     }
 
     def "add an addon attachment when missing"() {
@@ -52,7 +29,7 @@ class AddAddonAttachmentsIntegTest extends Specification {
         herokuClient.getAddonAttachments(OWNING_APP_NAME) >> [['name': 'REDIS', 'addon': ['id': '1234']]]
 
         when:
-        addAddonAttachments.addAddonAttachments()
+        addAddonAttachmentsService.addAddonAttachments(addonAttachments, API_KEY, APP_NAME)
 
         then:
         1 * herokuClient.createAddonAttachment(APP_NAME, _, 'REDIS')
@@ -64,7 +41,7 @@ class AddAddonAttachmentsIntegTest extends Specification {
         herokuClient.getAddonAttachments(OWNING_APP_NAME) >> []
 
         when:
-        addAddonAttachments.addAddonAttachments()
+        addAddonAttachmentsService.addAddonAttachments(addonAttachments, API_KEY, APP_NAME)
 
         then:
         def e = thrown(AssertionError)
@@ -79,7 +56,7 @@ class AddAddonAttachmentsIntegTest extends Specification {
         herokuClient.getAddonAttachments(APP_NAME) >> [['name': 'REDIS', 'addon': ['id': '1234']]]
 
         when:
-        addAddonAttachments.addAddonAttachments()
+        addAddonAttachmentsService.addAddonAttachments(addonAttachments, API_KEY, APP_NAME)
 
         then:
         0 * herokuClient.installAddon(APP_NAME, PLAN)

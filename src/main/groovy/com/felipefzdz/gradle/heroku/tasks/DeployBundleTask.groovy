@@ -30,7 +30,6 @@ class DeployBundleTask extends DefaultTask {
 
     @TaskAction
     void deployBundle() {
-        herokuClient.init(apiKey.get())
         bundle.toList().reverse().each { HerokuApp app ->
             deployService.deploy(app, delayAfterDestroyApp, apiKey.get())
         }

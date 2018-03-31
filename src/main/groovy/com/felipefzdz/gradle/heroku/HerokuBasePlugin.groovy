@@ -9,7 +9,9 @@ import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 import com.felipefzdz.gradle.heroku.tasks.services.AddAddonAttachmentsService
 import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
+import com.felipefzdz.gradle.heroku.tasks.services.CreateAppService
 import com.felipefzdz.gradle.heroku.tasks.services.CreateBuildService
+import com.felipefzdz.gradle.heroku.tasks.services.DestroyAppService
 import com.felipefzdz.gradle.heroku.tasks.services.EnableFeaturesService
 import com.felipefzdz.gradle.heroku.tasks.services.InstallAddonsService
 import groovy.transform.CompileStatic
@@ -45,18 +47,22 @@ class HerokuBasePlugin implements Plugin<Project> {
         CreateBuildService createBuildService = new CreateBuildService(herokuClient)
         EnableFeaturesService enableFeaturesService = new EnableFeaturesService(herokuClient)
         AddAddonAttachmentsService addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient)
+        CreateAppService createAppService = new CreateAppService(herokuClient)
+        DestroyAppService destroyAppService = new DestroyAppService(herokuClient)
 
         extension.bundle.all { HerokuApp app ->
             project.tasks.create("herokuCreate${app.name.capitalize()}", CreateAppTask) { CreateAppTask task ->
                 task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
+                task.createAppService = createAppService
             }
 
             project.tasks.create("herokuDestroy${app.name.capitalize()}", DestroyAppTask) { DestroyAppTask task ->
                 task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
+                task.destroyAppService = destroyAppService
             }
 
             project.tasks.create("herokuConfigureLogDrainsFor${app.name.capitalize()}", ConfigureLogDrainsTask) { ConfigureLogDrainsTask task ->
@@ -102,12 +108,14 @@ class HerokuBasePlugin implements Plugin<Project> {
             task.apiKey = extension.apiKey
             task.bundle = extension.bundle
             task.herokuClient = herokuClient
+            task.createAppService = createAppService
         }
 
         project.tasks.create("herokuDestroyBundle", DestroyBundleTask) { DestroyBundleTask task ->
             task.apiKey = extension.apiKey
             task.bundle = extension.bundle
             task.herokuClient = herokuClient
+            task.destroyAppService = destroyAppService
         }
     }
 

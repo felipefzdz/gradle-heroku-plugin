@@ -11,7 +11,6 @@ buildscript {
 apply plugin: 'com.gradle.build-scan'
 apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
-apply from: "$rootDir/gradle/integration-test.gradle"
 apply from: "$rootDir/gradle/functional-test.gradle"
 
 group = 'com.felipefzdz.gradle.heroku'

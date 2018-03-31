@@ -26,7 +26,6 @@ class CreateBuildTask extends DefaultTask {
 
     @TaskAction
     void createBuild() {
-        herokuClient.init(apiKey.get())
         createBuildService.createBuild(app.buildSource, apiKey.get(), app.name)
     }
 }

@@ -29,7 +29,6 @@ class DeployWebTask extends DefaultTask {
 
     @TaskAction
     void deployWeb() {
-        herokuClient.init(apiKey.get())
         deployService.deploy(app, delayAfterDestroyApp, apiKey.get())
     }
 

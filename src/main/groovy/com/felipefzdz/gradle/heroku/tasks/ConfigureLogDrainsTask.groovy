@@ -25,7 +25,6 @@ class ConfigureLogDrainsTask extends DefaultTask {
 
     @TaskAction
     void configureLogDrains() {
-        herokuClient.init(apiKey.get())
         configureLogDrainsService.configureLogDrains(app.logDrains, apiKey.get(), app.name)
     }
 }

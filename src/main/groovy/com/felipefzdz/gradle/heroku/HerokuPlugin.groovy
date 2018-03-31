@@ -2,16 +2,10 @@ package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
-import com.felipefzdz.gradle.heroku.tasks.services.AddAddonAttachmentsService
-import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
-import com.felipefzdz.gradle.heroku.tasks.services.CreateBuildService
-import com.felipefzdz.gradle.heroku.tasks.services.DeployService
-import com.felipefzdz.gradle.heroku.tasks.DeployWebTask
 import com.felipefzdz.gradle.heroku.tasks.DeployBundleTask
-import com.felipefzdz.gradle.heroku.tasks.services.EnableFeaturesService
-import com.felipefzdz.gradle.heroku.tasks.services.InstallAddonsService
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.DeployWebTask
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import com.felipefzdz.gradle.heroku.tasks.services.*
 import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
 import org.gradle.api.Project
