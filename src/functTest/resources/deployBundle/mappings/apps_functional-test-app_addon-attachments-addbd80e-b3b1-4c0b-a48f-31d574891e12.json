@@ -1,0 +1,36 @@
+{
+  "id" : "addbd80e-b3b1-4c0b-a48f-31d574891e12",
+  "name" : "apps_functional-test-app_addon-attachments",
+  "request" : {
+    "url" : "/apps/functional-test-app/addon-attachments",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"addon\":{\"id\":\"6c8109f9-a42a-4e7a-9b5c-7066a54f5831\",\"name\":\"postgresql-cylindrical-85306\",\"app\":{\"id\":\"4644e044-fb34-4924-a23a-b98b0a8f3f9c\",\"name\":\"functional-test-app\"}},\"app\":{\"id\":\"4644e044-fb34-4924-a23a-b98b0a8f3f9c\",\"name\":\"functional-test-app\"},\"id\":\"4edd82a8-2419-4862-8007-76270e214176\",\"name\":\"DATABASE\",\"namespace\":null,\"created_at\":\"2018-04-01T15:04:17Z\",\"updated_at\":\"2018-04-01T15:04:17Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/4644e044-fb34-4924-a23a-b98b0a8f3f9c/addons/6c8109f9-a42a-4e7a-9b5c-7066a54f5831\"}]",
+    "headers" : {
+      "Accept-Ranges" : "id, name",
+      "Cache-Control" : "private, no-cache",
+      "Content-Inclusion" : "addon:plan, config_vars",
+      "Content-Range" : "name DATABASE..DATABASE",
+      "Content-Type" : "application/json",
+      "Date" : "Sun, 01 Apr 2018 15:04:57 GMT",
+      "Etag" : "\"fa6aaa78863eadb0de8e2aaa4218f462\"",
+      "Last-Modified" : "Sun, 01 Apr 2018 15:04:17 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4493",
+      "Request-Id" : "f497d555-276c-4a23-ab86-51030847b6a3,9a347b9a-491a-5eae-84ce-d5a297bee654,c5089f78-0b4d-3af7-381e-df7ffb45e631",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.07266958"
+    }
+  },
+  "uuid" : "addbd80e-b3b1-4c0b-a48f-31d574891e12",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-addon-attachments",
+  "requiredScenarioState" : "scenario-functional-test-app-addon-attachments-3",
+  "insertionIndex" : 33
+}

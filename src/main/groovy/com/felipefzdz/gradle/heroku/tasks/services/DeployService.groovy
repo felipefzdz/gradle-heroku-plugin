@@ -51,6 +51,7 @@ class DeployService {
         updateProcessFormation(app.name, app.herokuProcess)
         updateDomains(app)
         probeReadiness(app)
+        maybeDisableAcm(app)
 
         println "Successfully deployed app ${app.name}"
     }
@@ -110,7 +111,6 @@ class DeployService {
         }
     }
 
-
     private void updateDomains(HerokuApp app) {
         if (app.domains != null && !app.domains.isEmpty()) {
             println "Fetching domain configuration"
@@ -129,6 +129,7 @@ class DeployService {
         }
     }
 
+
     private void probeReadiness(HerokuApp app) {
         ReadinessProbe probe = app.readinessProbe
         if (probe != null) {
@@ -142,6 +143,12 @@ class DeployService {
                 println("Fetching $url")
                 probe.command.execute(app, json)
             }
+        }
+    }
+
+    def maybeDisableAcm(HerokuApp app) {
+        if (app.disableAcm) {
+            herokuClient.disableAcm(app.name)
         }
     }
 

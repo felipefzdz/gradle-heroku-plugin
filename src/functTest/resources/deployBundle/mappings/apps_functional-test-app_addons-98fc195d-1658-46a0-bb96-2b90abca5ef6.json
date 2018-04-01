@@ -1,0 +1,35 @@
+{
+  "id" : "98fc195d-1658-46a0-bb96-2b90abca5ef6",
+  "name" : "apps_functional-test-app_addons",
+  "request" : {
+    "url" : "/apps/functional-test-app/addons",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"plan\":\"heroku-postgresql:hobby-dev\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"actions\":[{\"id\":\"97d4b9c9-c02e-4061-871b-939783c7a1ec\",\"label\":\"Create Dataclip\",\"action\":null,\"url\":\"http://dataclips.heroku.com/clips/new?heroku_resource_id=:resource_id&heroku_id=:resource_uuid\",\"requires_owner\":null},{\"id\":\"3d069b6d-0a5f-44ce-af08-aa47e08432c1\",\"label\":\"Upgrade instructions\",\"action\":null,\"url\":\"https://devcenter.heroku.com/articles/upgrading-heroku-postgres-databases\",\"requires_owner\":null},{\"id\":\"f32b0f5e-004b-44af-a85b-ffe011c93f13\",\"label\":\"Capture backup\",\"action\":null,\"url\":\"https://data.heroku.com/datastore/:resource_uuid?heroku_action=capture_backup\",\"requires_owner\":null}],\"config_vars\":[\"DATABASE_URL\"],\"created_at\":\"2018-04-01T15:04:17Z\",\"id\":\"6c8109f9-a42a-4e7a-9b5c-7066a54f5831\",\"name\":\"postgresql-cylindrical-85306\",\"addon_service\":{\"id\":\"6c67493d-8fc2-4cd4-9161-4f1ec11cbe69\",\"name\":\"heroku-postgresql\"},\"plan\":{\"id\":\"062a1cc7-f79f-404c-9f91-135f70175577\",\"name\":\"heroku-postgresql:hobby-dev\"},\"app\":{\"id\":\"4644e044-fb34-4924-a23a-b98b0a8f3f9c\",\"name\":\"functional-test-app\"},\"provider_id\":\"13815020\",\"state\":\"provisioned\",\"updated_at\":\"2018-04-01T15:04:18Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/4644e044-fb34-4924-a23a-b98b0a8f3f9c/addons/6c8109f9-a42a-4e7a-9b5c-7066a54f5831\",\"billed_price\":{\"cents\":0,\"unit\":\"month\"}}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "addon_service, plan",
+      "Content-Type" : "application/json",
+      "Date" : "Sun, 01 Apr 2018 15:04:18 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4498",
+      "Request-Id" : "b797f1b3-1c52-470c-91bc-d8fc3d4a8515,cd3d2266-32aa-b05d-2e6f-070d45a9ac2d,00ca1bbb-1833-aa49-613d-b99c4251f2e6",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "1.138086611"
+    }
+  },
+  "uuid" : "98fc195d-1658-46a0-bb96-2b90abca5ef6",
+  "persistent" : true,
+  "insertionIndex" : 4
+}

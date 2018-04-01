@@ -63,6 +63,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                                 assert json.buildNumber == app.buildSource.buildVersion 
                             }
                         }
+                        disableAcm = true
                         
                     }
                     '$ANOTHER_APP_NAME'(HerokuWebApp) {
@@ -122,6 +123,9 @@ class DeployBundleFuncTest extends BaseFuncTest {
 
         and:
         herokuClient.getCustomDomains(ANOTHER_APP_NAME).containsAll([FIRST_DOMAIN, SECOND_DOMAIN])
+
+        and:
+        !herokuClient.getApp(APP_NAME).acm
     }
 
 }

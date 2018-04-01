@@ -48,4 +48,8 @@ interface HerokuClient {
     void addDomain(String appName, String domainName)
 
     void removeDomain(String appName, String domainName)
+
+    Map<String, ?> getApp(String appName)
+
+    void disableAcm(String appName)
 }

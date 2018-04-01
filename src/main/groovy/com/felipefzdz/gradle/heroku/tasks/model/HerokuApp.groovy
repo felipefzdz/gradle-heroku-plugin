@@ -22,6 +22,7 @@ class HerokuApp implements Named {
     HerokuProcess herokuProcess
     List<String> domains
     ReadinessProbe readinessProbe
+    Boolean disableAcm
 
     HerokuApp(String name,
               NamedDomainObjectContainer<HerokuAddon> addons,
@@ -100,6 +101,11 @@ class HerokuApp implements Named {
         readinessProbe.execute(this.readinessProbe)
     }
 
+    HerokuApp disableAcm(Boolean disableAcm) {
+        this.disableAcm = disableAcm
+        this
+    }
+
     String getTeamName() {
         return teamName ?: ''
     }
@@ -107,4 +113,6 @@ class HerokuApp implements Named {
     String getStack() {
         return stack ?: 'heroku-16'
     }
+
+
 }

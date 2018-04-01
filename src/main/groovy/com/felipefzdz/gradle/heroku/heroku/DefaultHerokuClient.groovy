@@ -1,6 +1,8 @@
 package com.felipefzdz.gradle.heroku.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.api.AddDrainRequest
+import com.felipefzdz.gradle.heroku.heroku.api.AppDisableAcmRequest
+import com.felipefzdz.gradle.heroku.heroku.api.AppInfo
 import com.felipefzdz.gradle.heroku.heroku.api.CreateAddonAttachmentRequest
 import com.felipefzdz.gradle.heroku.heroku.api.CreateBuildRequest
 import com.felipefzdz.gradle.heroku.heroku.api.EnableFeature
@@ -148,6 +150,16 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     void removeDomain(String appName, String domainName) {
         api3(new DomainRemove(appName, domainName))
+    }
+
+    @Override
+    Map<String, ?> getApp(String appName) {
+        api3(new AppInfo(appName))
+    }
+
+    @Override
+    void disableAcm(String appName) {
+        api3(new AppDisableAcmRequest(appName))
     }
 
     private <T> T api3(Request<T> request) {

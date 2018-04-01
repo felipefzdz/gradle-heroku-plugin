@@ -1,0 +1,31 @@
+{
+  "id" : "d8a2d64f-92e8-484f-96db-6622e15eca3f",
+  "name" : "apps_another-functional-test-app_config-vars",
+  "request" : {
+    "url" : "/apps/another-functional-test-app/config-vars",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"RABBITMQ_BIGWIG_REST_API_URL\":\"https://PN0gWGq4:yWhZrX8V82D5Cr4DP9iURXFDcNDEEnTz@bigwig.lshift.net/management/176408/api\",\"RABBITMQ_BIGWIG_RX_URL\":\"amqp://PN0gWGq4:yWhZrX8V82D5Cr4DP9iURXFDcNDEEnTz@spotted-haystack-960.bigwig.lshift.net:10545/WCvvNxxyBba_\",\"RABBITMQ_BIGWIG_TX_URL\":\"amqp://PN0gWGq4:yWhZrX8V82D5Cr4DP9iURXFDcNDEEnTz@spotted-haystack-960.bigwig.lshift.net:10544/WCvvNxxyBba_\",\"RABBITMQ_BIGWIG_URL\":\"amqp://PN0gWGq4:yWhZrX8V82D5Cr4DP9iURXFDcNDEEnTz@spotted-haystack-960.bigwig.lshift.net:10544/WCvvNxxyBba_\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sun, 01 Apr 2018 15:04:54 GMT",
+      "Etag" : "\"e1ceeca26fdb3d5e65d9a5480a0cf2b7\"",
+      "Last-Modified" : "Sun, 01 Apr 2018 15:04:53 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read-protected write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4498",
+      "Request-Id" : "f91205ac-af19-4fc6-8b25-0a9e1896e981,50fceec1-97c2-5c51-0d7d-63069dc30a60,dedb8ac7-c645-c2e4-f721-e3274a722a91",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.046063463"
+    }
+  },
+  "uuid" : "d8a2d64f-92e8-484f-96db-6622e15eca3f",
+  "persistent" : true,
+  "insertionIndex" : 24
+}

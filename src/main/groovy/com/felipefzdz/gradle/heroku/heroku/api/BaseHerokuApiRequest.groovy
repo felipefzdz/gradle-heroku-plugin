@@ -6,11 +6,9 @@ import com.heroku.api.http.Http
 import com.heroku.api.http.HttpUtil
 import com.heroku.api.request.Request
 import groovy.json.JsonSlurper
-import groovy.transform.CompileStatic
 
 import java.nio.charset.StandardCharsets
 
-@CompileStatic
 abstract class BaseHerokuApiRequest<T> implements Request<T> {
 
     private final Class<T> responseType
@@ -49,13 +47,17 @@ abstract class BaseHerokuApiRequest<T> implements Request<T> {
         Collections.emptyMap()
     }
 
-    protected Http.Status getExpectedResponseStatus() {
-        httpMethod == Http.Method.POST ? Http.Status.CREATED : Http.Status.OK
+    protected Set<Http.Status> getExpectedResponseStatus() {
+        httpMethod == Http.Method.POST ? [Http.Status.CREATED] : [Http.Status.OK]
+    }
+
+    protected T validateResponse(int status, T response) {
+        response
     }
 
     @Override
     T getResponse(byte[] bytes, int status, Map<String, String> headers) {
-        if (expectedResponseStatus.statusCode != status) {
+        if (!(status in expectedResponseStatus*.statusCode)) {
             throw new RequestFailedException("$endpoint request failed", status, bytes)
         }
 
@@ -63,7 +65,7 @@ abstract class BaseHerokuApiRequest<T> implements Request<T> {
             null
         } else {
             def json = new JsonSlurper().parseText(new String(bytes, StandardCharsets.UTF_8))
-            responseType.cast(json)
+            validateResponse(status, responseType.cast(json))
         }
     }
 }
