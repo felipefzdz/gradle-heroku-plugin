@@ -1,25 +1,19 @@
 package com.felipefzdz.gradle.heroku
 
-import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
-import com.felipefzdz.gradle.heroku.heroku.HerokuClient
+import com.felipefzdz.gradle.heroku.dependencyinjection.Graph
 import com.felipefzdz.gradle.heroku.tasks.*
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddonAttachment
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
-import com.felipefzdz.gradle.heroku.tasks.services.AddAddonAttachmentsService
-import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
-import com.felipefzdz.gradle.heroku.tasks.services.CreateAppService
-import com.felipefzdz.gradle.heroku.tasks.services.CreateBuildService
-import com.felipefzdz.gradle.heroku.tasks.services.DestroyAppService
-import com.felipefzdz.gradle.heroku.tasks.services.EnableFeaturesService
-import com.felipefzdz.gradle.heroku.tasks.services.InstallAddonsService
 import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.internal.reflect.Instantiator
 
 import javax.inject.Inject
+
+import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.*
 
 @CompileStatic
 class HerokuBasePlugin implements Plugin<Project> {
@@ -35,21 +29,13 @@ class HerokuBasePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        Graph.init()
         HerokuExtension extension = project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, project, createHerokuAppContainer(project))
         createBaseTasks(extension, project)
     }
 
 
     private static void createBaseTasks(HerokuExtension extension, Project project) {
-        HerokuClient herokuClient = new DefaultHerokuClient()
-        InstallAddonsService installAddonsService = new InstallAddonsService(herokuClient)
-        ConfigureLogDrainsService configureLogDrainsService = new ConfigureLogDrainsService(herokuClient)
-        CreateBuildService createBuildService = new CreateBuildService(herokuClient)
-        EnableFeaturesService enableFeaturesService = new EnableFeaturesService(herokuClient)
-        AddAddonAttachmentsService addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient)
-        CreateAppService createAppService = new CreateAppService(herokuClient)
-        DestroyAppService destroyAppService = new DestroyAppService(herokuClient)
-
         extension.bundle.all { HerokuApp app ->
             project.tasks.create("herokuCreate${app.name.capitalize()}", CreateAppTask) { CreateAppTask task ->
                 task.apiKey = extension.apiKey
