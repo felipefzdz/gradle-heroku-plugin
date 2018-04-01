@@ -1,0 +1,35 @@
+{
+  "id" : "e2e68b68-fd81-4463-8216-b91db91589e0",
+  "name" : "apps_functional-test-app_log-drains",
+  "request" : {
+    "url" : "/apps/functional-test-app/log-drains",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"addon\":null,\"created_at\":\"2018-04-01T14:17:57Z\",\"id\":\"0cc18c38-1b72-4173-83cc-160031bb7706\",\"token\":\"d.60a868ba-04b4-48eb-a59e-e64f647dcd1d\",\"updated_at\":\"2018-04-01T14:17:57Z\",\"url\":\"syslog://another-logs.example.com\"},{\"addon\":null,\"created_at\":\"2018-04-01T14:17:55Z\",\"id\":\"83f9c129-5a12-4d13-8622-909b090772d7\",\"token\":\"d.3529318b-59c2-4338-a16c-d46ab9fc4796\",\"updated_at\":\"2018-04-01T14:17:56Z\",\"url\":\"syslog://logs.example.com\"}]",
+    "headers" : {
+      "Accept-Ranges" : "id, url",
+      "Cache-Control" : "private, no-cache",
+      "Content-Range" : "url syslog://another-logs.example.com..syslog://logs.example.com",
+      "Content-Type" : "application/json",
+      "Date" : "Sun, 01 Apr 2018 14:18:35 GMT",
+      "Etag" : "\"e8ef366d637f13feada776e801354929\"",
+      "Last-Modified" : "Sun, 01 Apr 2018 14:17:57 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4493",
+      "Request-Id" : "5fda2a31-f572-4b12-a5aa-28d79dee78d3,b3f13009-529f-2b60-33f3-08c836777983,50ac04d3-c233-11f6-7429-2be6e2cf3bf9",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.053821603"
+    }
+  },
+  "uuid" : "e2e68b68-fd81-4463-8216-b91db91589e0",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-log-drains",
+  "requiredScenarioState" : "scenario-functional-test-app-log-drains-2",
+  "insertionIndex" : 34
+}

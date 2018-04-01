@@ -1,8 +1,8 @@
 package com.felipefzdz.gradle.heroku.tasks.model
 
-import groovy.transform.ToString
+import groovy.transform.CompileStatic
 
-@ToString
+@CompileStatic
 class HerokuProcess {
     String type
     int quantity

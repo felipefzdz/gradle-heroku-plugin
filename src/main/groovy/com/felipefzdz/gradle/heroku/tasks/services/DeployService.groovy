@@ -1,21 +1,20 @@
 package com.felipefzdz.gradle.heroku.tasks.services
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.model.BuildSource
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddonAttachment
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuProcess
-import com.felipefzdz.gradle.heroku.utils.AsyncUtil
-import com.heroku.api.request.domain.DomainAdd
-import com.heroku.api.request.domain.DomainRemove
+import com.felipefzdz.gradle.heroku.tasks.model.*
+import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
 
 import java.time.Duration
 
+import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
+
 @CompileStatic
 class DeployService {
+
+    private static final Duration TIMEOUT = Duration.ofMinutes(6)
+    private static final Duration TEST_INTERVAL = Duration.ofSeconds(1)
 
     private final InstallAddonsService installAddonsService
     private final HerokuClient herokuClient
@@ -51,6 +50,7 @@ class DeployService {
         waitForAppFormation(app.name, app.buildSource)
         updateProcessFormation(app.name, app.herokuProcess)
         updateDomains(app)
+        probeReadiness(app)
 
         println "Successfully deployed app ${app.name}"
     }
@@ -58,7 +58,7 @@ class DeployService {
     private void waitForAppFormation(String appName, BuildSource buildSource) {
         if (buildSource) {
             println "Checking for existence of resource formation …"
-            AsyncUtil.waitFor(Duration.ofMinutes(5), Duration.ofSeconds(3), "waiting for process formation for $appName") {
+            waitFor(Duration.ofMinutes(5), Duration.ofSeconds(3), "waiting for process formation for $appName") {
                 def formation = herokuClient.getFormations(appName)
                 assert !formation.isEmpty()
             }
@@ -110,10 +110,6 @@ class DeployService {
         }
     }
 
-    private delay(Duration duration) {
-        println "Delaying for ${duration.toMillis()} milliseconds..."
-        sleep(duration.toMillis())
-    }
 
     private void updateDomains(HerokuApp app) {
         if (app.domains != null && !app.domains.isEmpty()) {
@@ -132,4 +128,26 @@ class DeployService {
             }
         }
     }
+
+    private void probeReadiness(HerokuApp app) {
+        ReadinessProbe probe = app.readinessProbe
+        if (probe != null) {
+            String proxyHerokuApp = System.getenv('HEROKU_APP_PROXY')
+            String urlAsString = proxyHerokuApp == null ? probe.url : "$proxyHerokuApp/version"
+            URL url = new URL(urlAsString)
+            println("Fetch readiness endpoint $url...")
+            delay(Duration.ofSeconds(9))
+            waitFor(TIMEOUT, TEST_INTERVAL, "Readiness probe based on $url") {
+                def json = new JsonSlurper().parse(url) as Map
+                println("Fetching $url")
+                probe.command.execute(app, json)
+            }
+        }
+    }
+
+    private delay(Duration duration) {
+        println "Delaying for ${duration.toMillis()} milliseconds..."
+        sleep(duration.toMillis())
+    }
+
 }

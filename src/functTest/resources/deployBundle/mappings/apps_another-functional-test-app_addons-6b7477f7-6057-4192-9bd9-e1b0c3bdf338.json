@@ -1,0 +1,35 @@
+{
+  "id" : "6b7477f7-6057-4192-9bd9-e1b0c3bdf338",
+  "name" : "apps_another-functional-test-app_addons",
+  "request" : {
+    "url" : "/apps/another-functional-test-app/addons",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"plan\":\"rabbitmq-bigwig:pipkin\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"actions\":[],\"config_vars\":[\"RABBITMQ_BIGWIG_REST_API_URL\",\"RABBITMQ_BIGWIG_RX_URL\",\"RABBITMQ_BIGWIG_TX_URL\",\"RABBITMQ_BIGWIG_URL\"],\"created_at\":\"2018-04-01T14:18:28Z\",\"id\":\"3fc58060-78d9-411e-b81d-dced684bcc94\",\"name\":\"rabbitmq-bigwig-polished-75480\",\"addon_service\":{\"id\":\"6ed5b84a-cbfe-4cc1-ac97-a11b50e7a2b5\",\"name\":\"rabbitmq-bigwig\"},\"plan\":{\"id\":\"b7732348-0b6b-4ebf-bd0e-7e51f6ffd70e\",\"name\":\"rabbitmq-bigwig:pipkin\"},\"app\":{\"id\":\"a68301db-71ca-4c43-a12f-e81706302494\",\"name\":\"another-functional-test-app\"},\"provider_id\":\"176398\",\"state\":\"provisioned\",\"updated_at\":\"2018-04-01T14:18:30Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/a68301db-71ca-4c43-a12f-e81706302494/addons/3fc58060-78d9-411e-b81d-dced684bcc94\",\"billed_price\":{\"cents\":0,\"unit\":\"month\"}}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "addon_service, plan",
+      "Content-Type" : "application/json",
+      "Date" : "Sun, 01 Apr 2018 14:18:30 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4497",
+      "Request-Id" : "e04db7a2-6768-4d89-ae61-f039694b7122,1f3a0724-6e13-f60b-52f5-4f900af918d5,dbc32e8a-cbb6-385d-c5d6-057c86580a1c",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "1.970254011"
+    }
+  },
+  "uuid" : "6b7477f7-6057-4192-9bd9-e1b0c3bdf338",
+  "persistent" : true,
+  "insertionIndex" : 22
+}

@@ -21,6 +21,7 @@ class HerokuApp implements Named {
     NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments
     HerokuProcess herokuProcess
     List<String> domains
+    ReadinessProbe readinessProbe
 
     HerokuApp(String name,
               NamedDomainObjectContainer<HerokuAddon> addons,
@@ -92,6 +93,11 @@ class HerokuApp implements Named {
     HerokuApp domains(List<String> domains) {
         this.domains = domains
         this
+    }
+
+    void readinessProbe(Action<? super ReadinessProbe> readinessProbe) {
+        this.readinessProbe = new ReadinessProbe()
+        readinessProbe.execute(this.readinessProbe)
     }
 
     String getTeamName() {

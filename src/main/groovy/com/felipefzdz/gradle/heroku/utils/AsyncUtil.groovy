@@ -16,8 +16,10 @@ abstract class AsyncUtil {
             try {
                 return closure.call()
             } catch (Exception e) {
+                println e
                 error = e
             } catch (AssertionError e) {
+                println e
                 error = e
             }
 

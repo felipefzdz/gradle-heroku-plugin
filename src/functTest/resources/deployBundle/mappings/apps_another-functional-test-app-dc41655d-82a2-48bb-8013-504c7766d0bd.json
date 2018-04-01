@@ -1,0 +1,30 @@
+{
+  "id" : "dc41655d-82a2-48bb-8013-504c7766d0bd",
+  "name" : "apps_another-functional-test-app",
+  "request" : {
+    "url" : "/apps/another-functional-test-app",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 404,
+    "body" : "{\"resource\":\"app\",\"id\":\"not_found\",\"message\":\"Couldn't find that app.\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Sun, 01 Apr 2018 14:18:27 GMT",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4499",
+      "Request-Id" : "1b758602-752e-4ee3-92f4-fed05ca46f25,ed81e280-8b23-8d08-faf8-7335d0d4bd93,6e8b7fca-9c32-bad2-eefe-0b773c03998d",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.045840876"
+    }
+  },
+  "uuid" : "dc41655d-82a2-48bb-8013-504c7766d0bd",
+  "persistent" : true,
+  "scenarioName" : "scenario-apps-another-functional-test-app",
+  "requiredScenarioState" : "Started",
+  "newScenarioState" : "scenario-apps-another-functional-test-app-2",
+  "insertionIndex" : 19
+}

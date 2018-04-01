@@ -4,7 +4,6 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class DeployBundleFuncTest extends BaseFuncTest {
 
-    String APP_NAME = 'functional-test-app'
     String ANOTHER_APP_NAME = 'another-functional-test-app'
     String LOG_DRAIN_URL = 'syslog://logs.example.com'
     String ANOTHER_LOG_DRAIN_URL = 'syslog://another-logs.example.com'
@@ -58,6 +57,13 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             size = 'standard-1x'
                             quantity = 2
                         }
+                        readinessProbe {
+                            url = 'https://${APP_NAME}.herokuapp.com/version'
+                            command = { app, json ->
+                                assert json.buildNumber == app.buildSource.buildVersion 
+                            }
+                        }
+                        
                     }
                     '$ANOTHER_APP_NAME'(HerokuWebApp) {
                         teamName = 'test'

@@ -14,6 +14,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 
 abstract class BaseFuncTest extends Specification {
 
+    public static final String APP_NAME = 'functional-test-app'
     public static final String GRADLE_HEROKU_PLUGIN_API_KEY = System.getenv('GRADLE_HEROKU_PLUGIN_API_KEY')
 
     @Shared
