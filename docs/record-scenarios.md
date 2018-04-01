@@ -2,30 +2,18 @@ In order to functional test the plugin, and not get suspended by Heroku, we want
 
 The approach followed here is recording stateful scenarios with Wiremock, and serving those, instead of the real API.
 
-There's plans to automate this process, but if you need to record new scenario you should:
+There's plans to increase the automation of this process, but if you need to record new scenario you should:
 
-1. Update the following on `BaseFuncTest`
-
-```
-WireMockRule wireMockRule = new WireMockRule()
-def setupSpec() {
-    wireMockRule.startRecording(WireMock.recordSpec().forTarget('https://api.heroku.com'))
-}
-
-def cleanupSpec() {
-    wireMockRule.stopRecording()
-}
-```
-
-2. Create an empty folder on `src/test/resources/mappings`
-
-3. Run the test with:
+1. Run a particular test with the following property enabled:
 
 ```
-HEROKU_HOST=http://localhost:8080
-GRADLE_HEROKU_PLUGIN_API_KEY=xxx
+GRADLE_HEROKU_PLUGIN_API_KEY=xxx && ./gradlew functionalTest --tests '*DeployBundleFuncTest*' -PrecordScenarios
+``` 
+
+2. Move the mappings folder on `src/test/resources/mappings` into the appropriate one on `functTest` resources folder.
+
+3. Now, you should be able to see the test running against that recorded scenario:
+
 ```
-
-4. Move the mappings folder into the appropriate one on `functTest` resources folder.
-
-5. Restore `BaseFuncTest` original status.
+./gradlew functionalTest --tests '*DeployBundleFuncTest*' 
+```
