@@ -1,0 +1,30 @@
+{
+  "id" : "8eab302b-a4cf-4937-aad6-7c2d41520257",
+  "name" : "apps_functional-test-app_acm",
+  "request" : {
+    "url" : "/apps/functional-test-app/acm",
+    "method" : "DELETE"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":\"JVM Common\",\"build_stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"created_at\":\"2018-04-02T21:24:40Z\",\"id\":\"4ca91a06-82af-441c-a35a-f21120eeec61\",\"git_url\":\"https://git.heroku.com/functional-test-app.git\",\"maintenance\":false,\"name\":\"functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-04-02T21:25:05Z\",\"repo_size\":null,\"slug_size\":60153408,\"stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"updated_at\":\"2018-04-02T21:25:17Z\",\"web_url\":\"https://functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "region",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:17 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4499",
+      "Request-Id" : "f7d22422-9231-4743-990f-dab4213d4b8b,8e4e7d9c-fbc2-ff88-82ec-faadc9a9fbe4,89e86710-561d-9604-fb05-1c6481ead1e2",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.079198002"
+    }
+  },
+  "uuid" : "8eab302b-a4cf-4937-aad6-7c2d41520257",
+  "persistent" : true,
+  "insertionIndex" : 31
+}

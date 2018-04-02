@@ -1,0 +1,36 @@
+{
+  "id" : "2afd3f17-44e4-4e97-81aa-b1a339652962",
+  "name" : "apps_database-functional-test-app_addon-attachments",
+  "request" : {
+    "url" : "/apps/database-functional-test-app/addon-attachments",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"addon\":{\"id\":\"2906f0d2-a585-484e-bc18-c643e33c7b13\",\"name\":\"postgresql-spherical-11416\",\"app\":{\"id\":\"77061924-5c3f-4f12-87da-7dcdf45c21d6\",\"name\":\"database-functional-test-app\"}},\"app\":{\"id\":\"77061924-5c3f-4f12-87da-7dcdf45c21d6\",\"name\":\"database-functional-test-app\"},\"id\":\"19a29da9-0ff2-4b16-b0aa-704180dcd13b\",\"name\":\"DATABASE\",\"namespace\":null,\"created_at\":\"2018-04-02T21:24:38Z\",\"updated_at\":\"2018-04-02T21:24:38Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/77061924-5c3f-4f12-87da-7dcdf45c21d6/addons/2906f0d2-a585-484e-bc18-c643e33c7b13\"}]",
+    "headers" : {
+      "Accept-Ranges" : "id, name",
+      "Cache-Control" : "private, no-cache",
+      "Content-Inclusion" : "addon:plan, config_vars",
+      "Content-Range" : "name DATABASE..DATABASE",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:18 GMT",
+      "Etag" : "\"f52b2b0224c216315130c30466d93000\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 21:24:38 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4497",
+      "Request-Id" : "907194d5-9d2b-4425-b910-dbed12e854d9,339bae89-6bab-66b6-6ffa-1d73ae92b2e9,3e5b5fa3-d384-fcc1-d703-1b67c851b010",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.105649282"
+    }
+  },
+  "uuid" : "2afd3f17-44e4-4e97-81aa-b1a339652962",
+  "persistent" : true,
+  "scenarioName" : "scenario-database-functional-test-app-addon-attachments",
+  "requiredScenarioState" : "scenario-database-functional-test-app-addon-attachments-3",
+  "insertionIndex" : 34
+}

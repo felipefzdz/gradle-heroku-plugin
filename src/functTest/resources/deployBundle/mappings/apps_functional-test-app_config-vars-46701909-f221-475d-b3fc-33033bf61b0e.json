@@ -1,0 +1,33 @@
+{
+  "id" : "46701909-f221-475d-b3fc-33033bf61b0e",
+  "name" : "apps_functional-test-app_config-vars",
+  "request" : {
+    "url" : "/apps/functional-test-app/config-vars",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"API_KEY\":\"secret\",\"DATABASE_URL\":\"postgres://ubokziilpjzvyp:68dd2b846e45d7cd8d33d690a291b8b9169f43af7a7821c92be764176730c747@ec2-54-243-54-6.compute-1.amazonaws.com:5432/d5th50k3bilpt4\",\"MODE\":\"dev\",\"RABBITMQ_BIGWIG_REST_API_URL\":\"https://nMqTs2SM:iUdIAmQUvjG4gUxso_k3N4EbE7UzoIZD@bigwig.lshift.net/management/176686/api\",\"RABBITMQ_BIGWIG_RX_URL\":\"amqp://nMqTs2SM:iUdIAmQUvjG4gUxso_k3N4EbE7UzoIZD@swift-fiver-620.bigwig.lshift.net:11151/lo8w6eNHu12v\",\"RABBITMQ_BIGWIG_TX_URL\":\"amqp://nMqTs2SM:iUdIAmQUvjG4gUxso_k3N4EbE7UzoIZD@swift-fiver-620.bigwig.lshift.net:11150/lo8w6eNHu12v\",\"RABBITMQ_BIGWIG_URL\":\"amqp://nMqTs2SM:iUdIAmQUvjG4gUxso_k3N4EbE7UzoIZD@swift-fiver-620.bigwig.lshift.net:11150/lo8w6eNHu12v\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:19 GMT",
+      "Etag" : "\"8ebdbeb497afb2cdd94e32f443ecd67c\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 21:25:05 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read-protected write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4495",
+      "Request-Id" : "358c08fb-e399-4900-ba5d-709d2f047d69,9e818090-51e1-1130-e23b-aaba0f5567d2,66ffdf16-a078-aa42-74ed-3a040886dd1f",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.04597183"
+    }
+  },
+  "uuid" : "46701909-f221-475d-b3fc-33033bf61b0e",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-config-vars",
+  "requiredScenarioState" : "scenario-functional-test-app-config-vars-2",
+  "insertionIndex" : 38
+}

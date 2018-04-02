@@ -1,0 +1,32 @@
+{
+  "id" : "1b35330c-9844-485e-8a99-c37ce482ebdd",
+  "name" : "apps_database-functional-test-app",
+  "request" : {
+    "url" : "/apps/database-functional-test-app",
+    "method" : "DELETE"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":null,\"build_stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"created_at\":\"2018-04-02T21:24:36Z\",\"id\":\"77061924-5c3f-4f12-87da-7dcdf45c21d6\",\"git_url\":\"https://git.heroku.com/database-functional-test-app.git\",\"maintenance\":false,\"name\":\"database-functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-04-02T21:24:38Z\",\"repo_size\":null,\"slug_size\":null,\"stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"updated_at\":\"2018-04-02T21:25:22Z\",\"web_url\":\"https://database-functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "region",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:22 GMT",
+      "Etag" : "\"95f189173f720fd07e06a575846c5ecf\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 21:24:38 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4490",
+      "Request-Id" : "4e619109-93cb-4b7d-a88c-508ac76af9cd,c04295f8-842d-bc94-c10c-877865757d4e,660e4873-6514-8f65-17b1-0e7b37ed43f0",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.115321222"
+    }
+  },
+  "uuid" : "1b35330c-9844-485e-8a99-c37ce482ebdd",
+  "persistent" : true,
+  "insertionIndex" : 46
+}

@@ -24,8 +24,15 @@ class DeployDatabaseService extends BaseDeployService {
         addConfig(app.config, app.name)
         waitForAppFormation(app.name, app.buildSource)
         updateProcessFormation(app.name, app.herokuProcess)
+        migrateDatabase(app)
         maybeDisableAcm(app)
 
         println "Successfully deployed app ${app.name}"
+    }
+
+    void migrateDatabase(HerokuDatabaseApp app) {
+        println "Starting 'migrator' dyno to migrate database on ${app.name}"
+        herokuClient.createDynoRequest(app.name, app.migrateCommand)
+
     }
 }

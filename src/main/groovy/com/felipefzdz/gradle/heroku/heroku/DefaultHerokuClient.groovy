@@ -5,6 +5,7 @@ import com.felipefzdz.gradle.heroku.heroku.api.AppDisableAcmRequest
 import com.felipefzdz.gradle.heroku.heroku.api.AppInfo
 import com.felipefzdz.gradle.heroku.heroku.api.CreateAddonAttachmentRequest
 import com.felipefzdz.gradle.heroku.heroku.api.CreateBuildRequest
+import com.felipefzdz.gradle.heroku.heroku.api.CreateDynoRequest
 import com.felipefzdz.gradle.heroku.heroku.api.EnableFeature
 import com.felipefzdz.gradle.heroku.heroku.api.GetAddonAttachmentsRequest
 import com.felipefzdz.gradle.heroku.heroku.api.GetBuildRequest
@@ -160,6 +161,11 @@ class DefaultHerokuClient implements HerokuClient {
     @Override
     void disableAcm(String appName) {
         api3(new AppDisableAcmRequest(appName))
+    }
+
+    @Override
+    void createDynoRequest(String appName, String migrateCommand) {
+        api3(new CreateDynoRequest(appName, migrateCommand))
     }
 
     private <T> T api3(Request<T> request) {

@@ -7,6 +7,8 @@ import org.gradle.api.NamedDomainObjectContainer
 @CompileStatic
 class HerokuDatabaseApp extends HerokuApp {
 
+    String migrateCommand
+
     DeployDatabaseService deployDatabaseService
 
     HerokuDatabaseApp(String name, DeployDatabaseService deployDatabaseService, NamedDomainObjectContainer<HerokuAddon> addons) {
@@ -19,4 +21,8 @@ class HerokuDatabaseApp extends HerokuApp {
         deployDatabaseService.deploy(this, delayAfterDestroyApp, apiKey)
     }
 
+    HerokuDatabaseApp migrateCommand(String migrateCommand) {
+        this.migrateCommand = migrateCommand
+        this
+    }
 }

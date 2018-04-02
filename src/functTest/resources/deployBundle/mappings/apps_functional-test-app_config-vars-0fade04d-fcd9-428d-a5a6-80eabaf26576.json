@@ -1,0 +1,36 @@
+{
+  "id" : "0fade04d-fcd9-428d-a5a6-80eabaf26576",
+  "name" : "apps_functional-test-app_config-vars",
+  "request" : {
+    "url" : "/apps/functional-test-app/config-vars",
+    "method" : "PATCH",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"MODE\":\"dev\",\"API_KEY\":\"secret\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"API_KEY\":\"secret\",\"MODE\":\"dev\",\"RABBITMQ_BIGWIG_REST_API_URL\":\"https://nMqTs2SM:iUdIAmQUvjG4gUxso_k3N4EbE7UzoIZD@bigwig.lshift.net/management/176686/api\",\"RABBITMQ_BIGWIG_RX_URL\":\"amqp://nMqTs2SM:iUdIAmQUvjG4gUxso_k3N4EbE7UzoIZD@swift-fiver-620.bigwig.lshift.net:11151/lo8w6eNHu12v\",\"RABBITMQ_BIGWIG_TX_URL\":\"amqp://nMqTs2SM:iUdIAmQUvjG4gUxso_k3N4EbE7UzoIZD@swift-fiver-620.bigwig.lshift.net:11150/lo8w6eNHu12v\",\"RABBITMQ_BIGWIG_URL\":\"amqp://nMqTs2SM:iUdIAmQUvjG4gUxso_k3N4EbE7UzoIZD@swift-fiver-620.bigwig.lshift.net:11150/lo8w6eNHu12v\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:04 GMT",
+      "Etag" : "\"f5aaa2f48337d1f94074791865f68ceb\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 21:24:59 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4498",
+      "Request-Id" : "c27e5741-5cca-406a-a37c-3cb19b5675d1,a9d17aab-e2a6-5d4c-09a8-f8762e0228fe,2aedca5c-9d14-857c-2d9b-26b2ed884a7a",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.112300924"
+    }
+  },
+  "uuid" : "0fade04d-fcd9-428d-a5a6-80eabaf26576",
+  "persistent" : true,
+  "insertionIndex" : 21
+}

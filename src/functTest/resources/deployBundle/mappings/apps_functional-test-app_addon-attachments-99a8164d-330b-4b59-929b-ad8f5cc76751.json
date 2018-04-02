@@ -1,0 +1,36 @@
+{
+  "id" : "99a8164d-330b-4b59-929b-ad8f5cc76751",
+  "name" : "apps_functional-test-app_addon-attachments",
+  "request" : {
+    "url" : "/apps/functional-test-app/addon-attachments",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"addon\":{\"id\":\"2906f0d2-a585-484e-bc18-c643e33c7b13\",\"name\":\"postgresql-spherical-11416\",\"app\":{\"id\":\"77061924-5c3f-4f12-87da-7dcdf45c21d6\",\"name\":\"database-functional-test-app\"}},\"app\":{\"id\":\"4ca91a06-82af-441c-a35a-f21120eeec61\",\"name\":\"functional-test-app\"},\"id\":\"00b98c80-31ad-4974-a311-2228b6c47569\",\"name\":\"DATABASE\",\"namespace\":null,\"created_at\":\"2018-04-02T21:25:05Z\",\"updated_at\":\"2018-04-02T21:25:05Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/4ca91a06-82af-441c-a35a-f21120eeec61/addons/2906f0d2-a585-484e-bc18-c643e33c7b13\"},{\"addon\":{\"id\":\"16a37903-501d-47bf-9aa7-bf30996a7843\",\"name\":\"rabbitmq-bigwig-objective-82481\",\"app\":{\"id\":\"4ca91a06-82af-441c-a35a-f21120eeec61\",\"name\":\"functional-test-app\"}},\"app\":{\"id\":\"4ca91a06-82af-441c-a35a-f21120eeec61\",\"name\":\"functional-test-app\"},\"id\":\"dad7f156-2c46-42a0-b9cc-921828036a5c\",\"name\":\"RABBITMQ_BIGWIG\",\"namespace\":null,\"created_at\":\"2018-04-02T21:24:42Z\",\"updated_at\":\"2018-04-02T21:24:42Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/4ca91a06-82af-441c-a35a-f21120eeec61/addons/16a37903-501d-47bf-9aa7-bf30996a7843\"}]",
+    "headers" : {
+      "Accept-Ranges" : "id, name",
+      "Cache-Control" : "private, no-cache",
+      "Content-Inclusion" : "addon:plan, config_vars",
+      "Content-Range" : "name DATABASE..RABBITMQ_BIGWIG",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:18 GMT",
+      "Etag" : "\"bf26f1ccda6c466383cc6b275fff94d5\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 21:25:05 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4497",
+      "Request-Id" : "ce53588d-af48-4411-a3ae-9acb9944f724,b905137d-da4b-6a5e-8370-c6c635c16714,1925dc36-9a34-870b-81f0-ddebfb3708e8",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.074348189"
+    }
+  },
+  "uuid" : "99a8164d-330b-4b59-929b-ad8f5cc76751",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-addon-attachments",
+  "requiredScenarioState" : "scenario-functional-test-app-addon-attachments-3",
+  "insertionIndex" : 35
+}

@@ -1,0 +1,31 @@
+{
+  "id" : "fe721612-0eff-4dd4-a552-00db9f0830d7",
+  "name" : "apps_functional-test-app_features_http-session-affinity",
+  "request" : {
+    "url" : "/apps/functional-test-app/features/http-session-affinity",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"created_at\":\"2015-02-19T23:11:38Z\",\"description\":\"Enable session affinity for all requests [general]\",\"doc_url\":\"https://devcenter.heroku.com/articles/session-affinity\",\"id\":\"52cb4f79-61a0-4d29-bafa-51ef7d801229\",\"name\":\"http-session-affinity\",\"state\":\"general\",\"updated_at\":\"2016-04-23T00:58:26Z\",\"display_name\":null,\"feedback_email\":null,\"enabled\":true}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:20 GMT",
+      "Etag" : "\"50edbca0744027399f03062d25598e83\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 21:25:17 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4494",
+      "Request-Id" : "bfe833cf-0a9f-40d7-adb6-4553e0946cc7,ce4831d4-11e9-c935-c7be-0a5fdad1fc29,f65d4643-95d2-31a7-c92e-e96dcf20fde7",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.058591373"
+    }
+  },
+  "uuid" : "fe721612-0eff-4dd4-a552-00db9f0830d7",
+  "persistent" : true,
+  "insertionIndex" : 39
+}

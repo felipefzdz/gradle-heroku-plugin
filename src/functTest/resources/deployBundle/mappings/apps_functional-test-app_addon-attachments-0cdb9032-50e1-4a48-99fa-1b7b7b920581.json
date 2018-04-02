@@ -1,0 +1,37 @@
+{
+  "id" : "0cdb9032-50e1-4a48-99fa-1b7b7b920581",
+  "name" : "apps_functional-test-app_addon-attachments",
+  "request" : {
+    "url" : "/apps/functional-test-app/addon-attachments",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"addon\":{\"id\":\"16a37903-501d-47bf-9aa7-bf30996a7843\",\"name\":\"rabbitmq-bigwig-objective-82481\",\"app\":{\"id\":\"4ca91a06-82af-441c-a35a-f21120eeec61\",\"name\":\"functional-test-app\"}},\"app\":{\"id\":\"4ca91a06-82af-441c-a35a-f21120eeec61\",\"name\":\"functional-test-app\"},\"id\":\"dad7f156-2c46-42a0-b9cc-921828036a5c\",\"name\":\"RABBITMQ_BIGWIG\",\"namespace\":null,\"created_at\":\"2018-04-02T21:24:42Z\",\"updated_at\":\"2018-04-02T21:24:42Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/4ca91a06-82af-441c-a35a-f21120eeec61/addons/16a37903-501d-47bf-9aa7-bf30996a7843\"}]",
+    "headers" : {
+      "Accept-Ranges" : "id, name",
+      "Cache-Control" : "private, no-cache",
+      "Content-Inclusion" : "addon:plan, config_vars",
+      "Content-Range" : "name RABBITMQ_BIGWIG..RABBITMQ_BIGWIG",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:05 GMT",
+      "Etag" : "\"2b69a3b2d35ca1260a76ee55aa7d35de\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 21:24:42 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4497",
+      "Request-Id" : "2156169a-8e33-4ba4-b9c6-685cbad1b564,7e7ec960-d7a4-7c3e-be5a-3cfd80155c99,9137f32a-bf34-1c48-3319-5cd597be2f5a",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.087132614"
+    }
+  },
+  "uuid" : "0cdb9032-50e1-4a48-99fa-1b7b7b920581",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-addon-attachments",
+  "requiredScenarioState" : "scenario-functional-test-app-addon-attachments-2",
+  "newScenarioState" : "scenario-functional-test-app-addon-attachments-3",
+  "insertionIndex" : 23
+}

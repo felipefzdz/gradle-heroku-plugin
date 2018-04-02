@@ -1,0 +1,34 @@
+{
+  "id" : "e9d78524-52c9-45eb-8c70-1e482f44555d",
+  "name" : "apps_functional-test-app",
+  "request" : {
+    "url" : "/apps/functional-test-app",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":\"JVM Common\",\"build_stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"created_at\":\"2018-04-02T21:24:40Z\",\"id\":\"4ca91a06-82af-441c-a35a-f21120eeec61\",\"git_url\":\"https://git.heroku.com/functional-test-app.git\",\"maintenance\":false,\"name\":\"functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-04-02T21:25:05Z\",\"repo_size\":null,\"slug_size\":60153408,\"stack\":{\"id\":\"ee582d3c-717d-4a57-ba5f-8b3a39f3a817\",\"name\":\"heroku-16\"},\"updated_at\":\"2018-04-02T21:25:17Z\",\"web_url\":\"https://functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "region",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:21 GMT",
+      "Etag" : "\"50edbca0744027399f03062d25598e83\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 21:25:17 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4491",
+      "Request-Id" : "0baf19db-6880-425b-b5be-e5631547c047,6082201d-7cc9-a1ec-d800-df0afd7abdb4,d630a90f-4ef0-9162-4777-a366e9264cec",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.066883431"
+    }
+  },
+  "uuid" : "e9d78524-52c9-45eb-8c70-1e482f44555d",
+  "persistent" : true,
+  "scenarioName" : "scenario-apps-functional-test-app",
+  "requiredScenarioState" : "scenario-apps-functional-test-app-3",
+  "insertionIndex" : 44
+}

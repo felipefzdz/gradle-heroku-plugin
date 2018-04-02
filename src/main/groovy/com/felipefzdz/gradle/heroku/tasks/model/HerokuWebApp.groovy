@@ -30,12 +30,12 @@ class HerokuWebApp extends HerokuApp {
         action.execute(addonAttachments)
     }
 
-    HerokuApp features(List<String> features) {
+    HerokuWebApp features(List<String> features) {
         this.features = features
         this
     }
 
-    HerokuApp domains(List<String> domains) {
+    HerokuWebApp domains(List<String> domains) {
         this.domains = domains
         this
     }

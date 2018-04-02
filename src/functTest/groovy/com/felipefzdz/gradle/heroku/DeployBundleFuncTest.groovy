@@ -45,7 +45,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                                 waitUntilStarted = true
                             } 
                         }
-                        
+                        migrateCommand = 'bash'
                     }
                     '$APP_NAME'(HerokuWebApp) {
                         teamName = 'test'

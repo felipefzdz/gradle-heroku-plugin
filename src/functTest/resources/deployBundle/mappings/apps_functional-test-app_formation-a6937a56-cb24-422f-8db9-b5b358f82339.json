@@ -1,0 +1,34 @@
+{
+  "id" : "a6937a56-cb24-422f-8db9-b5b358f82339",
+  "name" : "apps_functional-test-app_formation",
+  "request" : {
+    "url" : "/apps/functional-test-app/formation",
+    "method" : "PATCH",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"updates\":[{\"type\":\"web\",\"size\":\"standard-1x\",\"quantity\":2}]}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"app\":{\"id\":\"4ca91a06-82af-441c-a35a-f21120eeec61\",\"name\":\"functional-test-app\"},\"command\":\"bin/example\",\"created_at\":\"2018-04-02T21:24:59Z\",\"id\":\"3ca58087-9ce1-437a-a003-fdc574adba96\",\"type\":\"web\",\"quantity\":2,\"size\":\"Standard-1X\",\"updated_at\":\"2018-04-02T21:25:06Z\"}]",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:25:06 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4495",
+      "Request-Id" : "80b81540-35d2-4bcb-a708-41d9a547b02a,b497d6e7-f722-38c8-88a8-c5554cd4c78f,ed6a2b25-9480-e70c-aadc-cb7de4236c9d",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.126593536"
+    }
+  },
+  "uuid" : "a6937a56-cb24-422f-8db9-b5b358f82339",
+  "persistent" : true,
+  "insertionIndex" : 27
+}

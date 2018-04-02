@@ -1,0 +1,35 @@
+{
+  "id" : "add2f436-71c4-4a16-9272-b154f85fa47b",
+  "name" : "apps_functional-test-app_addons",
+  "request" : {
+    "url" : "/apps/functional-test-app/addons",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"plan\":\"rabbitmq-bigwig:pipkin\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"actions\":[],\"config_vars\":[\"RABBITMQ_BIGWIG_REST_API_URL\",\"RABBITMQ_BIGWIG_RX_URL\",\"RABBITMQ_BIGWIG_TX_URL\",\"RABBITMQ_BIGWIG_URL\"],\"created_at\":\"2018-04-02T21:24:41Z\",\"id\":\"16a37903-501d-47bf-9aa7-bf30996a7843\",\"name\":\"rabbitmq-bigwig-objective-82481\",\"addon_service\":{\"id\":\"6ed5b84a-cbfe-4cc1-ac97-a11b50e7a2b5\",\"name\":\"rabbitmq-bigwig\"},\"plan\":{\"id\":\"b7732348-0b6b-4ebf-bd0e-7e51f6ffd70e\",\"name\":\"rabbitmq-bigwig:pipkin\"},\"app\":{\"id\":\"4ca91a06-82af-441c-a35a-f21120eeec61\",\"name\":\"functional-test-app\"},\"provider_id\":\"176686\",\"state\":\"provisioned\",\"updated_at\":\"2018-04-02T21:24:42Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/4ca91a06-82af-441c-a35a-f21120eeec61/addons/16a37903-501d-47bf-9aa7-bf30996a7843\",\"billed_price\":{\"cents\":0,\"unit\":\"month\"}}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "addon_service, plan",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 21:24:42 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4496",
+      "Request-Id" : "a01f51c9-70a2-4ecb-b1d7-d056aa500c6f,8505f98c-45e6-be8b-780f-155b9515f3bc,34dc97a7-48d7-251f-56b3-c9f4d2ea0cc5",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "2.039493588"
+    }
+  },
+  "uuid" : "add2f436-71c4-4a16-9272-b154f85fa47b",
+  "persistent" : true,
+  "insertionIndex" : 10
+}
