@@ -7,7 +7,6 @@ import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.deployService
 import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.herokuClient
 
 @CompileStatic
@@ -26,7 +25,6 @@ class HerokuPlugin implements Plugin<Project> {
                 task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
-                task.deployService = deployService
             }
         }
 
@@ -34,7 +32,6 @@ class HerokuPlugin implements Plugin<Project> {
             task.apiKey = extension.apiKey
             task.bundle = extension.bundle
             task.herokuClient = herokuClient
-            task.deployService = deployService
         }
     }
 

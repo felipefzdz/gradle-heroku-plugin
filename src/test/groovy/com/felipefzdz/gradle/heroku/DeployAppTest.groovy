@@ -8,7 +8,7 @@ import spock.lang.Specification
 
 class DeployAppTest extends Specification {
 
-    DeployService deployService
+    DeployWebService deployService
     int delayAfterDestroyApp = 20
 
     HerokuClient herokuClient = Mock(HerokuClient)
@@ -18,15 +18,15 @@ class DeployAppTest extends Specification {
     String TEAM_NAME = 'teamName'
     String STACK = 'cedar-14'
     Boolean PERSONAL_APP = true
-    HerokuApp app
+    HerokuWebApp app
 
     def setup() {
 
-        deployService = new DeployService(new InstallAddonsService(herokuClient), herokuClient,
+        deployService = new DeployWebService(new InstallAddonsService(herokuClient), herokuClient,
                 new ConfigureLogDrainsService(herokuClient), new CreateBuildService(herokuClient),
                 new EnableFeaturesService(herokuClient), new AddAddonAttachmentsService(herokuClient))
 
-        app = new HerokuWebApp(APP_NAME, null, null)
+        app = new HerokuWebApp(APP_NAME, deployService, null, null)
         app.teamName = TEAM_NAME
         app.personalApp = PERSONAL_APP
         app.stack = STACK

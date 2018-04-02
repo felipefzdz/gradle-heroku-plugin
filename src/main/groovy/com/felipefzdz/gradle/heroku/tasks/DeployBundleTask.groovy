@@ -3,7 +3,6 @@ package com.felipefzdz.gradle.heroku.tasks
 import com.felipefzdz.gradle.heroku.HerokuAppContainer
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
-import com.felipefzdz.gradle.heroku.tasks.services.DeployService
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
@@ -23,15 +22,12 @@ class DeployBundleTask extends DefaultTask {
     HerokuClient herokuClient
 
     @Internal
-    DeployService deployService
-
-    @Internal
     int delayAfterDestroyApp = 20
 
     @TaskAction
     void deployBundle() {
         bundle.toList().reverse().each { HerokuApp app ->
-            deployService.deploy(app, delayAfterDestroyApp, apiKey.get())
+            app.deploy(delayAfterDestroyApp, apiKey.get())
         }
     }
 }

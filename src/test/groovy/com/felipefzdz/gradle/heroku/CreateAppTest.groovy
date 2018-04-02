@@ -20,7 +20,7 @@ class CreateAppTest extends Specification {
     def setup() {
         createAppService = new CreateAppService(herokuClient)
 
-        app = new HerokuApp(APP_NAME, null, null)
+        app = new HerokuApp(APP_NAME, null)
         app.teamName = TEAM_NAME
         app.personalApp = PERSONAL_APP
         app.stack = STACK

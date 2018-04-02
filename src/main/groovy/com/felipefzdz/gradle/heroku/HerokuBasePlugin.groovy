@@ -2,10 +2,7 @@ package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.dependencyinjection.Graph
 import com.felipefzdz.gradle.heroku.tasks.*
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddonAttachment
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.model.*
 import groovy.transform.CompileStatic
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -71,22 +68,23 @@ class HerokuBasePlugin implements Plugin<Project> {
                 task.herokuClient = herokuClient
             }
 
-            project.tasks.create("herokuEnableFeaturesFor${app.name.capitalize()}", EnableFeaturesTask) { EnableFeaturesTask task ->
-                task.apiKey = extension.apiKey
-                task.app = app
-                task.enableFeaturesService = enableFeaturesService
-            }
-
             project.tasks.create("herokuInstallAddonsFor${app.name.capitalize()}", InstallAddonsTask) { InstallAddonsTask task ->
                 task.apiKey = extension.apiKey
                 task.app = app
                 task.installAddonsService = installAddonsService
             }
 
-            project.tasks.create("herokuAddAddonAttachmentsFor${app.name.capitalize()}", AddAddonAttachmentsTask) { AddAddonAttachmentsTask task ->
-                task.apiKey = extension.apiKey
-                task.app = app
-                task.addAddonAttachmentsService = addAddonAttachmentsService
+            if (app instanceof HerokuWebApp) {
+                project.tasks.create("herokuEnableFeaturesFor${app.name.capitalize()}", EnableFeaturesTask) { EnableFeaturesTask task ->
+                    task.apiKey = extension.apiKey
+                    task.app = app as HerokuWebApp
+                    task.enableFeaturesService = enableFeaturesService
+                }
+                project.tasks.create("herokuAddAddonAttachmentsFor${app.name.capitalize()}", AddAddonAttachmentsTask) { AddAddonAttachmentsTask task ->
+                    task.apiKey = extension.apiKey
+                    task.app = app as HerokuWebApp
+                    task.addAddonAttachmentsService = addAddonAttachmentsService
+                }
             }
         }
 
@@ -108,7 +106,11 @@ class HerokuBasePlugin implements Plugin<Project> {
     HerokuAppContainer createHerokuAppContainer(Project project) {
         def container = instantiator.newInstance(HerokuAppContainer, instantiator)
         container.registerFactory(HerokuWebApp) { String name ->
-            return instantiator.newInstance(HerokuWebApp, name, project.container(HerokuAddon), project.container(HerokuAddonAttachment))
+            return instantiator.newInstance(HerokuWebApp, name, deployWebService, project.container(HerokuAddon), project.container(HerokuAddonAttachment))
+        }
+
+        container.registerFactory(HerokuDatabaseApp) { String name ->
+            return instantiator.newInstance(HerokuDatabaseApp, name, deployDatabaseService, project.container(HerokuAddon))
         }
         return container
 

@@ -16,21 +16,13 @@ class HerokuApp implements Named {
     List<String> logDrains
     BuildSource buildSource
     Map<String, String> config
-    List<String> features
     NamedDomainObjectContainer<HerokuAddon> addons
-    NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments
     HerokuProcess herokuProcess
-    List<String> domains
-    ReadinessProbe readinessProbe
     Boolean disableAcm
 
-    HerokuApp(String name,
-              NamedDomainObjectContainer<HerokuAddon> addons,
-              NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments
-    ) {
+    HerokuApp(String name, NamedDomainObjectContainer<HerokuAddon> addons) {
         this.name = name
         this.addons = addons
-        this.addonAttachments = addonAttachments
     }
 
     HerokuApp teamName(String teamName) {
@@ -73,11 +65,6 @@ class HerokuApp implements Named {
         this
     }
 
-    HerokuApp features(List<String> features) {
-        this.features = features
-        this
-    }
-
     void process(Action<? super HerokuProcess> process) {
         this.herokuProcess = new HerokuProcess()
         process.execute(herokuProcess)
@@ -85,20 +72,6 @@ class HerokuApp implements Named {
 
     void addons(Action<? super NamedDomainObjectContainer<HerokuAddon>> action) {
         action.execute(addons)
-    }
-
-    void addonAttachments(Action<? super NamedDomainObjectContainer<HerokuAddonAttachment>> action) {
-        action.execute(addonAttachments)
-    }
-
-    HerokuApp domains(List<String> domains) {
-        this.domains = domains
-        this
-    }
-
-    void readinessProbe(Action<? super ReadinessProbe> readinessProbe) {
-        this.readinessProbe = new ReadinessProbe()
-        readinessProbe.execute(this.readinessProbe)
     }
 
     HerokuApp disableAcm(Boolean disableAcm) {
@@ -114,5 +87,7 @@ class HerokuApp implements Named {
         return stack ?: 'heroku-16'
     }
 
-
+    void deploy(int delayAfterDestroyApp, String apiKey) {
+        throw new UnsupportedOperationException()
+    }
 }

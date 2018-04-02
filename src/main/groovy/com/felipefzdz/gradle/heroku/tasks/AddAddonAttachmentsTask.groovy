@@ -1,6 +1,6 @@
 package com.felipefzdz.gradle.heroku.tasks
 
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 import com.felipefzdz.gradle.heroku.tasks.services.AddAddonAttachmentsService
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
@@ -15,7 +15,7 @@ class AddAddonAttachmentsTask extends DefaultTask {
     Property<String> apiKey
 
     @Internal
-    HerokuApp app
+    HerokuWebApp app
 
     @Internal
     AddAddonAttachmentsService addAddonAttachmentsService

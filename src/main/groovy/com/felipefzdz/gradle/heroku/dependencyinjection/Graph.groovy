@@ -13,7 +13,8 @@ class Graph {
     static private AddAddonAttachmentsService addAddonAttachmentsService
     static private CreateAppService createAppService
     static private DestroyAppService destroyAppService
-    static private DeployService deployService
+    static private DeployWebService deployWebService
+    static private DeployDatabaseService deployDatabaseService
 
     static void init() {
         herokuClient = new DefaultHerokuClient()
@@ -24,9 +25,12 @@ class Graph {
         addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient)
         createAppService = new CreateAppService(herokuClient)
         destroyAppService = new DestroyAppService(herokuClient)
-        deployService =
-                new DeployService(installAddonsService, herokuClient, configureLogDrainsService,
+        deployWebService =
+                new DeployWebService(installAddonsService, herokuClient, configureLogDrainsService,
                         createBuildService, enableFeaturesService, addAddonAttachmentsService)
+        deployDatabaseService =
+                new DeployDatabaseService(installAddonsService, herokuClient, configureLogDrainsService,
+                        createBuildService)
     }
 
     static HerokuClient getHerokuClient() {
@@ -61,7 +65,11 @@ class Graph {
         return destroyAppService
     }
 
-    static DeployService getDeployService() {
-        return deployService
+    static DeployWebService getDeployWebService() {
+        return deployWebService
+    }
+
+    static DeployDatabaseService getDeployDatabaseService() {
+        return deployDatabaseService
     }
 }
