@@ -1,0 +1,23 @@
+{
+  "id" : "15231c37-a23f-44b6-a32c-74ed5348e143",
+  "name" : "version",
+  "request" : {
+    "url" : "/version",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"commitId\": \" 12345678\",\n  \"buildNumber\": \"666\"\n}",
+    "headers" : {
+      "Server" : "Cowboy",
+      "Date" : "Mon, 02 Apr 2018 15:31:09 GMT",
+      "Connection" : "keep-alive",
+      "Content-Type" : "text/plain;charset=UTF-8",
+      "Set-Cookie" : "heroku-session-affinity=ACyDaANoA24IAeUngaX///8HYgAKbDxiAAf1WWEBbAAAAAFtAAAABXdlYi4xalyyKDCejEx3q12PnDMdbmzS6CTA; Version=1; Expires=Tue, 03-Apr-2018 15:31:09 GMT; Max-Age=86400; Domain=functional-test-app.herokuapp.com; Path=/",
+      "Via" : "1.1 vegur"
+    }
+  },
+  "uuid" : "15231c37-a23f-44b6-a32c-74ed5348e143",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

@@ -1,0 +1,34 @@
+{
+  "id" : "e6794d25-1143-449d-be51-926e403b8e54",
+  "name" : "apps_functional-test-app_log-drains",
+  "request" : {
+    "url" : "/apps/functional-test-app/log-drains",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"url\":\"syslog://logs.example.com\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"addon\":null,\"created_at\":\"2018-04-02T15:30:35Z\",\"id\":\"47faa951-94d1-43f4-9145-f46a63e11c30\",\"token\":\"d.4e5530cb-3af7-4d01-b3f2-24a7e4ac7df6\",\"updated_at\":\"2018-04-02T15:30:36Z\",\"url\":\"syslog://logs.example.com\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 15:30:36 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4496",
+      "Request-Id" : "de43c6d3-fc1a-4b68-b952-4b828e8ea9e1,04fac8c3-fc72-560a-343e-b76aefbcde98,ecc43515-8023-d0dd-e7a1-6a894482e170",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.940113095"
+    }
+  },
+  "uuid" : "e6794d25-1143-449d-be51-926e403b8e54",
+  "persistent" : true,
+  "insertionIndex" : 12
+}

@@ -1,0 +1,35 @@
+{
+  "id" : "8498819f-4daa-48b4-85dd-4247b7778704",
+  "name" : "apps_functional-test-app_domains",
+  "request" : {
+    "url" : "/apps/functional-test-app/domains",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"acm_status\":null,\"acm_status_reason\":null,\"app\":{\"id\":\"8eaf4edf-ead1-4f1f-9c68-616b743929d5\",\"name\":\"functional-test-app\"},\"cname\":null,\"created_at\":\"2018-04-02T15:30:32Z\",\"hostname\":\"functional-test-app.herokuapp.com\",\"id\":\"95e40cef-b417-4be7-82ba-ee3020592fd0\",\"kind\":\"heroku\",\"status\":\"none\",\"updated_at\":\"2018-04-02T15:30:32Z\"},{\"acm_status\":null,\"acm_status_reason\":null,\"app\":{\"id\":\"8eaf4edf-ead1-4f1f-9c68-616b743929d5\",\"name\":\"functional-test-app\"},\"cname\":\"my.domain.com.herokudns.com\",\"created_at\":\"2018-04-02T15:30:58Z\",\"hostname\":\"my.domain.com\",\"id\":\"2d2cfbe6-0c8b-4978-901f-2bf8d5e08cc6\",\"kind\":\"custom\",\"status\":\"pending\",\"updated_at\":\"2018-04-02T15:30:58Z\"},{\"acm_status\":null,\"acm_status_reason\":null,\"app\":{\"id\":\"8eaf4edf-ead1-4f1f-9c68-616b743929d5\",\"name\":\"functional-test-app\"},\"cname\":\"my.domain.org.herokudns.com\",\"created_at\":\"2018-04-02T15:30:58Z\",\"hostname\":\"my.domain.org\",\"id\":\"e4f02b39-4fad-4436-8f29-c07f3df6b06f\",\"kind\":\"custom\",\"status\":\"pending\",\"updated_at\":\"2018-04-02T15:30:58Z\"}]",
+    "headers" : {
+      "Accept-Ranges" : "hostname, id",
+      "Cache-Control" : "private, no-cache",
+      "Content-Range" : "hostname functional-test-app.herokuapp.com..my.domain.org",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 15:31:14 GMT",
+      "Etag" : "\"75de26d8b575e852cf565a615e297ee1\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 15:30:58 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read read-protected write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4492",
+      "Request-Id" : "01f11953-3b0b-4dd7-a849-1fad3fee3f2c,13baa05e-d181-dc7c-7c80-a2f10367c1b0,2a725afd-5a61-031a-ddff-bd7adecdd4e3",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.076346553"
+    }
+  },
+  "uuid" : "8498819f-4daa-48b4-85dd-4247b7778704",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-domains",
+  "requiredScenarioState" : "scenario-functional-test-app-domains-2",
+  "insertionIndex" : 42
+}

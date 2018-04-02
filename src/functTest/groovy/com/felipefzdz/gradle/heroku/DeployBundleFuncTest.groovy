@@ -4,7 +4,7 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class DeployBundleFuncTest extends BaseFuncTest {
 
-    String ANOTHER_APP_NAME = 'another-functional-test-app'
+    String DATABASE_APP_NAME = 'database-functional-test-app'
     String LOG_DRAIN_URL = 'syslog://logs.example.com'
     String ANOTHER_LOG_DRAIN_URL = 'syslog://another-logs.example.com'
     String FEATURE = 'http-session-affinity'
@@ -23,18 +23,19 @@ class DeployBundleFuncTest extends BaseFuncTest {
 
     def cleanup() {
         herokuClient.destroyApp(APP_NAME)
-        herokuClient.destroyApp(ANOTHER_APP_NAME)
+        herokuClient.destroyApp(DATABASE_APP_NAME)
     }
 
     def "can deploy a bundle"() {
         given:
         buildFile << """
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+            import com.felipefzdz.gradle.heroku.tasks.model.HerokuDatabaseApp
 
             heroku {
                 apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
-                    '$APP_NAME'(HerokuWebApp) {
+                    '$DATABASE_APP_NAME'(HerokuDatabaseApp) {
                         teamName = 'test'
                         stack = 'heroku-16'
                         personalApp = true
@@ -42,6 +43,23 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             database {
                                 plan = 'heroku-postgresql:hobby-dev'
                                 waitUntilStarted = true
+                            } 
+                        }
+                        
+                    }
+                    '$APP_NAME'(HerokuWebApp) {
+                        teamName = 'test'
+                        stack = 'heroku-16'
+                        personalApp = true
+                        addons {
+                            'rabbitmq-bigwig' {
+                                plan = 'rabbitmq-bigwig:pipkin'
+                                waitUntilStarted = true
+                            } 
+                        }
+                        addonAttachments {
+                            database {
+                                owningApp = '$DATABASE_APP_NAME'
                             } 
                         }
                         logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
@@ -64,25 +82,10 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             }
                         }
                         disableAcm = true
+                        domains = ['$FIRST_DOMAIN', '$SECOND_DOMAIN'] 
                         
                     }
-                    '$ANOTHER_APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                        addons {
-                            'rabbitmq-bigwig' {
-                                plan = 'rabbitmq-bigwig:pipkin'
-                                waitUntilStarted = true
-                            } 
-                        }
-                        addonAttachments {
-                            database {
-                                owningApp = '$APP_NAME'
-                            } 
-                        }
-                        domains = ['$FIRST_DOMAIN', '$SECOND_DOMAIN'] 
-                    }
+                    
                 }
             }
         """
@@ -91,16 +94,17 @@ class DeployBundleFuncTest extends BaseFuncTest {
         def result = run("herokuDeployBundle")
 
         then:
+        result.output.contains("Successfully deployed app $DATABASE_APP_NAME")
         result.output.contains("Successfully deployed app $APP_NAME")
         result.task(":herokuDeployBundle").outcome == SUCCESS
 
         and:
+        herokuClient.appExists(DATABASE_APP_NAME)
         herokuClient.appExists(APP_NAME)
-        herokuClient.appExists(ANOTHER_APP_NAME)
 
         and:
-        herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']
-        herokuClient.getAddonAttachments(ANOTHER_APP_NAME)*.name.containsAll(['RABBITMQ_BIGWIG', 'DATABASE'])
+        herokuClient.getAddonAttachments(DATABASE_APP_NAME)*.name == ['DATABASE']
+        herokuClient.getAddonAttachments(APP_NAME)*.name.containsAll(['RABBITMQ_BIGWIG', 'DATABASE'])
 
         and:
         herokuClient.listLogDrains(APP_NAME)*.url.containsAll([LOG_DRAIN_URL, ANOTHER_LOG_DRAIN_URL])
@@ -122,7 +126,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
         herokuClient.getFormations(APP_NAME)*.quantity == [2]
 
         and:
-        herokuClient.getCustomDomains(ANOTHER_APP_NAME).containsAll([FIRST_DOMAIN, SECOND_DOMAIN])
+        herokuClient.getCustomDomains(APP_NAME).containsAll([FIRST_DOMAIN, SECOND_DOMAIN])
 
         and:
         !herokuClient.getApp(APP_NAME).acm

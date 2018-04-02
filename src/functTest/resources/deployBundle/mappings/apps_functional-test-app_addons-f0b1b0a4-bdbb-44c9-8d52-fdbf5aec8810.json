@@ -1,0 +1,35 @@
+{
+  "id" : "f0b1b0a4-bdbb-44c9-8d52-fdbf5aec8810",
+  "name" : "apps_functional-test-app_addons",
+  "request" : {
+    "url" : "/apps/functional-test-app/addons",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"plan\":\"rabbitmq-bigwig:pipkin\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"actions\":[],\"config_vars\":[\"RABBITMQ_BIGWIG_REST_API_URL\",\"RABBITMQ_BIGWIG_RX_URL\",\"RABBITMQ_BIGWIG_TX_URL\",\"RABBITMQ_BIGWIG_URL\"],\"created_at\":\"2018-04-02T15:30:32Z\",\"id\":\"99f6c8f4-e65e-4690-9a30-a2b5f3bdf42f\",\"name\":\"rabbitmq-bigwig-encircled-45672\",\"addon_service\":{\"id\":\"6ed5b84a-cbfe-4cc1-ac97-a11b50e7a2b5\",\"name\":\"rabbitmq-bigwig\"},\"plan\":{\"id\":\"b7732348-0b6b-4ebf-bd0e-7e51f6ffd70e\",\"name\":\"rabbitmq-bigwig:pipkin\"},\"app\":{\"id\":\"8eaf4edf-ead1-4f1f-9c68-616b743929d5\",\"name\":\"functional-test-app\"},\"provider_id\":\"176634\",\"state\":\"provisioned\",\"updated_at\":\"2018-04-02T15:30:33Z\",\"web_url\":\"https://addons-sso.heroku.com/apps/8eaf4edf-ead1-4f1f-9c68-616b743929d5/addons/99f6c8f4-e65e-4690-9a30-a2b5f3bdf42f\",\"billed_price\":{\"cents\":0,\"unit\":\"month\"}}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "addon_service, plan",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 15:30:34 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4496",
+      "Request-Id" : "afc8de02-28a0-4bef-9129-5fe51a4775df,d168e854-17be-cd49-0d4d-86dd992aeebd,4cf2c42a-ef12-989f-e690-37b0e18de605",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "1.277726321"
+    }
+  },
+  "uuid" : "f0b1b0a4-bdbb-44c9-8d52-fdbf5aec8810",
+  "persistent" : true,
+  "insertionIndex" : 9
+}

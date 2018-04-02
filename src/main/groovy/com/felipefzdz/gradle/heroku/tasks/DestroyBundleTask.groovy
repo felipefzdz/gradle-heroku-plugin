@@ -27,7 +27,7 @@ class DestroyBundleTask extends DefaultTask {
 
     @TaskAction
     void destroyBundle() {
-        bundle.toList().reverse().each { HerokuApp app ->
+        bundle.toList().each { HerokuApp app ->
             destroyAppService.destroyApp(apiKey.get(), app.name)
         }
     }

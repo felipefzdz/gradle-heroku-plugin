@@ -27,7 +27,7 @@ class CreateBundleTask extends DefaultTask {
 
     @TaskAction
     void createBundle() {
-        bundle.toList().reverse().each { HerokuApp app ->
+        bundle.toList().each { HerokuApp app ->
             createAppService.createApp(app, apiKey.get(), app.name)
         }
     }

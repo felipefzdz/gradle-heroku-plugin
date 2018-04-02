@@ -1,0 +1,33 @@
+{
+  "id" : "80c60519-4e33-486e-8262-8f6dd8a781f8",
+  "name" : "apps_functional-test-app_config-vars",
+  "request" : {
+    "url" : "/apps/functional-test-app/config-vars",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"API_KEY\":\"secret\",\"DATABASE_URL\":\"postgres://ostcrnhdopsfnq:8df9a6449a67f8b32f3bfffadddce838c3ea9c1ad8a377c82767606464fc20e1@ec2-54-235-146-51.compute-1.amazonaws.com:5432/d9kn96aoi8db6i\",\"MODE\":\"dev\",\"RABBITMQ_BIGWIG_REST_API_URL\":\"https://KYE8h7AR:MhOpAEOJrWuoUykxgMOLCly29AGMYKM3@bigwig.lshift.net/management/176634/api\",\"RABBITMQ_BIGWIG_RX_URL\":\"amqp://KYE8h7AR:MhOpAEOJrWuoUykxgMOLCly29AGMYKM3@trapped-ash-362.bigwig.lshift.net:10719/jmpCZ9g_5NlC\",\"RABBITMQ_BIGWIG_TX_URL\":\"amqp://KYE8h7AR:MhOpAEOJrWuoUykxgMOLCly29AGMYKM3@trapped-ash-362.bigwig.lshift.net:10718/jmpCZ9g_5NlC\",\"RABBITMQ_BIGWIG_URL\":\"amqp://KYE8h7AR:MhOpAEOJrWuoUykxgMOLCly29AGMYKM3@trapped-ash-362.bigwig.lshift.net:10718/jmpCZ9g_5NlC\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 15:31:12 GMT",
+      "Etag" : "\"2941570f8956cfc8d009f0b3c6d949d8\"",
+      "Last-Modified" : "Mon, 02 Apr 2018 15:30:56 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global read-protected write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4495",
+      "Request-Id" : "2ab55657-5145-47f7-82dc-44e1030ed347,d3395fd6-7c21-c1f1-aeb3-6e23e223464c,f44ebc0b-fd86-f4c7-c532-d94f460f1f47",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.066868873"
+    }
+  },
+  "uuid" : "80c60519-4e33-486e-8262-8f6dd8a781f8",
+  "persistent" : true,
+  "scenarioName" : "scenario-functional-test-app-config-vars",
+  "requiredScenarioState" : "scenario-functional-test-app-config-vars-2",
+  "insertionIndex" : 37
+}

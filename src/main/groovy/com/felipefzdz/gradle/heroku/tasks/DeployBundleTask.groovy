@@ -26,7 +26,7 @@ class DeployBundleTask extends DefaultTask {
 
     @TaskAction
     void deployBundle() {
-        bundle.toList().reverse().each { HerokuApp app ->
+        bundle.toList().each { HerokuApp app ->
             app.deploy(delayAfterDestroyApp, apiKey.get())
         }
     }

@@ -1,0 +1,27 @@
+{
+  "id" : "8ead685d-41c5-4d26-ab91-5676543b8c93",
+  "name" : "apps_functional-test-app_builds_0dcacfea-4087-4e07-84ea-539c0e318cad",
+  "request" : {
+    "url" : "/apps/functional-test-app/builds/0dcacfea-4087-4e07-84ea-539c0e318cad",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\n  \"app\": {\n    \"id\": \"8eaf4edf-ead1-4f1f-9c68-616b743929d5\"\n  },\n  \"buildpacks\": [\n    {\n      \"url\": \"https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz\"\n    }\n  ],\n  \"created_at\": \"2018-04-02T15:30:38Z\",\n  \"id\": \"0dcacfea-4087-4e07-84ea-539c0e318cad\",\n  \"output_stream_url\": \"https://build-output.heroku.com/streams/8e/8eaf4edf-ead1-4f1f-9c68-616b743929d5/logs/0d/0dcacfea-4087-4e07-84ea-539c0e318cad.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIQI6BAUWXGR4S77Q%2F20180402%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180402T153055Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=0c95ba16141f6ec02d01780af618cc148eb06f45a6cf91d8a50f138eeee79c71\",\n  \"release\": {\n    \"id\": \"fda1d68d-c3d8-4174-a84a-3abfd1a3a146\"\n  },\n  \"slug\": {\n    \"id\": \"2c1c9cae-3b85-4021-b498-30aa4f3a4bb4\"\n  },\n  \"source_blob\": {\n    \"checksum\": null,\n    \"url\": \"https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz\",\n    \"version\": \"666\",\n    \"version_description\": \"Build 666\"\n  },\n  \"stack\": \"heroku-16\",\n  \"status\": \"succeeded\",\n  \"updated_at\": \"2018-04-02T15:30:49Z\",\n  \"user\": {\n    \"email\": \"olid16@gmail.com\",\n    \"id\": \"47633683-9987-4be5-b8a7-e18c9fcf3b84\"\n  }\n}",
+    "headers" : {
+      "Content-Type" : "application/json",
+      "Date" : "Mon, 02 Apr 2018 15:30:55 GMT",
+      "Request-Id" : "00fe1fa7-49d0-ff01-81c6-fe8ed9f9b614",
+      "Via" : "1.1 spaces-router (ed5ea9c8fd88), 1.1 spaces-router (ed5ea9c8fd88)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Ratelimit-Limit" : "5626",
+      "X-Ratelimit-Remaining" : "5625",
+      "X-Ratelimit-Reset" : "1"
+    }
+  },
+  "uuid" : "8ead685d-41c5-4d26-ab91-5676543b8c93",
+  "persistent" : true,
+  "scenarioName" : "scenario-builds-0dcacfea-4087-4e07-84ea-539c0e318cad",
+  "requiredScenarioState" : "scenario-builds-0dcacfea-4087-4e07-84ea-539c0e318cad-4",
+  "insertionIndex" : 19
+}
