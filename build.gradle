@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
+        classpath "com.gradle.publish:plugin-publish-plugin:$pluginPublishPluginVersion"
     }
 }
 
@@ -12,6 +13,7 @@ apply plugin: 'com.gradle.build-scan'
 apply plugin: 'groovy'
 apply plugin: 'java-gradle-plugin'
 apply from: "$rootDir/gradle/functional-test.gradle"
+apply from: "$rootDir/gradle/release.gradle"
 
 group = 'com.felipefzdz.gradle.heroku'
 version = '0.1'

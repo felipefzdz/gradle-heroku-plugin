@@ -10,7 +10,7 @@ class EnableFeaturesFuncTest extends BaseFuncTest {
 
     @Override
     def getSubjectPlugin() {
-        'heroku-base'
+        'heroku.base'
     }
 
     @Override

@@ -1,0 +1,26 @@
+apply plugin: "com.gradle.plugin-publish"
+
+task release {
+    group "Release"
+    description "Lifecycle task for release a new version"
+    dependsOn build, publishPlugins
+}
+
+pluginBundle {
+    description = 'A plugin that helps you deploy your apps into Heroku'
+    website = 'https://github.com/felipefzdz/gradle-heroku-plugin'
+    vcsUrl = 'https://github.com/felipefzdz/gradle-heroku-plugin.git'
+
+    tags = ['heroku', 'deployment']
+
+    plugins {
+        gradleHerokuPlugin {
+            id = 'com.felipefzdz.gradle.heroku'
+            displayName = 'Plugin for deploying apps into Heroku. It provides opinionated views of what deploy entails.'
+        }
+        gradleHerokuBasePlugin {
+            id = 'com.felipefzdz.gradle.heroku.base'
+            displayName = 'Base plugin for deploying apps into Heroku. It provides the building blocks to create your own deployment pipeline.'
+        }
+    }
+}

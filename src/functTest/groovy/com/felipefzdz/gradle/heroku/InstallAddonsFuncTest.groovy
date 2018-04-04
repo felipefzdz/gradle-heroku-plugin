@@ -9,7 +9,7 @@ class InstallAddonsFuncTest extends BaseFuncTest {
 
     @Override
     def getSubjectPlugin() {
-        'heroku-base'
+        'heroku.base'
     }
 
     @Override
