@@ -10,7 +10,6 @@ class CreateBuildTest extends Specification {
     CreateBuildService createBuildService
     HerokuClient herokuClient = Mock(HerokuClient)
 
-    String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
     String BUILDPACK_URL = 'buildpackUrl'
     String BUILD_VERSION = 'buildVersion'
@@ -28,7 +27,7 @@ class CreateBuildTest extends Specification {
 
     def "create a build"() {
         when:
-        createBuildService.createBuild(buildSource, API_KEY, APP_NAME)
+        createBuildService.createBuild(buildSource, APP_NAME)
 
         then:
         1 * herokuClient.setBuildPack(APP_NAME, BUILDPACK_URL)
@@ -38,7 +37,7 @@ class CreateBuildTest extends Specification {
 
     def "fail when Heroku returns an error"() {
         when:
-        createBuildService.createBuild(buildSource, API_KEY, APP_NAME)
+        createBuildService.createBuild(buildSource, APP_NAME)
 
         then:
         1 * herokuClient.setBuildPack(APP_NAME, BUILDPACK_URL)

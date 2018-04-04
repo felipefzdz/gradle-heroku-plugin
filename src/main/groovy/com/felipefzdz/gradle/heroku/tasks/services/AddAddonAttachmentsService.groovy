@@ -1,14 +1,8 @@
 package com.felipefzdz.gradle.heroku.tasks.services
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddonAttachment
-import com.heroku.api.AddonChange
 import groovy.transform.CompileStatic
-
-import java.time.Duration
-
-import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 
 @CompileStatic
 class AddAddonAttachmentsService {
@@ -19,8 +13,7 @@ class AddAddonAttachmentsService {
         this.herokuClient = herokuClient
     }
 
-    void addAddonAttachments(List<HerokuAddonAttachment> addonAttachments, String apiKey, String appName) {
-        herokuClient.init(apiKey)
+    void addAddonAttachments(List<HerokuAddonAttachment> addonAttachments, String appName) {
         addonAttachments.each { HerokuAddonAttachment attachment ->
             println "Adding addon attachment ${attachment}"
             def existing = findAddonAttachmentByName(appName, attachment.name)
@@ -35,7 +28,7 @@ class AddAddonAttachmentsService {
         }
     }
 
-    private Map<String,?> findAddonAttachmentByName(String appName, String addonName) {
+    private Map<String, ?> findAddonAttachmentByName(String appName, String addonName) {
         println "Getting addon attachments for ${appName}"
 
         def addons = herokuClient.getAddonAttachments(appName)

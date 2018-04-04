@@ -11,7 +11,6 @@ class CreateAppTest extends Specification {
     HerokuApp app
     HerokuClient herokuClient = Mock(HerokuClient)
 
-    String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
     String TEAM_NAME = 'teamName'
     Boolean PERSONAL_APP = true
@@ -32,7 +31,7 @@ class CreateAppTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        createAppService.createApp(app, API_KEY, APP_NAME)
+        createAppService.createApp(app, APP_NAME)
 
         then:
         1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
@@ -43,7 +42,7 @@ class CreateAppTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        createAppService.createApp(app, API_KEY, APP_NAME)
+        createAppService.createApp(app, APP_NAME)
 
         then:
         0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)

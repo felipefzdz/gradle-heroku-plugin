@@ -27,7 +27,7 @@ class HerokuBasePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         Graph.init()
-        HerokuExtension extension = project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, project, createHerokuAppContainer(project))
+        HerokuExtension extension = project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, createHerokuAppContainer(project))
         createBaseTasks(extension, project)
     }
 
@@ -35,53 +35,45 @@ class HerokuBasePlugin implements Plugin<Project> {
     private static void createBaseTasks(HerokuExtension extension, Project project) {
         extension.bundle.all { HerokuApp app ->
             project.tasks.create("herokuCreate${app.name.capitalize()}", CreateAppTask) { CreateAppTask task ->
-                task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
                 task.createAppService = createAppService
             }
 
             project.tasks.create("herokuDestroy${app.name.capitalize()}", DestroyAppTask) { DestroyAppTask task ->
-                task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
                 task.destroyAppService = destroyAppService
             }
 
             project.tasks.create("herokuConfigureLogDrainsFor${app.name.capitalize()}", ConfigureLogDrainsTask) { ConfigureLogDrainsTask task ->
-                task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
                 task.configureLogDrainsService = configureLogDrainsService
             }
 
             project.tasks.create("herokuCreateBuildFor${app.name.capitalize()}", CreateBuildTask) { CreateBuildTask task ->
-                task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
                 task.createBuildService = createBuildService
             }
 
             project.tasks.create("herokuAddEnvironmentConfigFor${app.name.capitalize()}", AddEnvironmentConfigTask) { AddEnvironmentConfigTask task ->
-                task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
             }
 
             project.tasks.create("herokuInstallAddonsFor${app.name.capitalize()}", InstallAddonsTask) { InstallAddonsTask task ->
-                task.apiKey = extension.apiKey
                 task.app = app
                 task.installAddonsService = installAddonsService
             }
 
             if (app instanceof HerokuWebApp) {
                 project.tasks.create("herokuEnableFeaturesFor${app.name.capitalize()}", EnableFeaturesTask) { EnableFeaturesTask task ->
-                    task.apiKey = extension.apiKey
                     task.app = app as HerokuWebApp
                     task.enableFeaturesService = enableFeaturesService
                 }
                 project.tasks.create("herokuAddAddonAttachmentsFor${app.name.capitalize()}", AddAddonAttachmentsTask) { AddAddonAttachmentsTask task ->
-                    task.apiKey = extension.apiKey
                     task.app = app as HerokuWebApp
                     task.addAddonAttachmentsService = addAddonAttachmentsService
                 }
@@ -89,14 +81,12 @@ class HerokuBasePlugin implements Plugin<Project> {
         }
 
         project.tasks.create("herokuCreateBundle", CreateBundleTask) { CreateBundleTask task ->
-            task.apiKey = extension.apiKey
             task.bundle = extension.bundle
             task.herokuClient = herokuClient
             task.createAppService = createAppService
         }
 
         project.tasks.create("herokuDestroyBundle", DestroyBundleTask) { DestroyBundleTask task ->
-            task.apiKey = extension.apiKey
             task.bundle = extension.bundle
             task.herokuClient = herokuClient
             task.destroyAppService = destroyAppService

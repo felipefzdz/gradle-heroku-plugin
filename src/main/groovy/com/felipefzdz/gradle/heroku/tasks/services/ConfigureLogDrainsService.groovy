@@ -12,8 +12,7 @@ class ConfigureLogDrainsService {
         this.herokuClient = herokuClient
     }
 
-    void configureLogDrains(List<String> logDrains, String apiKey, String appName) {
-        herokuClient.init(apiKey)
+    void configureLogDrains(List<String> logDrains, String appName) {
         if (logDrains == null || logDrains.isEmpty()) {
             println "No log drains configured for app $appName"
         } else {

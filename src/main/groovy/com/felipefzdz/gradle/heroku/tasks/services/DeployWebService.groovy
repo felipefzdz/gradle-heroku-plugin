@@ -15,7 +15,7 @@ import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 @CompileStatic
 class DeployWebService extends BaseDeployService {
 
-    private final String PROXY_HEROKU_APP = System.getenv('HEROKU_PLUGIN_APP_PROXY')
+    private final String PROXY_HEROKU_APP = System.getenv('GRADLE_HEROKU_PLUGIN_APP_PROXY')
     private final EnableFeaturesService enableFeaturesService
     private final AddAddonAttachmentsService addAddonAttachmentsService
 
@@ -31,15 +31,14 @@ class DeployWebService extends BaseDeployService {
         this.enableFeaturesService = enableFeaturesService
     }
 
-    void deploy(HerokuWebApp app, int delayAfterDestroyApp, String apiKey) {
-        herokuClient.init(apiKey)
+    void deploy(HerokuWebApp app, int delayAfterDestroyApp) {
         maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp, delayAfterDestroyApp)
-        installAddons(app.addons, apiKey, app.name)
-        configureLogDrainsService.configureLogDrains(app.logDrains, apiKey, app.name)
-        createBuildService.createBuild(app.buildSource, apiKey, app.name)
+        installAddons(app.addons, app.name)
+        configureLogDrainsService.configureLogDrains(app.logDrains, app.name)
+        createBuildService.createBuild(app.buildSource, app.name)
         addConfig(app.config, app.name)
-        enableFeatures(app, apiKey)
-        addAddonAttachments(app.addonAttachments, apiKey, app.name)
+        enableFeatures(app)
+        addAddonAttachments(app.addonAttachments, app.name)
         waitForAppFormation(app.name, app.buildSource)
         updateProcessFormation(app.name, app.herokuProcess)
         updateDomains(app)
@@ -49,13 +48,13 @@ class DeployWebService extends BaseDeployService {
         println "Successfully deployed app ${app.name}"
     }
 
-    private enableFeatures(HerokuWebApp app, String apiKey) {
-        enableFeaturesService.enableFeatures(app.features, apiKey, app.name)
+    private enableFeatures(HerokuWebApp app) {
+        enableFeaturesService.enableFeatures(app.features, app.name)
     }
 
-    private void addAddonAttachments(NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments, String apiKey, String appName) {
+    private void addAddonAttachments(NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments, String appName) {
         if (addonAttachments) {
-            addAddonAttachmentsService.addAddonAttachments(addonAttachments.toList(), apiKey, appName)
+            addAddonAttachmentsService.addAddonAttachments(addonAttachments.toList(), appName)
         }
     }
 

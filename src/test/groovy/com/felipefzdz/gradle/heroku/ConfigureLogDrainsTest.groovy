@@ -11,7 +11,6 @@ class ConfigureLogDrainsTest extends Specification {
 
     HerokuClient herokuClient = Mock(HerokuClient)
 
-    String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
 
     def setup() {
@@ -24,7 +23,7 @@ class ConfigureLogDrainsTest extends Specification {
         herokuClient.listLogDrains(APP_NAME) >> [['url': 'test1']]
 
         when:
-        configureLogDrainsService.configureLogDrains(logDrains, API_KEY, APP_NAME)
+        configureLogDrainsService.configureLogDrains(logDrains, APP_NAME)
 
         then:
         0 * herokuClient.addLogDrain(APP_NAME, 'test1')

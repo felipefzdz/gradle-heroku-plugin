@@ -12,7 +12,7 @@ import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 @CompileStatic
 class InstallAddonsService {
 
-    private final Boolean SKIP_WAITS = Boolean.valueOf(System.getenv('HEROKU_PLUGIN_SKIP_WAITS'))
+    private final Boolean SKIP_WAITS = Boolean.valueOf(System.getenv('GRADLE_HEROKU_PLUGIN_SKIP_WAITS'))
 
     HerokuClient herokuClient
 
@@ -20,8 +20,7 @@ class InstallAddonsService {
         this.herokuClient = herokuClient
     }
 
-    void installAddons(List<HerokuAddon> addons, String apiKey, String appName) {
-        herokuClient.init(apiKey)
+    void installAddons(List<HerokuAddon> addons, String appName) {
         def existingAddons = herokuClient.getAddonAttachments(appName)
         Map<HerokuAddon, AddonChange> added = [:]
         addons.each { HerokuAddon addon ->

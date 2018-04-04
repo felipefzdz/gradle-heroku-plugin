@@ -33,7 +33,6 @@ class DeployBundleFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuDatabaseApp
 
             heroku {
-                apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
                     '$DATABASE_APP_NAME'(HerokuDatabaseApp) {
                         teamName = 'test'

@@ -12,8 +12,7 @@ class DestroyAppService {
         this.herokuClient = herokuClient
     }
 
-    void destroyApp(String apiKey, String appName) {
-        herokuClient.init(apiKey)
+    void destroyApp(String appName) {
         if (herokuClient.appExists(appName)) {
             herokuClient.destroyApp(appName)
             println "Successfully destroyed app $appName"

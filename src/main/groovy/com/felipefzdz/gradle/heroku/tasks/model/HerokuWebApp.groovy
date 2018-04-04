@@ -22,8 +22,8 @@ class HerokuWebApp extends HerokuApp {
     }
 
     @Override
-    void deploy(int delayAfterDestroyApp, String apiKey) {
-        deployWebService.deploy(this, delayAfterDestroyApp, apiKey)
+    void deploy(int delayAfterDestroyApp) {
+        deployWebService.deploy(this, delayAfterDestroyApp)
     }
 
     void addonAttachments(Action<? super NamedDomainObjectContainer<HerokuAddonAttachment>> action) {

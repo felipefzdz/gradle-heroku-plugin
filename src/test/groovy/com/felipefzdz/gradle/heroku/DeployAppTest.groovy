@@ -13,7 +13,6 @@ class DeployAppTest extends Specification {
 
     HerokuClient herokuClient = Mock(HerokuClient)
 
-    String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
     String TEAM_NAME = 'teamName'
     String STACK = 'cedar-14'
@@ -40,7 +39,7 @@ class DeployAppTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        deployService.deploy(app, delayAfterDestroyApp, API_KEY)
+        deployService.deploy(app, delayAfterDestroyApp)
 
         then:
         1 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
@@ -51,7 +50,7 @@ class DeployAppTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        deployService.deploy(app, delayAfterDestroyApp, API_KEY)
+        deployService.deploy(app, delayAfterDestroyApp)
 
         then:
         0 * herokuClient.createApp(APP_NAME, TEAM_NAME, PERSONAL_APP, STACK)
@@ -63,7 +62,7 @@ class DeployAppTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        deployService.deploy(app, 0, API_KEY)
+        deployService.deploy(app, 0)
 
         then:
         1 * herokuClient.destroyApp(APP_NAME)
@@ -76,7 +75,7 @@ class DeployAppTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        deployService.deploy(app, delayAfterDestroyApp, API_KEY)
+        deployService.deploy(app, delayAfterDestroyApp)
 
         then:
         0 * herokuClient.destroyApp(APP_NAME)

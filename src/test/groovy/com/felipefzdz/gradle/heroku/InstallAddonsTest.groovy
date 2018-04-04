@@ -18,7 +18,6 @@ class InstallAddonsTest extends Specification {
 
     HerokuClient herokuClient = Mock(HerokuClient)
 
-    String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
     String PLAN = 'heroku-redis:hobby-dev'
 
@@ -37,7 +36,7 @@ class InstallAddonsTest extends Specification {
         herokuClient.listConfig(APP_NAME) >> ['REDIS_URL': "http://127.0.0.1:${serverSocket.localPort}"]
 
         when:
-        installAddonsService.installAddons(addons, API_KEY, APP_NAME)
+        installAddonsService.installAddons(addons, APP_NAME)
 
         then:
         1 * herokuClient.installAddon(APP_NAME, PLAN)
@@ -48,7 +47,7 @@ class InstallAddonsTest extends Specification {
         herokuClient.getAddonAttachments(APP_NAME) >> [['name': 'REDIS']]
 
         when:
-        installAddonsService.installAddons(addons, API_KEY, APP_NAME)
+        installAddonsService.installAddons(addons, APP_NAME)
 
         then:
         0 * herokuClient.installAddon(APP_NAME, PLAN)

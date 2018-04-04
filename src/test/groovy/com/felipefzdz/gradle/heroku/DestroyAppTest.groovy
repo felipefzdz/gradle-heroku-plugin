@@ -10,7 +10,6 @@ class DestroyAppTest extends Specification {
 
     HerokuClient herokuClient = Mock(HerokuClient)
 
-    String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
 
     def setup() {
@@ -22,7 +21,7 @@ class DestroyAppTest extends Specification {
         herokuClient.appExists(APP_NAME) >> false
 
         when:
-        destroyAppService.destroyApp(API_KEY, APP_NAME)
+        destroyAppService.destroyApp(APP_NAME)
 
         then:
         0 * herokuClient.destroyApp(APP_NAME)
@@ -33,7 +32,7 @@ class DestroyAppTest extends Specification {
         herokuClient.appExists(APP_NAME) >> true
 
         when:
-        destroyAppService.destroyApp(API_KEY, APP_NAME)
+        destroyAppService.destroyApp(APP_NAME)
 
         then:
         1 * herokuClient.destroyApp(APP_NAME)

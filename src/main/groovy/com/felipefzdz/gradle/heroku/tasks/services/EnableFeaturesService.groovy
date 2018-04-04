@@ -12,13 +12,11 @@ class EnableFeaturesService {
         this.herokuClient = herokuClient
     }
 
-    void enableFeatures(List<String> features, String apiKey, String appName) {
-        herokuClient.init(apiKey)
+    void enableFeatures(List<String> features, String appName) {
         if (features) {
             println "Enabling features $features"
             features.each {
                 herokuClient.enableFeature(appName, it)
-
             }
             println "Enabled features for $appName"
         }

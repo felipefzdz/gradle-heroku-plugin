@@ -28,7 +28,6 @@ class CreateBundleFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
                     '$APP_NAME'(HerokuWebApp) {
                         teamName = 'test'

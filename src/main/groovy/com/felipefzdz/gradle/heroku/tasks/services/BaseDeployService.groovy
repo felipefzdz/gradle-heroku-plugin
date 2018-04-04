@@ -1,7 +1,10 @@
 package com.felipefzdz.gradle.heroku.tasks.services
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.model.*
+import com.felipefzdz.gradle.heroku.tasks.model.BuildSource
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuProcess
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
 
@@ -12,7 +15,7 @@ import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 @CompileStatic
 class BaseDeployService {
 
-    protected final Boolean SKIP_WAITS = Boolean.valueOf(System.getenv('HEROKU_PLUGIN_SKIP_WAITS'))
+    protected final Boolean SKIP_WAITS = Boolean.valueOf(System.getenv('GRADLE_HEROKU_PLUGIN_SKIP_WAITS'))
     protected static final Duration TIMEOUT = Duration.ofMinutes(6)
     protected static final Duration TEST_INTERVAL = Duration.ofSeconds(1)
 
@@ -32,7 +35,6 @@ class BaseDeployService {
         this.createBuildService = createBuildService
     }
 
-   
 
     protected void waitForAppFormation(String appName, BuildSource buildSource) {
         if (buildSource) {
@@ -60,13 +62,11 @@ class BaseDeployService {
         }
     }
 
-    protected void installAddons(NamedDomainObjectContainer<HerokuAddon> addons, String apiKey, String appName) {
+    protected void installAddons(NamedDomainObjectContainer<HerokuAddon> addons, String appName) {
         if (addons) {
-            installAddonsService.installAddons(addons.toList(), apiKey, appName)
+            installAddonsService.installAddons(addons.toList(), appName)
         }
     }
-
-
 
     protected void addConfig(Map<String, String> config, String appName) {
         if (config) {

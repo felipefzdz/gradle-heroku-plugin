@@ -17,8 +17,8 @@ class HerokuDatabaseApp extends HerokuApp {
     }
 
     @Override
-    void deploy(int delayAfterDestroyApp, String apiKey) {
-        deployDatabaseService.deploy(this, delayAfterDestroyApp, apiKey)
+    void deploy(int delayAfterDestroyApp) {
+        deployDatabaseService.deploy(this, delayAfterDestroyApp)
     }
 
     HerokuDatabaseApp migrateCommand(String migrateCommand) {

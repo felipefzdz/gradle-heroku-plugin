@@ -1,22 +1,6 @@
 package com.felipefzdz.gradle.heroku.heroku
 
-import com.felipefzdz.gradle.heroku.heroku.api.AddDrainRequest
-import com.felipefzdz.gradle.heroku.heroku.api.AppDisableAcmRequest
-import com.felipefzdz.gradle.heroku.heroku.api.AppInfo
-import com.felipefzdz.gradle.heroku.heroku.api.CreateAddonAttachmentRequest
-import com.felipefzdz.gradle.heroku.heroku.api.CreateBuildRequest
-import com.felipefzdz.gradle.heroku.heroku.api.CreateDynoRequest
-import com.felipefzdz.gradle.heroku.heroku.api.EnableFeature
-import com.felipefzdz.gradle.heroku.heroku.api.GetAddonAttachmentsRequest
-import com.felipefzdz.gradle.heroku.heroku.api.GetBuildRequest
-import com.felipefzdz.gradle.heroku.heroku.api.GetFeature
-import com.felipefzdz.gradle.heroku.heroku.api.GetFormationRequest
-import com.felipefzdz.gradle.heroku.heroku.api.ListBuildsRequest
-import com.felipefzdz.gradle.heroku.heroku.api.ListDomainsRequest
-import com.felipefzdz.gradle.heroku.heroku.api.ListLogDrainsRequest
-import com.felipefzdz.gradle.heroku.heroku.api.OrganizationAppCreateRequest
-import com.felipefzdz.gradle.heroku.heroku.api.SetBuildpackRequest
-import com.felipefzdz.gradle.heroku.heroku.api.SetFormationRequest
+import com.felipefzdz.gradle.heroku.heroku.api.*
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuProcess
 import com.heroku.api.AddonChange
 import com.heroku.api.HerokuAPI
@@ -29,16 +13,12 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class DefaultHerokuClient implements HerokuClient {
 
-    private HerokuAPI herokuAPI
-    private String apiKey
+    private final HerokuAPI herokuAPI
+    private final String apiKey
 
-    @Override
-    HerokuClient init(String apiKey) {
-        if (herokuAPI == null) {
-            this.apiKey = apiKey
-            this.herokuAPI = new HerokuAPI(apiKey)
-        }
-        this
+    DefaultHerokuClient() {
+        this.apiKey = System.getenv("GRADLE_HEROKU_PLUGIN_API_KEY")
+        this.herokuAPI = new HerokuAPI(apiKey)
     }
 
     @Override

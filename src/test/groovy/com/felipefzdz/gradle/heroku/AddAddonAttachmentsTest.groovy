@@ -10,7 +10,6 @@ class AddAddonAttachmentsTest extends Specification {
     AddAddonAttachmentsService addAddonAttachmentsService
     HerokuClient herokuClient = Mock(HerokuClient)
 
-    String API_KEY = 'apiKey'
     String APP_NAME = 'appName'
     String PLAN = 'heroku-redis:hobby-dev'
     String OWNING_APP_NAME = 'owningAppName'
@@ -29,7 +28,7 @@ class AddAddonAttachmentsTest extends Specification {
         herokuClient.getAddonAttachments(OWNING_APP_NAME) >> [['name': 'REDIS', 'addon': ['id': '1234']]]
 
         when:
-        addAddonAttachmentsService.addAddonAttachments(addonAttachments, API_KEY, APP_NAME)
+        addAddonAttachmentsService.addAddonAttachments(addonAttachments, APP_NAME)
 
         then:
         1 * herokuClient.createAddonAttachment(APP_NAME, _, 'REDIS')
@@ -41,7 +40,7 @@ class AddAddonAttachmentsTest extends Specification {
         herokuClient.getAddonAttachments(OWNING_APP_NAME) >> []
 
         when:
-        addAddonAttachmentsService.addAddonAttachments(addonAttachments, API_KEY, APP_NAME)
+        addAddonAttachmentsService.addAddonAttachments(addonAttachments, APP_NAME)
 
         then:
         def e = thrown(AssertionError)
@@ -56,7 +55,7 @@ class AddAddonAttachmentsTest extends Specification {
         herokuClient.getAddonAttachments(APP_NAME) >> [['name': 'REDIS', 'addon': ['id': '1234']]]
 
         when:
-        addAddonAttachmentsService.addAddonAttachments(addonAttachments, API_KEY, APP_NAME)
+        addAddonAttachmentsService.addAddonAttachments(addonAttachments, APP_NAME)
 
         then:
         0 * herokuClient.installAddon(APP_NAME, PLAN)

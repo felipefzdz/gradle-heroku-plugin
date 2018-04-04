@@ -6,15 +6,11 @@ import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.services.DestroyAppService
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
-import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
 class DestroyBundleTask extends DefaultTask {
-
-    @Internal
-    Property<String> apiKey
 
     @Internal
     HerokuAppContainer bundle
@@ -28,7 +24,7 @@ class DestroyBundleTask extends DefaultTask {
     @TaskAction
     void destroyBundle() {
         bundle.toList().each { HerokuApp app ->
-            destroyAppService.destroyApp(apiKey.get(), app.name)
+            destroyAppService.destroyApp(app.name)
         }
     }
 }

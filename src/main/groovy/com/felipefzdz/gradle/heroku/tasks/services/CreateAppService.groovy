@@ -13,8 +13,7 @@ class CreateAppService {
         this.herokuClient = herokuClient
     }
 
-    void createApp(HerokuApp app, String apiKey, String appName) {
-        herokuClient.init(apiKey)
+    void createApp(HerokuApp app, String appName) {
         if (herokuClient.appExists(appName)) {
             println "App $appName already exists and won't be created."
         } else {

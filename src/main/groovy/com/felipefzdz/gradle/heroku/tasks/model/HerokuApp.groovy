@@ -87,7 +87,7 @@ class HerokuApp implements Named {
         return stack ?: 'heroku-16'
     }
 
-    void deploy(int delayAfterDestroyApp, String apiKey) {
+    void deploy(int delayAfterDestroyApp) {
         throw new UnsupportedOperationException()
     }
 }

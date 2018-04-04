@@ -11,7 +11,7 @@ import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 @CompileStatic
 class CreateBuildService {
 
-    private final Boolean SKIP_WAITS = Boolean.valueOf(System.getenv('HEROKU_PLUGIN_SKIP_WAITS'))
+    private final Boolean SKIP_WAITS = Boolean.valueOf(System.getenv('GRADLE_HEROKU_PLUGIN_SKIP_WAITS'))
 
     HerokuClient herokuClient
 
@@ -19,9 +19,8 @@ class CreateBuildService {
         this.herokuClient = herokuClient
     }
 
-    void createBuild(BuildSource build, String apiKey, String appName) {
+    void createBuild(BuildSource build, String appName) {
         if (build) {
-            herokuClient.init(apiKey)
             updateBuildpack(appName, build.buildpackUrl)
             println "Deploying artifact ${build.buildUrl} to application $appName"
             String buildId = herokuClient.createBuild(appName, build.buildVersion, build.buildUrl).id

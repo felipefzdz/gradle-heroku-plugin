@@ -4,15 +4,11 @@ import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
 import org.gradle.api.DefaultTask
-import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
 class DeployWebTask extends DefaultTask {
-
-    @Internal
-    Property<String> apiKey
 
     @Internal
     HerokuApp app
@@ -25,7 +21,7 @@ class DeployWebTask extends DefaultTask {
 
     @TaskAction
     void deployWeb() {
-        app.deploy(delayAfterDestroyApp, apiKey.get())
+        app.deploy(delayAfterDestroyApp)
     }
 
 }

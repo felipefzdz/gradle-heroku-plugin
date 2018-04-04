@@ -22,14 +22,12 @@ class HerokuPlugin implements Plugin<Project> {
     private static void createDeployTasks(HerokuExtension extension, Project project) {
         extension.bundle.all { HerokuApp app ->
             project.tasks.create("herokuDeploy${app.name.capitalize()}", DeployWebTask) { DeployWebTask task ->
-                task.apiKey = extension.apiKey
                 task.app = app
                 task.herokuClient = herokuClient
             }
         }
 
         project.tasks.create("herokuDeployBundle", DeployBundleTask) { DeployBundleTask task ->
-            task.apiKey = extension.apiKey
             task.bundle = extension.bundle
             task.herokuClient = herokuClient
         }

@@ -27,7 +27,6 @@ class AddEnvironmentConfigFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
                     '$APP_NAME'(HerokuWebApp) {
                         config = ['MODE': 'dev', 'API_KEY': 'secret']

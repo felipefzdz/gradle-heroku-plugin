@@ -29,7 +29,6 @@ class ConfigureLogDrainsFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                apiKey = '$GRADLE_HEROKU_PLUGIN_API_KEY'
                 bundle {
                     '$APP_NAME'(HerokuWebApp) {
                         logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']

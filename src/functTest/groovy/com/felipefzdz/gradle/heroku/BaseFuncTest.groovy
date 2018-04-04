@@ -16,9 +16,8 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 abstract class BaseFuncTest extends Specification {
 
     public static final String APP_NAME = 'functional-test-app'
-    public static final String GRADLE_HEROKU_PLUGIN_API_KEY = System.getenv('GRADLE_HEROKU_PLUGIN_API_KEY')
     public static
-    final boolean IS_RECORD_SCENARIOS = System.getenv('HEROKU_PLUGIN_RECORD_SCENARIOS') != null && System.getenv('HEROKU_PLUGIN_RECORD_SCENARIOS') == 'ENABLED'
+    final boolean IS_RECORD_SCENARIOS = System.getenv('GRADLE_HEROKU_PLUGIN_RECORD_SCENARIOS') != null && System.getenv('GRADLE_HEROKU_PLUGIN_RECORD_SCENARIOS') == 'ENABLED'
 
     @Shared
     WireMockServer herokuApiServer
@@ -54,7 +53,7 @@ abstract class BaseFuncTest extends Specification {
 
     File buildFile
 
-    HerokuClient herokuClient = new DefaultHerokuClient().init(GRADLE_HEROKU_PLUGIN_API_KEY)
+    HerokuClient herokuClient = new DefaultHerokuClient()
 
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')

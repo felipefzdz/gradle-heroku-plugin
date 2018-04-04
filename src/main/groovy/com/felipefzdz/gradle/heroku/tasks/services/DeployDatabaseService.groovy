@@ -15,12 +15,11 @@ class DeployDatabaseService extends BaseDeployService {
         super(installAddonsService, herokuClient, configureLogDrainsService, createBuildService)
     }
 
-    void deploy(HerokuDatabaseApp app, int delayAfterDestroyApp, String apiKey) {
-        herokuClient.init(apiKey)
+    void deploy(HerokuDatabaseApp app, int delayAfterDestroyApp) {
         maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp, delayAfterDestroyApp)
-        installAddons(app.addons, apiKey, app.name)
-        configureLogDrainsService.configureLogDrains(app.logDrains, apiKey, app.name)
-        createBuildService.createBuild(app.buildSource, apiKey, app.name)
+        installAddons(app.addons, app.name)
+        configureLogDrainsService.configureLogDrains(app.logDrains, app.name)
+        createBuildService.createBuild(app.buildSource, app.name)
         addConfig(app.config, app.name)
         waitForAppFormation(app.name, app.buildSource)
         updateProcessFormation(app.name, app.herokuProcess)

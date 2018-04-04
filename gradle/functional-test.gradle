@@ -15,11 +15,11 @@ task functionalTest(type: Test) {
     environment 'HEROKU_HOST', 'http://localhost:8080'
     if (project.hasProperty('recordScenarios')) {
         assert environment.get('GRADLE_HEROKU_PLUGIN_API_KEY') != null
-        environment 'HEROKU_PLUGIN_APP_PROXY', 'http://localhost:8081'
-        environment 'HEROKU_PLUGIN_RECORD_SCENARIOS', 'ENABLED'
+        environment 'GRADLE_HEROKU_PLUGIN_APP_PROXY', 'http://localhost:8081'
+        environment 'GRADLE_HEROKU_PLUGIN_RECORD_SCENARIOS', 'ENABLED'
     } else {
-        environment 'HEROKU_PLUGIN_APP_PROXY', 'http://localhost:8080'
-        environment 'HEROKU_PLUGIN_SKIP_WAITS', true
+        environment 'GRADLE_HEROKU_PLUGIN_APP_PROXY', 'http://localhost:8080'
+        environment 'GRADLE_HEROKU_PLUGIN_SKIP_WAITS', true
 
     }
     mustRunAfter test
