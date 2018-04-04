@@ -18,7 +18,7 @@ abstract class BaseFuncTest extends Specification {
     public static final String APP_NAME = 'functional-test-app'
     public static final String GRADLE_HEROKU_PLUGIN_API_KEY = System.getenv('GRADLE_HEROKU_PLUGIN_API_KEY')
     public static
-    final boolean IS_RECORD_SCENARIOS = System.getenv('RECORD_SCENARIOS') != null && System.getenv('RECORD_SCENARIOS') == 'ENABLED'
+    final boolean IS_RECORD_SCENARIOS = System.getenv('HEROKU_PLUGIN_RECORD_SCENARIOS') != null && System.getenv('HEROKU_PLUGIN_RECORD_SCENARIOS') == 'ENABLED'
 
     @Shared
     WireMockServer herokuApiServer

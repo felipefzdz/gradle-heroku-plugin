@@ -83,7 +83,6 @@ class DeployBundleFuncTest extends BaseFuncTest {
                         }
                         disableAcm = true
                         domains = ['$FIRST_DOMAIN', '$SECOND_DOMAIN'] 
-                        
                     }
                     
                 }

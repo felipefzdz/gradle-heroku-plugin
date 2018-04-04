@@ -12,6 +12,8 @@ import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 @CompileStatic
 class InstallAddonsService {
 
+    private final Boolean SKIP_WAITS = Boolean.valueOf(System.getenv('HEROKU_PLUGIN_SKIP_WAITS'))
+
     HerokuClient herokuClient
 
     InstallAddonsService(HerokuClient herokuClient) {
@@ -45,14 +47,14 @@ class InstallAddonsService {
 
     private URI waitForAddonUrl(String appName, String addonUrl) {
         println "Waiting for $addonUrl to be set on app $appName"
-        waitFor(Duration.ofMinutes(5), Duration.ofSeconds(5), "$addonUrl to be set on app $appName") {
+        waitFor(Duration.ofMinutes(5), Duration.ofSeconds(5), "$addonUrl to be set on app $appName", SKIP_WAITS) {
             return URI.create(herokuClient.listConfig(appName)[addonUrl])
         }
     }
 
     private void waitForSocketAvailable(String host, int port) {
         println "Waiting for connection on $host:$port"
-        waitFor(Duration.ofMinutes(5), Duration.ofSeconds(5), "database to appear at $host:$port") {
+        waitFor(Duration.ofMinutes(5), Duration.ofSeconds(5), "database to appear at $host:$port", SKIP_WAITS) {
             tryConnect(host, port)
         }
     }

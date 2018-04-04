@@ -15,8 +15,9 @@ import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 @CompileStatic
 class DeployWebService extends BaseDeployService {
 
-    protected final EnableFeaturesService enableFeaturesService
-    protected final AddAddonAttachmentsService addAddonAttachmentsService
+    private final String PROXY_HEROKU_APP = System.getenv('HEROKU_PLUGIN_APP_PROXY')
+    private final EnableFeaturesService enableFeaturesService
+    private final AddAddonAttachmentsService addAddonAttachmentsService
 
     DeployWebService(
             InstallAddonsService installAddonsService,
@@ -79,12 +80,11 @@ class DeployWebService extends BaseDeployService {
     private void probeReadiness(HerokuWebApp app) {
         ReadinessProbe probe = app.readinessProbe
         if (probe != null) {
-            String proxyHerokuApp = System.getenv('HEROKU_APP_PROXY')
-            String urlAsString = proxyHerokuApp == null ? probe.url : "$proxyHerokuApp/version"
+            String urlAsString = PROXY_HEROKU_APP == null ? probe.url : "$PROXY_HEROKU_APP/version"
             URL url = new URL(urlAsString)
             println("Fetch readiness endpoint $url...")
-            delay(Duration.ofSeconds(9))
-            waitFor(TIMEOUT, TEST_INTERVAL, "Readiness probe based on $url") {
+            delay(Duration.ofSeconds(9), SKIP_WAITS)
+            waitFor(TIMEOUT, TEST_INTERVAL, "Readiness probe based on $url", SKIP_WAITS) {
                 def json = new JsonSlurper().parse(url) as Map
                 println("Fetching $url")
                 probe.command.execute(app, json)

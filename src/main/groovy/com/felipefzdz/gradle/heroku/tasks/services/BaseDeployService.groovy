@@ -2,7 +2,6 @@ package com.felipefzdz.gradle.heroku.tasks.services
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.*
-import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
 
@@ -13,6 +12,7 @@ import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 @CompileStatic
 class BaseDeployService {
 
+    protected final Boolean SKIP_WAITS = Boolean.valueOf(System.getenv('HEROKU_PLUGIN_SKIP_WAITS'))
     protected static final Duration TIMEOUT = Duration.ofMinutes(6)
     protected static final Duration TEST_INTERVAL = Duration.ofSeconds(1)
 
@@ -37,7 +37,7 @@ class BaseDeployService {
     protected void waitForAppFormation(String appName, BuildSource buildSource) {
         if (buildSource) {
             println "Checking for existence of resource formation …"
-            waitFor(Duration.ofMinutes(5), Duration.ofSeconds(3), "waiting for process formation for $appName") {
+            waitFor(Duration.ofMinutes(5), Duration.ofSeconds(3), "waiting for process formation for $appName", SKIP_WAITS) {
                 def formation = herokuClient.getFormations(appName)
                 assert !formation.isEmpty()
             }
@@ -49,7 +49,7 @@ class BaseDeployService {
         if (exists && recreate) {
             herokuClient.destroyApp(appName)
             // Give some time to Heroku to actually destroy the app
-            delay(Duration.ofSeconds(delayAfterDestroyApp))
+            delay(Duration.ofSeconds(delayAfterDestroyApp), SKIP_WAITS)
             exists = false
         }
         if (exists) {
@@ -91,9 +91,12 @@ class BaseDeployService {
         }
     }
 
-    protected delay(Duration duration) {
-        println "Delaying for ${duration.toMillis()} milliseconds..."
-        sleep(duration.toMillis())
+    protected delay(Duration duration, boolean skipWaits) {
+        if (!skipWaits) {
+            println "Delaying for ${duration.toMillis()} milliseconds..."
+            sleep(duration.toMillis())
+        }
+
     }
 
 }

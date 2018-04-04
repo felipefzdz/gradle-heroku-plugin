@@ -8,7 +8,9 @@ import java.time.Instant
 import static java.time.Instant.now
 
 abstract class AsyncUtil {
-    static <T> T waitFor(Duration timeout, Duration interval, String description, Closure<T> closure) {
+    static <T> T waitFor(Duration timeout, Duration interval, String description, Boolean skipWaits, Closure<T> closure) {
+        Duration actualInterval = skipWaits ? Duration.ZERO : interval
+
         Instant stopAt = now() + timeout
         Throwable error = null
 
@@ -23,8 +25,8 @@ abstract class AsyncUtil {
                 error = e
             }
 
-            if (now() + interval < stopAt) {
-                Thread.sleep(interval.toMillis())
+            if (now() + actualInterval < stopAt) {
+                Thread.sleep(actualInterval.toMillis())
             } else {
                 break
             }
