@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class EnableFeaturesFuncTest extends BaseFuncTest {
@@ -38,11 +39,11 @@ class EnableFeaturesFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuEnableFeaturesFor${APP_NAME.capitalize()}")
+        def result = run("herokuEnableFeaturesFor${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Enabled features for $APP_NAME")
-        result.task(":herokuEnableFeaturesFor${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.task(":herokuEnableFeaturesFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.getFeature(APP_NAME, FEATURE).enabled

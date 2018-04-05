@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class AddEnvironmentConfigFuncTest extends BaseFuncTest {
@@ -38,11 +39,11 @@ class AddEnvironmentConfigFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuAddEnvironmentConfigFor${APP_NAME.capitalize()}")
+        def result = run("herokuAddEnvironmentConfigFor${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Added environment config for $APP_NAME")
-        result.task(":herokuAddEnvironmentConfigFor${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.task(":herokuAddEnvironmentConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         def config = herokuClient.listConfig(APP_NAME)

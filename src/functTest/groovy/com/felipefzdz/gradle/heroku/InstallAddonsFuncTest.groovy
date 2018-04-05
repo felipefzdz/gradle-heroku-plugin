@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class InstallAddonsFuncTest extends BaseFuncTest {
@@ -50,11 +51,11 @@ class InstallAddonsFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuInstallAddonsFor${APP_NAME.capitalize()}")
+        def result = run("herokuInstallAddonsFor${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Successfully installed addon DATABASE")
-        result.task(":herokuInstallAddonsFor${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.task(":herokuInstallAddonsFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']

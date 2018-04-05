@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class CreateBuildFuncTest extends BaseFuncTest {
@@ -40,11 +41,11 @@ class CreateBuildFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuCreateBuildFor${APP_NAME.capitalize()}")
+        def result = run("herokuCreateBuildFor${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Created build for $APP_NAME")
-        result.task(":herokuCreateBuildFor${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.task(":herokuCreateBuildFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.listBuilds(APP_NAME)*.status == ['succeeded']

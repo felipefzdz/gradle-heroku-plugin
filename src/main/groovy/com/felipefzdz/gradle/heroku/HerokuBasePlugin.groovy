@@ -11,6 +11,7 @@ import org.gradle.internal.reflect.Instantiator
 import javax.inject.Inject
 
 import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.*
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 
 @CompileStatic
 class HerokuBasePlugin implements Plugin<Project> {
@@ -34,51 +35,51 @@ class HerokuBasePlugin implements Plugin<Project> {
 
     private static void createBaseTasks(HerokuExtension extension, Project project) {
         extension.bundle.all { HerokuApp app ->
-            project.tasks.create("herokuCreate${app.name.capitalize()}", CreateAppTask) { CreateAppTask task ->
+            project.tasks.create("herokuCreate${toUpperCamel(app.name)}", CreateAppTask) { CreateAppTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
                 task.createAppService = createAppService
             }
 
-            project.tasks.create("herokuDestroy${app.name.capitalize()}", DestroyAppTask) { DestroyAppTask task ->
+            project.tasks.create("herokuDestroy${toUpperCamel(app.name)}", DestroyAppTask) { DestroyAppTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
                 task.destroyAppService = destroyAppService
             }
 
-            project.tasks.create("herokuConfigureLogDrainsFor${app.name.capitalize()}", ConfigureLogDrainsTask) { ConfigureLogDrainsTask task ->
+            project.tasks.create("herokuConfigureLogDrainsFor${toUpperCamel(app.name)}", ConfigureLogDrainsTask) { ConfigureLogDrainsTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
                 task.configureLogDrainsService = configureLogDrainsService
             }
 
-            project.tasks.create("herokuCreateBuildFor${app.name.capitalize()}", CreateBuildTask) { CreateBuildTask task ->
+            project.tasks.create("herokuCreateBuildFor${toUpperCamel(app.name)}", CreateBuildTask) { CreateBuildTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
                 task.createBuildService = createBuildService
             }
 
-            project.tasks.create("herokuAddEnvironmentConfigFor${app.name.capitalize()}", AddEnvironmentConfigTask) { AddEnvironmentConfigTask task ->
+            project.tasks.create("herokuAddEnvironmentConfigFor${toUpperCamel(app.name)}", AddEnvironmentConfigTask) { AddEnvironmentConfigTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
             }
 
-            project.tasks.create("herokuInstallAddonsFor${app.name.capitalize()}", InstallAddonsTask) { InstallAddonsTask task ->
+            project.tasks.create("herokuInstallAddonsFor${toUpperCamel(app.name)}", InstallAddonsTask) { InstallAddonsTask task ->
                 task.app = app
                 task.installAddonsService = installAddonsService
             }
 
-            project.tasks.create("herokuVerifyConfigFor${app.name.capitalize()}", VerifyConfigTask) { VerifyConfigTask task ->
+            project.tasks.create("herokuVerifyConfigFor${toUpperCamel(app.name)}", VerifyConfigTask) { VerifyConfigTask task ->
                 task.app = app
                 task.verifyConfigService = verifyConfigService
             }
 
             if (app instanceof HerokuWebApp) {
-                project.tasks.create("herokuEnableFeaturesFor${app.name.capitalize()}", EnableFeaturesTask) { EnableFeaturesTask task ->
+                project.tasks.create("herokuEnableFeaturesFor${toUpperCamel(app.name)}", EnableFeaturesTask) { EnableFeaturesTask task ->
                     task.app = app as HerokuWebApp
                     task.enableFeaturesService = enableFeaturesService
                 }
-                project.tasks.create("herokuAddAddonAttachmentsFor${app.name.capitalize()}", AddAddonAttachmentsTask) { AddAddonAttachmentsTask task ->
+                project.tasks.create("herokuAddAddonAttachmentsFor${toUpperCamel(app.name)}", AddAddonAttachmentsTask) { AddAddonAttachmentsTask task ->
                     task.app = app as HerokuWebApp
                     task.addAddonAttachmentsService = addAddonAttachmentsService
                 }

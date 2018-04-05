@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class VerifyConfigFuncTest extends BaseFuncTest {
@@ -23,17 +24,17 @@ class VerifyConfigFuncTest extends BaseFuncTest {
 
     def setup() {
         herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
-        buildFileWith(configToBeExpected : ['MODE': 'dev'])
-        run("herokuDeploy${APP_NAME.capitalize()}")
+        buildFileWith(configToBeExpected: ['MODE': 'dev'])
+        run("herokuDeploy${toUpperCamel(APP_NAME)}")
     }
 
     def "can verify config for an app"() {
         when:
-        def result = run("herokuVerifyConfigFor${APP_NAME.capitalize()}")
+        def result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Verified config for $APP_NAME")
-        result.task(":herokuVerifyConfigFor${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         def config = herokuClient.listConfig(APP_NAME)

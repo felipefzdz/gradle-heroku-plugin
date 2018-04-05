@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class DeployFuncTest extends BaseFuncTest {
@@ -43,11 +44,11 @@ class DeployFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuDeploy${APP_NAME.capitalize()}")
+        def result = run("herokuDeploy${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Successfully deployed app $APP_NAME")
-        result.task(":herokuDeploy${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.task(":herokuDeploy${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.appExists(APP_NAME)

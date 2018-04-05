@@ -8,6 +8,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.herokuClient
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 
 @CompileStatic
 class HerokuPlugin implements Plugin<Project> {
@@ -21,7 +22,7 @@ class HerokuPlugin implements Plugin<Project> {
 
     private static void createDeployTasks(HerokuExtension extension, Project project) {
         extension.bundle.all { HerokuApp app ->
-            project.tasks.create("herokuDeploy${app.name.capitalize()}", DeployWebTask) { DeployWebTask task ->
+            project.tasks.create("herokuDeploy${toUpperCamel(app.name)}", DeployWebTask) { DeployWebTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
             }

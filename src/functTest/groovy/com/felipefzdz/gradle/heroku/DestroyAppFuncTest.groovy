@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class DestroyAppFuncTest extends BaseFuncTest {
@@ -41,11 +42,11 @@ class DestroyAppFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuDestroy${APP_NAME.capitalize()}")
+        def result = run("herokuDestroy${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Successfully destroyed app $APP_NAME")
-        result.task(":herokuDestroy${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.task(":herokuDestroy${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         !herokuClient.appExists(APP_NAME)

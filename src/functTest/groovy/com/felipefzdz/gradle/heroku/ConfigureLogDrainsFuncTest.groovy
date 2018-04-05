@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class ConfigureLogDrainsFuncTest extends BaseFuncTest {
@@ -38,12 +39,12 @@ class ConfigureLogDrainsFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuConfigureLogDrainsFor${APP_NAME.capitalize()}")
+        def result = run("herokuConfigureLogDrainsFor${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Added log drain $LOG_DRAIN_URL")
         result.output.contains("Added log drain $ANOTHER_LOG_DRAIN_URL")
-        result.task(":herokuConfigureLogDrainsFor${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.task(":herokuConfigureLogDrainsFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.listLogDrains(APP_NAME)*.url.containsAll([LOG_DRAIN_URL, ANOTHER_LOG_DRAIN_URL])

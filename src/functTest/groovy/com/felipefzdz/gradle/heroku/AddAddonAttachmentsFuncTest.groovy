@@ -1,5 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
+import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class AddAddonAttachmentsFuncTest extends BaseFuncTest {
@@ -59,11 +60,11 @@ class AddAddonAttachmentsFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuAddAddonAttachmentsFor${APP_NAME.capitalize()}")
+        def result = run("herokuAddAddonAttachmentsFor${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Successfully added addon attachment DATABASE")
-        result.task(":herokuAddAddonAttachmentsFor${APP_NAME.capitalize()}").outcome == SUCCESS
+        result.task(":herokuAddAddonAttachmentsFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']
