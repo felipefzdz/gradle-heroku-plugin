@@ -69,11 +69,6 @@ class HerokuBasePlugin implements Plugin<Project> {
                 task.installAddonsService = installAddonsService
             }
 
-            project.tasks.create("herokuVerifyConfigFor${toUpperCamel(app.name)}", VerifyConfigTask) { VerifyConfigTask task ->
-                task.app = app
-                task.verifyConfigService = verifyConfigService
-            }
-
             if (app instanceof HerokuWebApp) {
                 project.tasks.create("herokuEnableFeaturesFor${toUpperCamel(app.name)}", EnableFeaturesTask) { EnableFeaturesTask task ->
                     task.app = app as HerokuWebApp
