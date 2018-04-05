@@ -1,5 +1,5 @@
 {
-  "id" : "ad7fcde1-1d1a-43db-8dc3-2bc8e7c7e5cd",
+  "id" : "e6ecc828-7b03-49e9-8685-884e88508b82",
   "name" : "apps_functional-test-app_features_http-session-affinity",
   "request" : {
     "url" : "/apps/functional-test-app/features/http-session-affinity",
@@ -16,19 +16,19 @@
     "headers" : {
       "Cache-Control" : "private, no-cache",
       "Content-Type" : "application/json",
-      "Date" : "Thu, 05 Apr 2018 09:48:27 GMT",
+      "Date" : "Thu, 05 Apr 2018 14:16:44 GMT",
       "Oauth-Scope" : "global",
       "Oauth-Scope-Accepted" : "global write write-protected",
       "Ratelimit-Multiplier" : "1",
       "Ratelimit-Remaining" : "4498",
-      "Request-Id" : "de316a44-629d-4583-84c2-de88a4283edf,bf7e0105-896a-d90c-6abb-c97cde72eb16,47711987-4267-a051-527a-c1dd72ed66bc",
+      "Request-Id" : "757fa150-26d3-4086-a634-b5fb5557a01f,2b58014d-75b3-10d6-b0f2-333381a3f45b,72cb17f8-5af7-aad5-21a4-b400d83828fc",
       "Vary" : "Accept-Encoding",
       "Via" : "1.1 spaces-router (4d6b14feab68), 1.1 spaces-router (4d6b14feab68)",
       "X-Content-Type-Options" : "nosniff",
-      "X-Runtime" : "0.055188734"
+      "X-Runtime" : "0.0531852"
     }
   },
-  "uuid" : "ad7fcde1-1d1a-43db-8dc3-2bc8e7c7e5cd",
+  "uuid" : "e6ecc828-7b03-49e9-8685-884e88508b82",
   "persistent" : true,
-  "insertionIndex" : 9
+  "insertionIndex" : 7
 }

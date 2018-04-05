@@ -1,6 +1,9 @@
 package com.felipefzdz.gradle.heroku
 
+import org.gradle.testkit.runner.TaskOutcome
+
 import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
+import static org.gradle.testkit.runner.TaskOutcome.FAILED
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class VerifyConfigFuncTest extends BaseFuncTest {
@@ -28,7 +31,7 @@ class VerifyConfigFuncTest extends BaseFuncTest {
         run("herokuDeploy${toUpperCamel(APP_NAME)}")
     }
 
-    def "can verify config for an app"() {
+    def "can verify adding a config value"() {
         when:
         def result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
 
@@ -36,12 +39,30 @@ class VerifyConfigFuncTest extends BaseFuncTest {
         result.output.contains("Verified config for $APP_NAME")
         result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
-        and:
-        def config = herokuClient.listConfig(APP_NAME)
-        config.keySet().containsAll(['DATABASE_URL', 'MODE'])
-        def values = config.values()
-        values[0].startsWith('postgres://')
-        values[1] == 'dev'
+        when:
+        buildFileWith(configToBeExpected: ['MODE': 'dev', 'AUDIENCE': 'public'])
+        result = runAndFail("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+
+        then:
+        result.output.contains("Expected config missing for $APP_NAME")
+        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == FAILED
+
+        when:
+        buildFileWith(configToBeExpected: ['MODE': 'dev', 'AUDIENCE': 'public'], configToBeAdded: ['AUDIENCE'])
+        result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+
+        then:
+        result.output.contains("Verified config for $APP_NAME")
+        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+
+        when:
+        run("herokuAddEnvironmentConfigFor${toUpperCamel(APP_NAME)}")
+        buildFileWith(configToBeExpected: ['MODE': 'dev', 'AUDIENCE': 'public'])
+        result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+
+        then:
+        result.output.contains("Verified config for $APP_NAME")
+        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
     }
 
     private void buildFileWith(config) {

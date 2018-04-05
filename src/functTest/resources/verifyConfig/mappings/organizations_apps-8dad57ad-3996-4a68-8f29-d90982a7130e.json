@@ -1,0 +1,34 @@
+{
+  "id" : "8dad57ad-3996-4a68-8f29-d90982a7130e",
+  "name" : "organizations_apps",
+  "request" : {
+    "url" : "/organizations/apps",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"name\":\"functional-test-app\",\"organization\":\"test\",\"personal\":true,\"stack\":\"cedar-14\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":null,\"build_stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"created_at\":\"2018-04-05T14:16:37Z\",\"id\":\"1e6f4e4d-fea1-4c32-a99b-6c1aea43bb23\",\"git_url\":\"https://git.heroku.com/functional-test-app.git\",\"maintenance\":false,\"name\":\"functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-04-05T14:16:37Z\",\"repo_size\":null,\"slug_size\":null,\"stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"updated_at\":\"2018-04-05T14:16:37Z\",\"web_url\":\"https://functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Thu, 05 Apr 2018 14:16:37 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "create-apps global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4499",
+      "Request-Id" : "bf49acb7-3e38-429c-9c1b-2e8f0318f27e,89b3172e-88cc-0659-9710-fa826171366c,99a18d82-9235-c7ab-9fc9-c87cc86d0114",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (4d6b14feab68), 1.1 spaces-router (4d6b14feab68)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.155525388"
+    }
+  },
+  "uuid" : "8dad57ad-3996-4a68-8f29-d90982a7130e",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

@@ -1,0 +1,32 @@
+{
+  "id" : "66f8b7a3-0836-491f-aedc-7679e3e2fd98",
+  "name" : "apps_functional-test-app",
+  "request" : {
+    "url" : "/apps/functional-test-app",
+    "method" : "DELETE"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"acm\":false,\"archived_at\":null,\"buildpack_provided_description\":null,\"build_stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"created_at\":\"2018-04-05T14:16:37Z\",\"id\":\"1e6f4e4d-fea1-4c32-a99b-6c1aea43bb23\",\"git_url\":\"https://git.heroku.com/functional-test-app.git\",\"maintenance\":false,\"name\":\"functional-test-app\",\"owner\":{\"email\":\"olid16@gmail.com\",\"id\":\"47633683-9987-4be5-b8a7-e18c9fcf3b84\"},\"region\":{\"id\":\"59accabd-516d-4f0e-83e6-6e3757701145\",\"name\":\"us\"},\"organization\":null,\"team\":null,\"space\":null,\"released_at\":\"2018-04-05T14:16:45Z\",\"repo_size\":null,\"slug_size\":null,\"stack\":{\"id\":\"f9f9cbd7-2970-41ef-8db5-3df7123b041f\",\"name\":\"cedar-14\"},\"updated_at\":\"2018-04-05T14:16:46Z\",\"web_url\":\"https://functional-test-app.herokuapp.com/\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Expansion" : "region",
+      "Content-Type" : "application/json",
+      "Date" : "Thu, 05 Apr 2018 14:16:46 GMT",
+      "Etag" : "\"d8db54007c86d8c8390f84e7cd819834\"",
+      "Last-Modified" : "Thu, 05 Apr 2018 14:16:45 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4495",
+      "Request-Id" : "29be3440-5ffd-450c-a908-64b9c2ece402,3634f190-18d0-9635-b11a-b7cc2c3194e6,a9788094-610a-88ca-b80f-f37ddad03d30",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (4d6b14feab68), 1.1 spaces-router (4d6b14feab68)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.080015991"
+    }
+  },
+  "uuid" : "66f8b7a3-0836-491f-aedc-7679e3e2fd98",
+  "persistent" : true,
+  "insertionIndex" : 13
+}

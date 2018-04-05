@@ -68,14 +68,22 @@ abstract class BaseFuncTest extends Specification {
 
     abstract def getSubjectPlugin()
 
-    def run(String task) {
+    def runAndFail(String task) {
+        run(task, true)
+    }
+
+    def run(String task, boolean fail = false) {
+        def r = runner(task)
+        fail ? r.buildAndFail() : r.build()
+    }
+
+    private GradleRunner runner(String task) {
         GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
                 .withArguments(task, '--stacktrace')
                 .withDebug(true)
                 .withPluginClasspath()
                 .forwardOutput()
-                .build()
     }
 
 }
