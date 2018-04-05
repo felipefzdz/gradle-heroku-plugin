@@ -1,0 +1,36 @@
+{
+  "id" : "5bdb0db5-1420-4de6-b417-a63a0ef4d918",
+  "name" : "apps_functional-test-app_config-vars",
+  "request" : {
+    "url" : "/apps/functional-test-app/config-vars",
+    "method" : "PATCH",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"MODE\":null,\"AUDIENCE\":\"public\"}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"AUDIENCE\":\"public\",\"DATABASE_URL\":\"postgres://abtsoktxhtaufd:61e0ec9d92d716f8e7ac9340f9f22b8cce49bf245ba1743483557633e19a3bf7@ec2-54-204-21-226.compute-1.amazonaws.com:5432/dbsos0cpnob5hf\"}",
+    "headers" : {
+      "Cache-Control" : "private, no-cache",
+      "Content-Type" : "application/json",
+      "Date" : "Thu, 05 Apr 2018 14:59:33 GMT",
+      "Etag" : "\"64387afc6cf3e3e3b15f86536b9373d5\"",
+      "Last-Modified" : "Thu, 05 Apr 2018 14:59:31 GMT",
+      "Oauth-Scope" : "global",
+      "Oauth-Scope-Accepted" : "global write-protected",
+      "Ratelimit-Multiplier" : "1",
+      "Ratelimit-Remaining" : "4494",
+      "Request-Id" : "b15a0d53-d9ca-4cbf-94fd-2ed9f32801f2,de181f6d-198c-fe37-234d-231817a4bc0b,e1f3ba9f-589e-966c-dedf-889ce6615f2d",
+      "Vary" : "Accept-Encoding",
+      "Via" : "1.1 spaces-router (4d6b14feab68), 1.1 spaces-router (4d6b14feab68)",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Runtime" : "0.118761748"
+    }
+  },
+  "uuid" : "5bdb0db5-1420-4de6-b417-a63a0ef4d918",
+  "persistent" : true,
+  "insertionIndex" : 15
+}

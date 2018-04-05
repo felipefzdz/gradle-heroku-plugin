@@ -20,7 +20,7 @@ class VerifyConfigService {
 
     void verifyConfig(HerokuConfig config, String appName) {
         def actualConfig = herokuClient.listConfig(appName)
-        def configToBeExpected = config.configToBeExpected
+        def configToBeExpected = config.configToBeExpected.findAll { it.value != null }
         def configAddedByHeroku = config.configAddedByHeroku
         def configToBeRemoved = config.configToBeRemoved
         def configToBeAdded = config.configToBeAdded

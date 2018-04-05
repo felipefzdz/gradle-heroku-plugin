@@ -1,7 +1,5 @@
 package com.felipefzdz.gradle.heroku
 
-import org.gradle.testkit.runner.TaskOutcome
-
 import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.FAILED
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
@@ -31,7 +29,7 @@ class VerifyConfigFuncTest extends BaseFuncTest {
         run("herokuDeploy${toUpperCamel(APP_NAME)}")
     }
 
-    def "can verify adding a config value"() {
+    def "can verify different config states"() {
         when:
         def result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
 
@@ -58,6 +56,31 @@ class VerifyConfigFuncTest extends BaseFuncTest {
         when:
         run("herokuAddEnvironmentConfigFor${toUpperCamel(APP_NAME)}")
         buildFileWith(configToBeExpected: ['MODE': 'dev', 'AUDIENCE': 'public'])
+        result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+
+        then:
+        result.output.contains("Verified config for $APP_NAME")
+        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+
+        when:
+        buildFileWith(configToBeExpected: ['MODE': null, 'AUDIENCE': 'public'])
+        result = runAndFail("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+
+        then:
+        result.output.contains("Unexpected config found for $APP_NAME")
+        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == FAILED
+
+        when:
+        buildFileWith(configToBeExpected: ['MODE': null, 'AUDIENCE': 'public'], configToBeRemoved: ['MODE'])
+        result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+
+        then:
+        result.output.contains("Verified config for $APP_NAME")
+        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+
+        when:
+        run("herokuAddEnvironmentConfigFor${toUpperCamel(APP_NAME)}")
+        buildFileWith(configToBeExpected: ['AUDIENCE': 'public'])
         result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
 
         then:
