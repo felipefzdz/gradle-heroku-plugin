@@ -2,7 +2,7 @@ package com.felipefzdz.gradle.heroku
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-class DeployWebFuncTest extends BaseFuncTest {
+class DeployFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
 

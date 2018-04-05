@@ -15,7 +15,7 @@ class HerokuApp implements Named {
     Boolean recreate
     List<String> logDrains
     BuildSource buildSource
-    Map<String, String> config
+    HerokuConfig herokuConfig
     NamedDomainObjectContainer<HerokuAddon> addons
     HerokuProcess herokuProcess
     Boolean disableAcm
@@ -60,9 +60,9 @@ class HerokuApp implements Named {
         this
     }
 
-    HerokuApp config(Map<String, String> config) {
-        this.config = config
-        this
+    void config(Action<? super HerokuConfig> config) {
+        this.herokuConfig = new HerokuConfig()
+        config.execute(herokuConfig)
     }
 
     void process(Action<? super HerokuProcess> process) {

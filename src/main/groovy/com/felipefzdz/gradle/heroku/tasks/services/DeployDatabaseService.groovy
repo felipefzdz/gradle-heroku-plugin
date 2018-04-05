@@ -20,7 +20,7 @@ class DeployDatabaseService extends BaseDeployService {
         installAddons(app.addons, app.name)
         configureLogDrainsService.configureLogDrains(app.logDrains, app.name)
         createBuildService.createBuild(app.buildSource, app.name)
-        addConfig(app.config, app.name)
+        addConfig(app.herokuConfig, app.name)
         waitForAppFormation(app.name, app.buildSource)
         updateProcessFormation(app.name, app.herokuProcess)
         migrateDatabase(app)

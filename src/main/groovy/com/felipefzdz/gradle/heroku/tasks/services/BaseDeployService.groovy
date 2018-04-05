@@ -4,6 +4,7 @@ import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.BuildSource
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuConfig
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuProcess
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
@@ -68,7 +69,8 @@ class BaseDeployService {
         }
     }
 
-    protected void addConfig(Map<String, String> config, String appName) {
+    protected void addConfig(HerokuConfig herokuConfig, String appName) {
+        Map<String, String> config = herokuConfig != null ? herokuConfig.configToBeExpected : null
         if (config) {
             println "Setting env config variables ${config.keySet().toList().sort()}"
             herokuClient.updateConfig(appName, config)

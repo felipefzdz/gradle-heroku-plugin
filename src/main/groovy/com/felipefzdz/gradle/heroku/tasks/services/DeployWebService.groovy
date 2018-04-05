@@ -36,7 +36,7 @@ class DeployWebService extends BaseDeployService {
         installAddons(app.addons, app.name)
         configureLogDrainsService.configureLogDrains(app.logDrains, app.name)
         createBuildService.createBuild(app.buildSource, app.name)
-        addConfig(app.config, app.name)
+        addConfig(app.herokuConfig, app.name)
         enableFeatures(app)
         addAddonAttachments(app.addonAttachments, app.name)
         waitForAppFormation(app.name, app.buildSource)

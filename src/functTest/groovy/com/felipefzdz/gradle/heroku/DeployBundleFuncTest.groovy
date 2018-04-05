@@ -67,7 +67,9 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             buildUrl = 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz'
                             buildVersion = '666'
                         }
-                        config = ['MODE': 'dev', 'API_KEY': 'secret']
+                        config {
+                            configToBeExpected = ['MODE': 'dev', 'API_KEY': 'secret']
+                        }
                         features = ['$FEATURE']
                         process {
                             type = 'web'

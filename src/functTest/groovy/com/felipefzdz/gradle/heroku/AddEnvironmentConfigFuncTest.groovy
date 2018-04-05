@@ -29,7 +29,9 @@ class AddEnvironmentConfigFuncTest extends BaseFuncTest {
             heroku {
                 bundle {
                     '$APP_NAME'(HerokuWebApp) {
-                        config = ['MODE': 'dev', 'API_KEY': 'secret']
+                        config {
+                            configToBeExpected = ['MODE': 'dev', 'API_KEY': 'secret']
+                        }
                     }
                 }
             }

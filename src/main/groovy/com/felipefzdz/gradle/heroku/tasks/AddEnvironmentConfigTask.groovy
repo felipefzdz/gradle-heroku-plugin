@@ -9,7 +9,7 @@ import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
 class AddEnvironmentConfigTask extends DefaultTask {
-    
+
     @Internal
     HerokuApp app
 
@@ -18,9 +18,10 @@ class AddEnvironmentConfigTask extends DefaultTask {
 
     @TaskAction
     void addEnviromentConfig() {
-        if (app.config) {
-            println "Setting env config variables ${app.config.keySet().toList().sort()}"
-            herokuClient.updateConfig(app.name, app.config)
+        Map<String, String> config = app.herokuConfig.configToBeExpected
+        if (config) {
+            println "Setting env config variables ${config.keySet().toList().sort()}"
+            herokuClient.updateConfig(app.name, config)
             println "Added environment config for $app.name"
         }
     }
