@@ -33,70 +33,73 @@ class DeployBundleFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuDatabaseApp
 
             heroku {
-                bundle {
-                    '$DATABASE_APP_NAME'(HerokuDatabaseApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                        addons {
-                            database {
-                                plan = 'heroku-postgresql:hobby-dev'
-                                waitUntilStarted = true
-                            } 
-                        }
-                        migrateCommand = 'bash'
-                    }
-                    '$APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                        addons {
-                            'rabbitmq-bigwig' {
-                                plan = 'rabbitmq-bigwig:pipkin'
-                                waitUntilStarted = true
-                            } 
-                        }
-                        addonAttachments {
-                            database {
-                                owningApp = '$DATABASE_APP_NAME'
-                            } 
-                        }
-                        logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
-                        build {
-                            buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
-                            buildUrl = 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz'
-                            buildVersion = '666'
-                        }
-                        config {
-                            configToBeExpected = ['MODE': 'dev', 'API_KEY': 'secret']
-                        }
-                        features = ['$FEATURE']
-                        process {
-                            type = 'web'
-                            size = 'standard-1x'
-                            quantity = 2
-                        }
-                        readinessProbe {
-                            url = 'https://${APP_NAME}.herokuapp.com/version'
-                            command = { app, json ->
-                                assert json.buildNumber == app.buildSource.buildVersion 
+                bundles {
+                    dev {
+                        bundle {
+                            '$DATABASE_APP_NAME'(HerokuDatabaseApp) {
+                                teamName = 'test'
+                                stack = 'heroku-16'
+                                personalApp = true
+                                addons {
+                                    database {
+                                        plan = 'heroku-postgresql:hobby-dev'
+                                        waitUntilStarted = true
+                                    } 
+                                }
+                                migrateCommand = 'bash'
+                            }
+                            '$APP_NAME'(HerokuWebApp) {
+                                teamName = 'test'
+                                stack = 'heroku-16'
+                                personalApp = true
+                                addons {
+                                    'rabbitmq-bigwig' {
+                                        plan = 'rabbitmq-bigwig:pipkin'
+                                        waitUntilStarted = true
+                                    } 
+                                }
+                                addonAttachments {
+                                    database {
+                                        owningApp = '$DATABASE_APP_NAME'
+                                    } 
+                                }
+                                logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
+                                build {
+                                    buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
+                                    buildUrl = 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz'
+                                    buildVersion = '666'
+                                }
+                                config {
+                                    configToBeExpected = ['MODE': 'dev', 'API_KEY': 'secret']
+                                }
+                                features = ['$FEATURE']
+                                process {
+                                    type = 'web'
+                                    size = 'standard-1x'
+                                    quantity = 2
+                                }
+                                readinessProbe {
+                                    url = 'https://${APP_NAME}.herokuapp.com/version'
+                                    command = { app, json ->
+                                        assert json.buildNumber == app.buildSource.buildVersion 
+                                    }
+                                }
+                                disableAcm = true
+                                domains = ['$FIRST_DOMAIN', '$SECOND_DOMAIN'] 
                             }
                         }
-                        disableAcm = true
-                        domains = ['$FIRST_DOMAIN', '$SECOND_DOMAIN'] 
                     }
-                    
                 }
             }
         """
 
         when:
-        def result = run("herokuDeployBundle")
+        def result = run("herokuDeployDevBundle")
 
         then:
         result.output.contains("Successfully deployed app $DATABASE_APP_NAME")
         result.output.contains("Successfully deployed app $APP_NAME")
-        result.task(":herokuDeployBundle").outcome == SUCCESS
+        result.task(":herokuDeployDevBundle").outcome == SUCCESS
 
         and:
         herokuClient.appExists(DATABASE_APP_NAME)

@@ -4,6 +4,7 @@ import com.felipefzdz.gradle.heroku.dependencyinjection.Graph
 import com.felipefzdz.gradle.heroku.tasks.*
 import com.felipefzdz.gradle.heroku.tasks.model.*
 import groovy.transform.CompileStatic
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.internal.reflect.Instantiator
@@ -28,69 +29,90 @@ class HerokuBasePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         Graph.init()
-        HerokuExtension extension = project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, createHerokuAppContainer(project))
-        createBaseTasks(extension, project)
+        HerokuAppContainer bundle = createHerokuAppContainer(project)
+        NamedDomainObjectContainer<HerokuEnv> bundles = project.container(HerokuEnv) { String name ->
+            instantiator.newInstance(HerokuEnv, name, bundle)
+        }
+        project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, bundles, bundle)
+        createBaseTasks(bundles, bundle, project)
     }
 
 
-    private static void createBaseTasks(HerokuExtension extension, Project project) {
-        extension.bundle.all { HerokuApp app ->
-            project.tasks.create("herokuCreate${toUpperCamel(app.name)}", CreateAppTask) { CreateAppTask task ->
+    private static void createBaseTasks(NamedDomainObjectContainer<HerokuEnv> bundles, HerokuAppContainer bundle, Project project) {
+        bundles.all { HerokuEnv env ->
+            String envName = env.name.capitalize()
+            createBundleTasks(env.bundle, project, envName)
+        }
+        createBundleTasks(bundle, project)
+    }
+
+    private static void createBundleTasks(HerokuAppContainer bundle, Project project, String envName = '') {
+        bundle.all { HerokuApp app ->
+            project.tasks.create("herokuCreate$envName${toUpperCamel(app.name)}", CreateAppTask) { CreateAppTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
                 task.createAppService = createAppService
+                task
             }
 
-            project.tasks.create("herokuDestroy${toUpperCamel(app.name)}", DestroyAppTask) { DestroyAppTask task ->
+            project.tasks.create("herokuDestroy$envName${toUpperCamel(app.name)}", DestroyAppTask) { DestroyAppTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
                 task.destroyAppService = destroyAppService
+                task
             }
 
-            project.tasks.create("herokuConfigureLogDrainsFor${toUpperCamel(app.name)}", ConfigureLogDrainsTask) { ConfigureLogDrainsTask task ->
+            project.tasks.create("herokuConfigureLogDrainsFor$envName${toUpperCamel(app.name)}", ConfigureLogDrainsTask) { ConfigureLogDrainsTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
                 task.configureLogDrainsService = configureLogDrainsService
+                task
             }
 
-            project.tasks.create("herokuCreateBuildFor${toUpperCamel(app.name)}", CreateBuildTask) { CreateBuildTask task ->
+            project.tasks.create("herokuCreateBuildFor$envName${toUpperCamel(app.name)}", CreateBuildTask) { CreateBuildTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
                 task.createBuildService = createBuildService
+                task
             }
 
-            project.tasks.create("herokuAddEnvironmentConfigFor${toUpperCamel(app.name)}", AddEnvironmentConfigTask) { AddEnvironmentConfigTask task ->
+            project.tasks.create("herokuAddEnvironmentConfigFor$envName${toUpperCamel(app.name)}", AddEnvironmentConfigTask) { AddEnvironmentConfigTask task ->
                 task.app = app
                 task.herokuClient = herokuClient
+                task
             }
 
-            project.tasks.create("herokuInstallAddonsFor${toUpperCamel(app.name)}", InstallAddonsTask) { InstallAddonsTask task ->
+            project.tasks.create("herokuInstallAddonsFor$envName${toUpperCamel(app.name)}", InstallAddonsTask) { InstallAddonsTask task ->
                 task.app = app
                 task.installAddonsService = installAddonsService
+                task
             }
 
             if (app instanceof HerokuWebApp) {
-                project.tasks.create("herokuEnableFeaturesFor${toUpperCamel(app.name)}", EnableFeaturesTask) { EnableFeaturesTask task ->
+                project.tasks.create("herokuEnableFeaturesFor$envName${toUpperCamel(app.name)}", EnableFeaturesTask) { EnableFeaturesTask task ->
                     task.app = app as HerokuWebApp
                     task.enableFeaturesService = enableFeaturesService
+                    task
                 }
-                project.tasks.create("herokuAddAddonAttachmentsFor${toUpperCamel(app.name)}", AddAddonAttachmentsTask) { AddAddonAttachmentsTask task ->
+                project.tasks.create("herokuAddAddonAttachmentsFor$envName${toUpperCamel(app.name)}", AddAddonAttachmentsTask) { AddAddonAttachmentsTask task ->
                     task.app = app as HerokuWebApp
                     task.addAddonAttachmentsService = addAddonAttachmentsService
+                    task
                 }
             }
         }
-
-        project.tasks.create("herokuCreateBundle", CreateBundleTask) { CreateBundleTask task ->
-            task.bundle = extension.bundle
+        project.tasks.create("herokuCreate${envName}Bundle", CreateBundleTask) { CreateBundleTask task ->
+            task.bundle = bundle
             task.herokuClient = herokuClient
             task.createAppService = createAppService
+            task
         }
 
-        project.tasks.create("herokuDestroyBundle", DestroyBundleTask) { DestroyBundleTask task ->
-            task.bundle = extension.bundle
+        project.tasks.create("herokuDestroy${envName}Bundle", DestroyBundleTask) { DestroyBundleTask task ->
+            task.bundle = bundle
             task.herokuClient = herokuClient
             task.destroyAppService = destroyAppService
+            task
         }
     }
 
