@@ -25,6 +25,9 @@ abstract class BaseFuncTest extends Specification {
     @Shared
     WireMockServer appServer
 
+    @Shared
+    HerokuClient herokuClient = new DefaultHerokuClient().init()
+
     def setupSpec() {
         if (IS_RECORD_SCENARIOS) {
             herokuApiServer = new WireMockServer(options().port(8080))
@@ -53,7 +56,6 @@ abstract class BaseFuncTest extends Specification {
 
     File buildFile
 
-    HerokuClient herokuClient = new DefaultHerokuClient()
 
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')

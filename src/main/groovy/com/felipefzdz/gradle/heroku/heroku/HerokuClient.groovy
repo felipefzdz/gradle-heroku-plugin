@@ -52,4 +52,6 @@ interface HerokuClient {
     void disableAcm(String appName)
 
     void createDynoRequest(String appName, String migrateCommand)
+
+    HerokuClient init()
 }

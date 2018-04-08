@@ -13,12 +13,14 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class DefaultHerokuClient implements HerokuClient {
 
-    private final HerokuAPI herokuAPI
-    private final String apiKey
+    private HerokuAPI herokuAPI
+    private String apiKey
 
-    DefaultHerokuClient() {
+    @Override
+    HerokuClient init() {
         this.apiKey = System.getenv("GRADLE_HEROKU_PLUGIN_API_KEY")
         this.herokuAPI = new HerokuAPI(apiKey)
+        return this
     }
 
     @Override

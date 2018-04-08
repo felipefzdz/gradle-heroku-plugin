@@ -7,6 +7,7 @@ import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.execution.TaskExecutionGraph
 import org.gradle.internal.reflect.Instantiator
 
 import javax.inject.Inject
@@ -35,6 +36,11 @@ class HerokuBasePlugin implements Plugin<Project> {
         }
         project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, bundles, bundle)
         createBaseTasks(bundles, bundle, project)
+        project.gradle.taskGraph.whenReady {TaskExecutionGraph graph ->
+            if (graph.allTasks.any { it.name.startsWith('heroku') }) {
+                herokuClient.init()
+            }
+        }
     }
 
 
