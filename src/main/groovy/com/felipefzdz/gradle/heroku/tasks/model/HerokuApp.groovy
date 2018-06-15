@@ -50,12 +50,12 @@ class HerokuApp implements Named {
         this
     }
 
-    void build(Action<? super BuildSource> source) {
+    void buildSource(Action<? super BuildSource> source) {
         this.buildSource = new BuildSource()
         source.execute(buildSource)
     }
 
-    HerokuApp build(BuildSource build) {
+    HerokuApp buildSource(BuildSource build) {
         this.buildSource = build
         this
     }

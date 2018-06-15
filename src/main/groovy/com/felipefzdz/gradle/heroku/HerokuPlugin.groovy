@@ -4,7 +4,6 @@ import com.felipefzdz.gradle.heroku.tasks.DeployBundleTask
 import com.felipefzdz.gradle.heroku.tasks.DeployWebTask
 import com.felipefzdz.gradle.heroku.tasks.VerifyConfigTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuEnv
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
@@ -21,15 +20,14 @@ class HerokuPlugin implements Plugin<Project> {
     void apply(Project project) {
         project.apply(plugin: HerokuBasePlugin)
         HerokuExtension extension = project.extensions.findByType(HerokuExtension)
-        createDeployTasks(extension.bundles, extension.bundle, project)
+        createDeployTasks(extension.bundles, project)
     }
 
-    private static void createDeployTasks(NamedDomainObjectContainer<HerokuEnv> bundles, HerokuAppContainer bundle, Project project) {
-        bundles.all { HerokuEnv env ->
+    private static void createDeployTasks(NamedDomainObjectContainer<HerokuAppContainer> bundles, Project project) {
+        bundles.all { HerokuAppContainer env ->
             String envName = env.name.capitalize()
-            createBundleTasks(env.bundle, project, envName)
+            createBundleTasks(env, project, envName)
         }
-        createBundleTasks(bundle, project)
     }
 
     private static void createBundleTasks(HerokuAppContainer bundle, Project project, String envName = '') {

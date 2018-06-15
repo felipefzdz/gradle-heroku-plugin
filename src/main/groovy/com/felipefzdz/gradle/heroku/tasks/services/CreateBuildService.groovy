@@ -22,8 +22,8 @@ class CreateBuildService {
     void createBuild(BuildSource build, String appName) {
         if (build) {
             updateBuildpack(appName, build.buildpackUrl)
-            println "Deploying artifact ${build.buildUrl} to application $appName"
-            String buildId = herokuClient.createBuild(appName, build.buildVersion, build.buildUrl).id
+            println "Deploying artifact ${build.buildUrl.get()} to application $appName"
+            String buildId = herokuClient.createBuild(appName, build.buildVersion, build.buildUrl.get()).id
             verifyHerokuBuild(appName, buildId)
         }
     }

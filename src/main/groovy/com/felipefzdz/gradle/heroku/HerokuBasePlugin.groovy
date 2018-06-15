@@ -30,12 +30,11 @@ class HerokuBasePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         Graph.init()
-        HerokuAppContainer bundle = createHerokuAppContainer(project)
-        NamedDomainObjectContainer<HerokuEnv> bundles = project.container(HerokuEnv) { String name ->
-            instantiator.newInstance(HerokuEnv, name, bundle)
+        NamedDomainObjectContainer<HerokuAppContainer> bundles = project.container(HerokuAppContainer) { String name ->
+            createHerokuAppContainer(project, name)
         }
-        project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, bundles, bundle)
-        createBaseTasks(bundles, bundle, project)
+        project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, bundles)
+        createBaseTasks(bundles, project)
         project.gradle.taskGraph.whenReady {TaskExecutionGraph graph ->
             if (graph.allTasks.any { it.name.startsWith('heroku') }) {
                 herokuClient.init()
@@ -44,12 +43,11 @@ class HerokuBasePlugin implements Plugin<Project> {
     }
 
 
-    private static void createBaseTasks(NamedDomainObjectContainer<HerokuEnv> bundles, HerokuAppContainer bundle, Project project) {
-        bundles.all { HerokuEnv env ->
+    private static void createBaseTasks(NamedDomainObjectContainer<HerokuAppContainer> bundles, Project project) {
+        bundles.all { HerokuAppContainer env ->
             String envName = env.name.capitalize()
-            createBundleTasks(env.bundle, project, envName)
+            createBundleTasks(env, project, envName)
         }
-        createBundleTasks(bundle, project)
     }
 
     private static void createBundleTasks(HerokuAppContainer bundle, Project project, String envName = '') {
@@ -122,8 +120,8 @@ class HerokuBasePlugin implements Plugin<Project> {
         }
     }
 
-    HerokuAppContainer createHerokuAppContainer(Project project) {
-        def container = instantiator.newInstance(HerokuAppContainer, instantiator)
+    HerokuAppContainer createHerokuAppContainer(Project project, String bundleName) {
+        def container = instantiator.newInstance(HerokuAppContainer, bundleName, instantiator)
         container.registerFactory(HerokuWebApp) { String name ->
             return instantiator.newInstance(HerokuWebApp, name, deployWebService, project.container(HerokuAddon), project.container(HerokuAddonAttachment))
         }

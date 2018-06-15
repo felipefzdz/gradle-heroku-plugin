@@ -2,13 +2,25 @@ package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
+import org.gradle.api.Named
 import org.gradle.api.internal.DefaultPolymorphicDomainObjectContainer
 import org.gradle.internal.reflect.Instantiator
 
 @CompileStatic
-class HerokuAppContainer extends DefaultPolymorphicDomainObjectContainer<HerokuApp> {
+class HerokuAppContainer extends DefaultPolymorphicDomainObjectContainer<HerokuApp> implements Named {
 
-    HerokuAppContainer(Instantiator instantiator) {
+    private String name
+
+    HerokuAppContainer(String name, Instantiator instantiator) {
         super(HerokuApp, instantiator)
+        this.name = name
+    }
+
+    String getName() {
+        return name
+    }
+
+    void setName(String name) {
+        this.name = name
     }
 }

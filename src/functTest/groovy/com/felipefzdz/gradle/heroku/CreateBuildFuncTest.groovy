@@ -30,7 +30,7 @@ class CreateBuildFuncTest extends BaseFuncTest {
             heroku {
                 bundle {
                     '$APP_NAME'(HerokuWebApp) {
-                        build {
+                        buildSource {
                             buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
                             buildUrl = 'https://github.com/ratpack/ratpack/archive/v1.1.1.tar.gz'
                             buildVersion = '666'

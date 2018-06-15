@@ -20,7 +20,7 @@ class CreateBuildTest extends Specification {
         createBuildService = new CreateBuildService(herokuClient)
 
         buildSource = new BuildSource()
-        buildSource.buildUrl = BUILD_URL
+        buildSource.buildUrl = { BUILD_URL }
         buildSource.buildVersion = BUILD_VERSION
         buildSource.buildpackUrl = BUILDPACK_URL
     }

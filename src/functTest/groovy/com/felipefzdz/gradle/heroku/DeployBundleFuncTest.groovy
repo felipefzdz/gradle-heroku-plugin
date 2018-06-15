@@ -35,58 +35,56 @@ class DeployBundleFuncTest extends BaseFuncTest {
             heroku {
                 bundles {
                     dev {
-                        bundle {
-                            '$DATABASE_APP_NAME'(HerokuDatabaseApp) {
-                                teamName = 'test'
-                                stack = 'heroku-16'
-                                personalApp = true
-                                addons {
-                                    database {
-                                        plan = 'heroku-postgresql:hobby-dev'
-                                        waitUntilStarted = true
-                                    } 
-                                }
-                                migrateCommand = 'bash'
+                        '$DATABASE_APP_NAME'(HerokuDatabaseApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                            addons {
+                                database {
+                                    plan = 'heroku-postgresql:hobby-dev'
+                                    waitUntilStarted = true
+                                } 
                             }
-                            '$APP_NAME'(HerokuWebApp) {
-                                teamName = 'test'
-                                stack = 'heroku-16'
-                                personalApp = true
-                                addons {
-                                    'rabbitmq-bigwig' {
-                                        plan = 'rabbitmq-bigwig:pipkin'
-                                        waitUntilStarted = true
-                                    } 
-                                }
-                                addonAttachments {
-                                    database {
-                                        owningApp = '$DATABASE_APP_NAME'
-                                    } 
-                                }
-                                logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
-                                build {
-                                    buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
-                                    buildUrl = 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz'
-                                    buildVersion = '666'
-                                }
-                                config {
-                                    configToBeExpected = ['MODE': 'dev', 'API_KEY': 'secret']
-                                }
-                                features = ['$FEATURE']
-                                process {
-                                    type = 'web'
-                                    size = 'standard-1x'
-                                    quantity = 2
-                                }
-                                readinessProbe {
-                                    url = 'https://${APP_NAME}.herokuapp.com/version'
-                                    command = { app, json ->
-                                        assert json.buildNumber == app.buildSource.buildVersion 
-                                    }
-                                }
-                                disableAcm = true
-                                domains = ['$FIRST_DOMAIN', '$SECOND_DOMAIN'] 
+                            migrateCommand = 'bash'
+                        }
+                        '$APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                            addons {
+                                'rabbitmq-bigwig' {
+                                    plan = 'rabbitmq-bigwig:pipkin'
+                                    waitUntilStarted = true
+                                } 
                             }
+                            addonAttachments {
+                                database {
+                                    owningApp = '$DATABASE_APP_NAME'
+                                } 
+                            }
+                            logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
+                            buildSource {
+                                buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
+                                buildUrl = 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz'
+                                buildVersion = '666'
+                            }
+                            config {
+                                configToBeExpected = ['MODE': 'dev', 'API_KEY': 'secret']
+                            }
+                            features = ['$FEATURE']
+                            process {
+                                type = 'web'
+                                size = 'standard-1x'
+                                quantity = 2
+                            }
+                            readinessProbe {
+                                url = 'https://${APP_NAME}.herokuapp.com/version'
+                                command = { app, json ->
+                                    assert json.buildNumber == app.buildSource.buildVersion 
+                                }
+                            }
+                            disableAcm = true
+                            domains = ['$FIRST_DOMAIN', '$SECOND_DOMAIN'] 
                         }
                     }
                 }
