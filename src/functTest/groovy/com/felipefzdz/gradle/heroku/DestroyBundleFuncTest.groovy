@@ -26,28 +26,30 @@ class DestroyBundleFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'cedar-14'
-                        personalApp = true
-                    }
-                    '$ANOTHER_APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                    }
+                bundles {
+                    dev {
+                        '$APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'cedar-14'
+                            personalApp = true
+                        }
+                        '$ANOTHER_APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                        }
+                    }    
                 }
             }
         """
 
         when:
-        def result = run('herokuDestroyBundle')
+        def result = run('herokuDestroyDevBundle')
 
         then:
         result.output.contains("Successfully destroyed app $APP_NAME")
         result.output.contains("Successfully destroyed app $ANOTHER_APP_NAME")
-        result.task(":herokuDestroyBundle").outcome == SUCCESS
+        result.task(":herokuDestroyDevBundle").outcome == SUCCESS
 
         and:
         !herokuClient.appExists(APP_NAME)

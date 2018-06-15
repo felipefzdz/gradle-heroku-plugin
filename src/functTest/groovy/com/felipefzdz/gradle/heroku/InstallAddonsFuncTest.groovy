@@ -29,33 +29,35 @@ class InstallAddonsFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'cedar-14'
-                        personalApp = true
-                        addons {
-                            database {
-                                plan = 'heroku-postgresql:hobby-dev'
-                                waitUntilStarted = true
-                            } 
+                bundles {
+                    dev {
+                        '$APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'cedar-14'
+                            personalApp = true
+                            addons {
+                                database {
+                                    plan = 'heroku-postgresql:hobby-dev'
+                                    waitUntilStarted = true
+                                } 
+                            }
                         }
-                    }
-                    '$ANOTHER_APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
+                        '$ANOTHER_APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                        }
                     }
                 }
             }
         """
 
         when:
-        def result = run("herokuInstallAddonsFor${toUpperCamel(APP_NAME)}")
+        def result = run("herokuInstallAddonsForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Successfully installed addon DATABASE")
-        result.task(":herokuInstallAddonsFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuInstallAddonsForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']

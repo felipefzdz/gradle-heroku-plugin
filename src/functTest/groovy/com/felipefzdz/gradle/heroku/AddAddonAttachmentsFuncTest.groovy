@@ -33,26 +33,28 @@ class AddAddonAttachmentsFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$OWNING_APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'cedar-14'
-                        personalApp = true
-                        addons {
-                            database {
-                                plan = 'heroku-postgresql:hobby-dev'
-                                waitUntilStarted = true
-                            } 
+                bundles {
+                    dev {
+                        '$OWNING_APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'cedar-14'
+                            personalApp = true
+                            addons {
+                                database {
+                                    plan = 'heroku-postgresql:hobby-dev'
+                                    waitUntilStarted = true
+                                } 
+                            }
                         }
-                    }
-                    '$APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                        addonAttachments {
-                            database {
-                                owningApp = '$OWNING_APP_NAME'
-                            } 
+                        '$APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                            addonAttachments {
+                                database {
+                                    owningApp = '$OWNING_APP_NAME'
+                                } 
+                            }
                         }
                     }
                 }
@@ -60,11 +62,11 @@ class AddAddonAttachmentsFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuAddAddonAttachmentsFor${toUpperCamel(APP_NAME)}")
+        def result = run("herokuAddAddonAttachmentsForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Successfully added addon attachment DATABASE")
-        result.task(":herokuAddAddonAttachmentsFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuAddAddonAttachmentsForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.getAddonAttachments(APP_NAME)*.name == ['DATABASE']

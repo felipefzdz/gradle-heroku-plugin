@@ -26,66 +26,66 @@ class VerifyConfigFuncTest extends BaseFuncTest {
     def setup() {
         herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
         buildFileWith(configToBeExpected: ['MODE': 'dev'])
-        run("herokuDeploy${toUpperCamel(APP_NAME)}")
+        run("herokuDeployDev${toUpperCamel(APP_NAME)}")
     }
 
     def "can verify different config states"() {
         when:
-        def result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+        def result = run("herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Verified config for $APP_NAME")
-        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         when:
         buildFileWith(configToBeExpected: ['MODE': 'dev', 'AUDIENCE': 'public'])
-        result = runAndFail("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+        result = runAndFail("herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Expected config missing for $APP_NAME")
-        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == FAILED
+        result.task(":herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}").outcome == FAILED
 
         when:
         buildFileWith(configToBeExpected: ['MODE': 'dev', 'AUDIENCE': 'public'], configToBeAdded: ['AUDIENCE'])
-        result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+        result = run("herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Verified config for $APP_NAME")
-        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         when:
-        run("herokuAddEnvironmentConfigFor${toUpperCamel(APP_NAME)}")
+        run("herokuAddEnvironmentConfigForDev${toUpperCamel(APP_NAME)}")
         buildFileWith(configToBeExpected: ['MODE': 'dev', 'AUDIENCE': 'public'])
-        result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+        result = run("herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Verified config for $APP_NAME")
-        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         when:
         buildFileWith(configToBeExpected: ['MODE': null, 'AUDIENCE': 'public'])
-        result = runAndFail("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+        result = runAndFail("herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Unexpected config found for $APP_NAME")
-        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == FAILED
+        result.task(":herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}").outcome == FAILED
 
         when:
         buildFileWith(configToBeExpected: ['MODE': null, 'AUDIENCE': 'public'], configToBeRemoved: ['MODE'])
-        result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+        result = run("herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Verified config for $APP_NAME")
-        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         when:
-        run("herokuAddEnvironmentConfigFor${toUpperCamel(APP_NAME)}")
+        run("herokuAddEnvironmentConfigForDev${toUpperCamel(APP_NAME)}")
         buildFileWith(configToBeExpected: ['AUDIENCE': 'public'])
-        result = run("herokuVerifyConfigFor${toUpperCamel(APP_NAME)}")
+        result = run("herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Verified config for $APP_NAME")
-        result.task(":herokuVerifyConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuVerifyConfigForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
     }
 
     private void buildFileWith(config) {
@@ -97,24 +97,26 @@ class VerifyConfigFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                        addons {
-                            database {
-                                plan = 'heroku-postgresql:hobby-dev'
-                                waitUntilStarted = true
-                            } 
+                bundles {
+                    dev {        
+                        '$APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                            addons {
+                                database {
+                                    plan = 'heroku-postgresql:hobby-dev'
+                                    waitUntilStarted = true
+                                } 
+                            }
+                            config {
+                                configToBeExpected = $configToBeExpected
+                                configToBeRemoved = $configToBeRemoved
+                                configToBeAdded = $configToBeAdded
+                                configAddedByHeroku = ['DATABASE_URL']
+                            }
+                            features = ['$FEATURE']
                         }
-                        config {
-                            configToBeExpected = $configToBeExpected
-                            configToBeRemoved = $configToBeRemoved
-                            configToBeAdded = $configToBeAdded
-                            configAddedByHeroku = ['DATABASE_URL']
-                        }
-                        features = ['$FEATURE']
                     }
                 }
             }

@@ -24,27 +24,29 @@ class CreateAppFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'cedar-14'
-                        personalApp = true
-                    }
-                    '$ANOTHER_APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                    }
+                bundles {
+                    dev {
+                        '$APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'cedar-14'
+                            personalApp = true
+                        }
+                        '$ANOTHER_APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                        }
+                    }    
                 }
             }
         """
 
         when:
-        def result = run("herokuCreate${toUpperCamel(APP_NAME)}")
+        def result = run("herokuCreateDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Successfully created app $APP_NAME")
-        result.task(":herokuCreate${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuCreateDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.appExists(APP_NAME)

@@ -28,28 +28,30 @@ class CreateBundleFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'cedar-14'
-                        personalApp = true
-                    }
-                    '$ANOTHER_APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                    }
+                bundles {
+                    dev {
+                        '$APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'cedar-14'
+                            personalApp = true
+                        }
+                        '$ANOTHER_APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                        }
+                    }    
                 }
             }
         """
 
         when:
-        def result = run('herokuCreateBundle')
+        def result = run('herokuCreateDevBundle')
 
         then:
         result.output.contains("Successfully created app $APP_NAME")
         result.output.contains("Successfully created app $ANOTHER_APP_NAME")
-        result.task(":herokuCreateBundle").outcome == SUCCESS
+        result.task(":herokuCreateDevBundle").outcome == SUCCESS
 
         and:
         herokuClient.appExists(APP_NAME)

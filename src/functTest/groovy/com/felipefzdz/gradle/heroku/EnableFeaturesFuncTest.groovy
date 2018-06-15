@@ -30,20 +30,22 @@ class EnableFeaturesFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        features = ['$FEATURE', '$ANOTHER_FEATURE']
+                bundles {
+                    dev {
+                        '$APP_NAME'(HerokuWebApp) {
+                            features = ['$FEATURE', '$ANOTHER_FEATURE']
+                        }
                     }
                 }
             }
         """
 
         when:
-        def result = run("herokuEnableFeaturesFor${toUpperCamel(APP_NAME)}")
+        def result = run("herokuEnableFeaturesForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Enabled features for $APP_NAME")
-        result.task(":herokuEnableFeaturesFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuEnableFeaturesForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.getFeature(APP_NAME, FEATURE).enabled

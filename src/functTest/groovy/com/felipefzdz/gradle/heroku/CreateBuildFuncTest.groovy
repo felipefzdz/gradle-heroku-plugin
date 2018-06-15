@@ -28,24 +28,26 @@ class CreateBuildFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        buildSource {
-                            buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
-                            buildUrl = 'https://github.com/ratpack/ratpack/archive/v1.1.1.tar.gz'
-                            buildVersion = '666'
+                bundles {
+                    dev {
+                        '$APP_NAME'(HerokuWebApp) {
+                            buildSource {
+                                buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
+                                buildUrl = { 'https://github.com/ratpack/ratpack/archive/v1.1.1.tar.gz' }
+                                buildVersion = '666'
+                            }
                         }
-                    }
+                    }    
                 }
             }
         """
 
         when:
-        def result = run("herokuCreateBuildFor${toUpperCamel(APP_NAME)}")
+        def result = run("herokuCreateBuildForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Created build for $APP_NAME")
-        result.task(":herokuCreateBuildFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuCreateBuildForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.listBuilds(APP_NAME)*.status == ['succeeded']

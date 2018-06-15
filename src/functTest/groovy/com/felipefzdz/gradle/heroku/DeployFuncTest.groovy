@@ -27,16 +27,18 @@ class DeployFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        teamName = 'test'
-                        stack = 'heroku-16'
-                        personalApp = true
-                        addons {
-                            database {
-                                plan = 'heroku-postgresql:hobby-dev'
-                                waitUntilStarted = true
-                            } 
+                bundles {
+                    dev {
+                        '$APP_NAME'(HerokuWebApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                            addons {
+                                database {
+                                    plan = 'heroku-postgresql:hobby-dev'
+                                    waitUntilStarted = true
+                                } 
+                            }
                         }
                     }
                 }
@@ -44,11 +46,11 @@ class DeployFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuDeploy${toUpperCamel(APP_NAME)}")
+        def result = run("herokuDeployDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Successfully deployed app $APP_NAME")
-        result.task(":herokuDeploy${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuDeployDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.appExists(APP_NAME)

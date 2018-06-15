@@ -30,21 +30,23 @@ class ConfigureLogDrainsFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
+                bundles {
+                    dev {
+                        '$APP_NAME'(HerokuWebApp) {
+                            logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
+                        }
                     }
                 }
             }
         """
 
         when:
-        def result = run("herokuConfigureLogDrainsFor${toUpperCamel(APP_NAME)}")
+        def result = run("herokuConfigureLogDrainsForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Added log drain $LOG_DRAIN_URL")
         result.output.contains("Added log drain $ANOTHER_LOG_DRAIN_URL")
-        result.task(":herokuConfigureLogDrainsFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuConfigureLogDrainsForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         herokuClient.listLogDrains(APP_NAME)*.url.containsAll([LOG_DRAIN_URL, ANOTHER_LOG_DRAIN_URL])

@@ -28,10 +28,12 @@ class AddEnvironmentConfigFuncTest extends BaseFuncTest {
             import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 
             heroku {
-                bundle {
-                    '$APP_NAME'(HerokuWebApp) {
-                        config {
-                            configToBeExpected = ['MODE': 'dev', 'API_KEY': 'secret']
+                bundles {
+                    dev {
+                        '$APP_NAME'(HerokuWebApp) {
+                            config {
+                                configToBeExpected = ['MODE': 'dev', 'API_KEY': 'secret']
+                            }
                         }
                     }
                 }
@@ -39,11 +41,11 @@ class AddEnvironmentConfigFuncTest extends BaseFuncTest {
         """
 
         when:
-        def result = run("herokuAddEnvironmentConfigFor${toUpperCamel(APP_NAME)}")
+        def result = run("herokuAddEnvironmentConfigForDev${toUpperCamel(APP_NAME)}")
 
         then:
         result.output.contains("Added environment config for $APP_NAME")
-        result.task(":herokuAddEnvironmentConfigFor${toUpperCamel(APP_NAME)}").outcome == SUCCESS
+        result.task(":herokuAddEnvironmentConfigForDev${toUpperCamel(APP_NAME)}").outcome == SUCCESS
 
         and:
         def config = herokuClient.listConfig(APP_NAME)

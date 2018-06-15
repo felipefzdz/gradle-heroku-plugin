@@ -65,7 +65,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             logDrains = ['$LOG_DRAIN_URL', '$ANOTHER_LOG_DRAIN_URL']
                             buildSource {
                                 buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
-                                buildUrl = 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz'
+                                buildUrl = { 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz' }
                                 buildVersion = '666'
                             }
                             config {
