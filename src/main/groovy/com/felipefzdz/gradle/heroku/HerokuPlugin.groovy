@@ -33,12 +33,14 @@ class HerokuPlugin implements Plugin<Project> {
     private static void createBundleTasks(HerokuAppContainer bundle, Project project, String envName = '') {
         bundle.all { HerokuApp app ->
             project.tasks.create("herokuDeploy${envName}${toUpperCamel(app.name)}", DeployWebTask) { DeployWebTask task ->
+                task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
                 task
             }
 
             project.tasks.create("herokuVerifyConfigFor${envName}${toUpperCamel(app.name)}", VerifyConfigTask) { VerifyConfigTask task ->
+                task.group = 'deployment'
                 task.app = app
                 task.verifyConfigService = verifyConfigService
                 task
@@ -46,6 +48,7 @@ class HerokuPlugin implements Plugin<Project> {
         }
 
         project.tasks.create("herokuDeploy${envName}Bundle", DeployBundleTask) { DeployBundleTask task ->
+            task.group = 'deployment'
             task.bundle = bundle
             task.herokuClient = herokuClient
             task

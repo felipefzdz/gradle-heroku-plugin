@@ -53,6 +53,7 @@ class HerokuBasePlugin implements Plugin<Project> {
     private static void createBundleTasks(HerokuAppContainer bundle, Project project, String envName = '') {
         bundle.all { HerokuApp app ->
             project.tasks.create("herokuCreate$envName${toUpperCamel(app.name)}", CreateAppTask) { CreateAppTask task ->
+                task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
                 task.createAppService = createAppService
@@ -60,6 +61,7 @@ class HerokuBasePlugin implements Plugin<Project> {
             }
 
             project.tasks.create("herokuDestroy$envName${toUpperCamel(app.name)}", DestroyAppTask) { DestroyAppTask task ->
+                task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
                 task.destroyAppService = destroyAppService
@@ -67,6 +69,7 @@ class HerokuBasePlugin implements Plugin<Project> {
             }
 
             project.tasks.create("herokuConfigureLogDrainsFor$envName${toUpperCamel(app.name)}", ConfigureLogDrainsTask) { ConfigureLogDrainsTask task ->
+                task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
                 task.configureLogDrainsService = configureLogDrainsService
@@ -74,6 +77,7 @@ class HerokuBasePlugin implements Plugin<Project> {
             }
 
             project.tasks.create("herokuCreateBuildFor$envName${toUpperCamel(app.name)}", CreateBuildTask) { CreateBuildTask task ->
+                task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
                 task.createBuildService = createBuildService
@@ -81,12 +85,14 @@ class HerokuBasePlugin implements Plugin<Project> {
             }
 
             project.tasks.create("herokuAddEnvironmentConfigFor$envName${toUpperCamel(app.name)}", AddEnvironmentConfigTask) { AddEnvironmentConfigTask task ->
+                task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
                 task
             }
 
             project.tasks.create("herokuInstallAddonsFor$envName${toUpperCamel(app.name)}", InstallAddonsTask) { InstallAddonsTask task ->
+                task.group = 'deployment'
                 task.app = app
                 task.installAddonsService = installAddonsService
                 task
@@ -94,11 +100,13 @@ class HerokuBasePlugin implements Plugin<Project> {
 
             if (app instanceof HerokuWebApp) {
                 project.tasks.create("herokuEnableFeaturesFor$envName${toUpperCamel(app.name)}", EnableFeaturesTask) { EnableFeaturesTask task ->
+                    task.group = 'deployment'
                     task.app = app as HerokuWebApp
                     task.enableFeaturesService = enableFeaturesService
                     task
                 }
                 project.tasks.create("herokuAddAddonAttachmentsFor$envName${toUpperCamel(app.name)}", AddAddonAttachmentsTask) { AddAddonAttachmentsTask task ->
+                    task.group = 'deployment'
                     task.app = app as HerokuWebApp
                     task.addAddonAttachmentsService = addAddonAttachmentsService
                     task
@@ -106,6 +114,7 @@ class HerokuBasePlugin implements Plugin<Project> {
             }
         }
         project.tasks.create("herokuCreate${envName}Bundle", CreateBundleTask) { CreateBundleTask task ->
+            task.group = 'deployment'
             task.bundle = bundle
             task.herokuClient = herokuClient
             task.createAppService = createAppService
@@ -113,6 +122,7 @@ class HerokuBasePlugin implements Plugin<Project> {
         }
 
         project.tasks.create("herokuDestroy${envName}Bundle", DestroyBundleTask) { DestroyBundleTask task ->
+            task.group = 'deployment'
             task.bundle = bundle
             task.herokuClient = herokuClient
             task.destroyAppService = destroyAppService
