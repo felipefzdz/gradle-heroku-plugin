@@ -11,4 +11,13 @@ class HerokuAddon {
     HerokuAddon(String name) {
         this.name = name.toUpperCase()
     }
+
+    @Override
+    String toString() {
+        return "HerokuAddon{" +
+                "name='" + name + '\'' +
+                ", plan='" + plan + '\'' +
+                ", waitUntilStarted=" + waitUntilStarted +
+                '}';
+    }
 }

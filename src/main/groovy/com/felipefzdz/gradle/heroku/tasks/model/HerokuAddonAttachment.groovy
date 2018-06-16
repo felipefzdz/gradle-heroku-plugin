@@ -12,4 +12,12 @@ class HerokuAddonAttachment {
     HerokuAddonAttachment(String name) {
         this.name = name.toUpperCase()
     }
+
+    @Override
+    String toString() {
+        return "HerokuAddonAttachment{" +
+                "name='" + name + '\'' +
+                ", owningApp='" + owningApp + '\'' +
+                '}';
+    }
 }

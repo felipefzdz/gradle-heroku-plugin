@@ -7,4 +7,12 @@ import org.gradle.internal.BiAction
 class ReadinessProbe {
     String url
     BiAction<HerokuApp, Map<String, ?>> command
+
+    @Override
+    String toString() {
+        return "ReadinessProbe{" +
+                "url='" + url + '\'' +
+                ", command=" + command +
+                '}';
+    }
 }

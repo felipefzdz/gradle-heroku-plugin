@@ -9,4 +9,14 @@ class HerokuConfig {
     List<String> configToBeRemoved
     List<String> configToBeAdded
     List<String> configAddedByHeroku
+
+    @Override
+    String toString() {
+        return "HerokuConfig{" +
+                "configToBeExpected=" + configToBeExpected +
+                ", configToBeRemoved=" + configToBeRemoved +
+                ", configToBeAdded=" + configToBeAdded +
+                ", configAddedByHeroku=" + configAddedByHeroku +
+                '}';
+    }
 }

@@ -9,4 +9,13 @@ class BuildSource {
     String buildpackUrl
     Supplier<String> buildUrl
     String buildVersion
+
+    @Override
+    String toString() {
+        return "BuildSource{" +
+                "buildpackUrl='" + buildpackUrl + '\'' +
+                ", buildUrl=" + buildUrl +
+                ", buildVersion='" + buildVersion + '\'' +
+                '}';
+    }
 }

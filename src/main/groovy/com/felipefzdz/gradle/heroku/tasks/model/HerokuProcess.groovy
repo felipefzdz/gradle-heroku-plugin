@@ -7,4 +7,13 @@ class HerokuProcess {
     String type
     int quantity
     String size
+
+    @Override
+    String toString() {
+        return "HerokuProcess{" +
+                "type='" + type + '\'' +
+                ", quantity=" + quantity +
+                ", size='" + size + '\'' +
+                '}';
+    }
 }
