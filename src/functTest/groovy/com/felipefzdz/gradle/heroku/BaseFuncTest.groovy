@@ -26,7 +26,7 @@ abstract class BaseFuncTest extends Specification {
     WireMockServer appServer
 
     @Shared
-    HerokuClient herokuClient = new DefaultHerokuClient().init()
+    HerokuClient herokuClient = new DefaultHerokuClient().init(System.getenv("GRADLE_HEROKU_PLUGIN_API_KEY"))
 
     def setupSpec() {
         if (IS_RECORD_SCENARIOS) {

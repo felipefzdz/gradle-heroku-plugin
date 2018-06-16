@@ -9,6 +9,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.execution.TaskExecutionGraph
 import org.gradle.internal.reflect.Instantiator
+import org.gradle.util.GUtil
 
 import javax.inject.Inject
 
@@ -37,7 +38,8 @@ class HerokuBasePlugin implements Plugin<Project> {
         createBaseTasks(bundles, project)
         project.gradle.taskGraph.whenReady {TaskExecutionGraph graph ->
             if (graph.allTasks.any { it.name.startsWith('heroku') }) {
-                herokuClient.init()
+                String apiKey = System.getenv("GRADLE_HEROKU_PLUGIN_API_KEY") ?: project.property('herokuPluginApiKey')
+                herokuClient.init(apiKey)
             }
         }
     }
@@ -45,7 +47,7 @@ class HerokuBasePlugin implements Plugin<Project> {
 
     private static void createBaseTasks(NamedDomainObjectContainer<HerokuAppContainer> bundles, Project project) {
         bundles.all { HerokuAppContainer env ->
-            String envName = env.name.capitalize()
+            String envName = GUtil.toCamelCase(env.name)
             createBundleTasks(env, project, envName)
         }
     }

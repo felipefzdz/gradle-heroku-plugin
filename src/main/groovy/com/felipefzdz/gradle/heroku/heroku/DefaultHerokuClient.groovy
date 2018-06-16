@@ -17,8 +17,8 @@ class DefaultHerokuClient implements HerokuClient {
     private String apiKey
 
     @Override
-    HerokuClient init() {
-        this.apiKey = System.getenv("GRADLE_HEROKU_PLUGIN_API_KEY")
+    HerokuClient init(String apiKey) {
+        this.apiKey = apiKey
         this.herokuAPI = new HerokuAPI(apiKey)
         return this
     }

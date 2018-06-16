@@ -53,5 +53,5 @@ interface HerokuClient {
 
     void createDynoRequest(String appName, String migrateCommand)
 
-    HerokuClient init()
+    HerokuClient init(String apiKey)
 }

@@ -8,6 +8,7 @@ import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.util.GUtil
 
 import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.herokuClient
 import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.verifyConfigService
@@ -25,7 +26,7 @@ class HerokuPlugin implements Plugin<Project> {
 
     private static void createDeployTasks(NamedDomainObjectContainer<HerokuAppContainer> bundles, Project project) {
         bundles.all { HerokuAppContainer env ->
-            String envName = env.name.capitalize()
+            String envName = GUtil.toCamelCase(env.name)
             createBundleTasks(env, project, envName)
         }
     }
