@@ -12,7 +12,6 @@ import org.gradle.util.GUtil
 
 import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.herokuClient
 import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.verifyConfigService
-import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 
 @CompileStatic
 class HerokuPlugin implements Plugin<Project> {
@@ -33,14 +32,14 @@ class HerokuPlugin implements Plugin<Project> {
 
     private static void createBundleTasks(HerokuAppContainer bundle, Project project, String envName = '') {
         bundle.all { HerokuApp app ->
-            project.tasks.create("herokuDeploy${envName}${toUpperCamel(app.name)}", DeployWebTask) { DeployWebTask task ->
+            project.tasks.create("herokuDeploy${envName}${GUtil.toCamelCase(app.name)}", DeployWebTask) { DeployWebTask task ->
                 task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
                 task
             }
 
-            project.tasks.create("herokuVerifyConfigFor${envName}${toUpperCamel(app.name)}", VerifyConfigTask) { VerifyConfigTask task ->
+            project.tasks.create("herokuVerifyConfigFor${envName}${GUtil.toCamelCase(app.name)}", VerifyConfigTask) { VerifyConfigTask task ->
                 task.group = 'deployment'
                 task.app = app
                 task.verifyConfigService = verifyConfigService
