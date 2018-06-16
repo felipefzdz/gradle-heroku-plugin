@@ -46,7 +46,7 @@ class InstallAddonsService {
 
     private URI waitForAddonUrl(String appName, String addonUrl) {
         println "Waiting for $addonUrl to be set on app $appName"
-        waitFor(Duration.ofMinutes(5), Duration.ofSeconds(5), "$addonUrl to be set on app $appName", SKIP_WAITS) {
+        waitFor(Duration.ofMinutes(10), Duration.ofSeconds(5), "$addonUrl to be set on app $appName", SKIP_WAITS) {
             return URI.create(herokuClient.listConfig(appName)[addonUrl])
         }
     }
