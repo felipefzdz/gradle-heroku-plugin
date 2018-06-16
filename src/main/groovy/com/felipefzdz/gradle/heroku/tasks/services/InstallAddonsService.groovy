@@ -28,8 +28,8 @@ class InstallAddonsService {
             if (existing) {
                 println "Addon $addon already exists as an addon attachment and won't be installed"
             } else {
-                println "Successfully installed addon ${addon.name}"
                 added[addon] = herokuClient.installAddon(appName, addon.plan)
+                println "Successfully installed addon ${addon.name}"
             }
         }
         waitForAddonsIfAdded(appName, added.keySet())
