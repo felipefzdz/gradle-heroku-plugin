@@ -11,14 +11,15 @@ class HerokuApp implements Named {
     String name
     String teamName
     String stack
-    Boolean personalApp
-    Boolean recreate
+    Boolean exclude = false
+    Boolean personalApp = false
+    Boolean recreate = false
     List<String> logDrains
     BuildSource buildSource
     HerokuConfig herokuConfig
     NamedDomainObjectContainer<HerokuAddon> addons
     HerokuProcess herokuProcess
-    Boolean disableAcm
+    Boolean disableAcm = false
 
     HerokuApp(String name, NamedDomainObjectContainer<HerokuAddon> addons) {
         this.name = name
@@ -32,6 +33,11 @@ class HerokuApp implements Named {
 
     HerokuApp stack(String stack) {
         this.stack = stack
+        this
+    }
+
+    HerokuApp exclude(Boolean exclude) {
+        this.exclude = exclude
         this
     }
 

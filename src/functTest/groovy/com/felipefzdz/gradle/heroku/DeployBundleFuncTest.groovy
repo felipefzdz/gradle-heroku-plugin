@@ -5,6 +5,7 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 class DeployBundleFuncTest extends BaseFuncTest {
 
     String DATABASE_APP_NAME = 'database-functional-test-app'
+    String EXCLUDED_DATABASE_APP_NAME = 'excluded-database-functional-test-app'
     String LOG_DRAIN_URL = 'syslog://logs.example.com'
     String ANOTHER_LOG_DRAIN_URL = 'syslog://another-logs.example.com'
     String FEATURE = 'http-session-affinity'
@@ -36,6 +37,19 @@ class DeployBundleFuncTest extends BaseFuncTest {
                 bundles {
                     dev {
                         '$DATABASE_APP_NAME'(HerokuDatabaseApp) {
+                            teamName = 'test'
+                            stack = 'heroku-16'
+                            personalApp = true
+                            addons {
+                                database {
+                                    plan = 'heroku-postgresql:hobby-dev'
+                                    waitUntilStarted = true
+                                } 
+                            }
+                            migrateCommand = 'bash'
+                        }
+                        '$EXCLUDED_DATABASE_APP_NAME'(HerokuDatabaseApp) {
+                            exclude = true
                             teamName = 'test'
                             stack = 'heroku-16'
                             personalApp = true
