@@ -49,7 +49,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             migrateCommand = 'bash'
                         }
                         '$EXCLUDED_DATABASE_APP_NAME'(HerokuDatabaseApp) {
-                            exclude = true
+                            excludeFromDeployBundle = true
                             teamName = 'test'
                             stack = 'heroku-16'
                             personalApp = true

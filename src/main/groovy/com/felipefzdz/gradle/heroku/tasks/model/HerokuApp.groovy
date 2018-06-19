@@ -11,7 +11,7 @@ class HerokuApp implements Named {
     String name
     String teamName
     String stack
-    Boolean exclude = false
+    Boolean excludeFromDeployBundle = false
     Boolean personalApp = false
     Boolean recreate = false
     List<String> logDrains
@@ -37,7 +37,7 @@ class HerokuApp implements Named {
     }
 
     HerokuApp exclude(Boolean exclude) {
-        this.exclude = exclude
+        this.excludeFromDeployBundle = exclude
         this
     }
 
