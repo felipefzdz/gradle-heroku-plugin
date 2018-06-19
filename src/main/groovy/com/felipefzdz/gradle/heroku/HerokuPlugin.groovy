@@ -1,7 +1,8 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.tasks.DeployBundleTask
-import com.felipefzdz.gradle.heroku.tasks.DeployWebTask
+import com.felipefzdz.gradle.heroku.tasks.DeployAppTask
+import com.felipefzdz.gradle.heroku.tasks.VerifyConfigBundleTask
 import com.felipefzdz.gradle.heroku.tasks.VerifyConfigTask
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
@@ -32,7 +33,7 @@ class HerokuPlugin implements Plugin<Project> {
 
     private static void createBundleTasks(HerokuAppContainer bundle, Project project, String envName = '') {
         bundle.all { HerokuApp app ->
-            project.tasks.create("herokuDeploy${envName}${GUtil.toCamelCase(app.name)}", DeployWebTask) { DeployWebTask task ->
+            project.tasks.create("herokuDeploy${envName}${GUtil.toCamelCase(app.name)}", DeployAppTask) { DeployAppTask task ->
                 task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
@@ -51,6 +52,13 @@ class HerokuPlugin implements Plugin<Project> {
             task.group = 'deployment'
             task.bundle = bundle
             task.herokuClient = herokuClient
+            task
+        }
+
+        project.tasks.create("herokuVerifyConfigFor${envName}Bundle", VerifyConfigBundleTask) { VerifyConfigBundleTask task ->
+            task.group = 'deployment'
+            task.bundle = bundle
+            task.verifyConfigService = verifyConfigService
             task
         }
     }
