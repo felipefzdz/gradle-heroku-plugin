@@ -20,6 +20,7 @@ class HerokuApp implements Named {
     NamedDomainObjectContainer<HerokuAddon> addons
     HerokuProcess herokuProcess
     Boolean disableAcm = false
+    Integer bundlePosition = -1
 
     HerokuApp(String name, NamedDomainObjectContainer<HerokuAddon> addons) {
         this.name = name
@@ -82,6 +83,11 @@ class HerokuApp implements Named {
 
     HerokuApp disableAcm(Boolean disableAcm) {
         this.disableAcm = disableAcm
+        this
+    }
+
+    HerokuApp bundlePosition(Integer bundlePosition) {
+        this.bundlePosition = bundlePosition
         this
     }
 

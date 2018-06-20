@@ -23,6 +23,7 @@ class DeployBundleTask extends DefaultTask {
     void deployBundle() {
         bundle.toList()
                 .findAll { !it.excludeFromDeployBundle }
+                .sort { it.bundlePosition }
                 .each { it.deploy(delayAfterDestroyApp) }
     }
 }

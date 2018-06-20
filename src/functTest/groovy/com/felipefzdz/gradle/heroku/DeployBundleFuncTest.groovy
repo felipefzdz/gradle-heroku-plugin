@@ -37,6 +37,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                 bundles {
                     dev {
                         '$DATABASE_APP_NAME'(HerokuDatabaseApp) {
+                            bundlePosition = 1
                             teamName = 'test'
                             stack = 'heroku-16'
                             personalApp = true
@@ -62,6 +63,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             migrateCommand = 'bash'
                         }
                         '$APP_NAME'(HerokuWebApp) {
+                            bundlePosition = 2
                             teamName = 'test'
                             stack = 'heroku-16'
                             personalApp = true
