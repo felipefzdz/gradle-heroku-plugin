@@ -57,8 +57,8 @@ This full-fledged plugin provides an opinionated view of some Heroku related tas
 You'll need an account in Heroku with its related `API_KEY`. Creating a team is optional, as you can use personal apps. That key
 can be injected into Gradle through an env key named `GRADLE_HEROKU_PLUGIN_API_KEY` or a Gradle property named `herokuPluginApiKey`.
 
-`GRADLE_HEROKU_PLUGIN_API_KEY=123 ./gradlew yourTask`
-`./gradlew yourTask -PherokuPluginApiKey=123`
+- `GRADLE_HEROKU_PLUGIN_API_KEY=123 ./gradlew yourTask`
+- `./gradlew yourTask -PherokuPluginApiKey=123`
 
 == DSL Example
 
