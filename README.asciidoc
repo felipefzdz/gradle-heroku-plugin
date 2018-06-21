@@ -1,0 +1,332 @@
+# gradle-heroku-plugin
+
+= Gradle Heroku plugin image:https://circleci.com/gh/felipefzdz/gradle-heroku-plugin.svg?style=svg["CircleCI", link="https://circleci.com/gh/felipefzdz/gradle-heroku-plugin"]
+
+
+Gradle plugin for link:https://www.heroku.com/[Heroku] deployments.
+
+== Usage
+
+You can apply the plugin using the plugins DSL
+
+[source,groovy]
+----
+plugins {
+  id "com.felipefzdz.gradle.heroku" version "0.1.14"
+}
+----
+
+Or using the buildscript block
+
+[source,groovy]
+----
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:0.1.14"
+  }
+}
+
+apply plugin: "com.felipefzdz.gradle.heroku"
+----
+
+This full-fledged plugin provides an opinionated view of some Heroku related tasks, plus the building blocks defined on the base plugin.
+
+
+
+== DSL Example
+
+[source,groovy]
+----
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
+import com.felipefzdz.gradle.heroku.tasks.model.HerokuDatabaseApp
+
+heroku {
+    bundles {
+        dev {
+            'database'(HerokuDatabaseApp) {
+                bundlePosition = 1
+                teamName = 'test'
+                stack = 'heroku-16'
+                personalApp = true
+                addons {
+                    database {
+                        plan = 'heroku-postgresql:hobby-dev'
+                        waitUntilStarted = true
+                    }
+                }
+                migrateCommand = 'bash'
+            }
+            'excludedDatabase'(HerokuDatabaseApp) {
+                excludeFromDeployBundle = true
+                teamName = 'test'
+                stack = 'heroku-16'
+                personalApp = true
+                addons {
+                    database {
+                        plan = 'heroku-postgresql:hobby-dev'
+                        waitUntilStarted = true
+                    }
+                }
+                migrateCommand = 'bash'
+            }
+            'web'(HerokuWebApp) {
+                bundlePosition = 2
+                teamName = 'test'
+                stack = 'heroku-16'
+                personalApp = true
+                addons {
+                    'rabbitmq-bigwig' {
+                        plan = 'rabbitmq-bigwig:pipkin'
+                        waitUntilStarted = true
+                    }
+                }
+                addonAttachments {
+                    database {
+                        owningApp = '$DATABASE_APP_NAME'
+                    }
+                }
+                logDrains = ['logDrainUrl', 'anotherLogDrainUrl']
+                buildSource {
+                    buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
+                    buildUrl = { 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz' }
+                    buildVersion = '666'
+                }
+                config {
+                    configToBeExpected = ['MODE': 'dev', 'API_KEY': 'secret']
+                }
+                features = ['http-session-affinity']
+                process {
+                    type = 'web'
+                    size = 'standard-1x'
+                    quantity = 2
+                }
+                readinessProbe {
+                    url = 'https://web.herokuapp.com/version'
+                    command = { app, json ->
+                        assert json.buildNumber == app.buildSource.buildVersion
+                    }
+                }
+                disableAcm = true
+                domains = ['my-first.domain.com', 'my-second.domain.com']
+            }
+        }
+    }
+}
+----
+
+== Opinionated tasks
+
+The plugin defines the following tasks, being `Dev` and `Database` dynamic placeholders that will vary depending on your
+bundle and app, respectively.
+
+[options="header"]
+|=======
+|Task name                          |Type
+|`herokuDeployDevBundle`            |link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/DeployBundleTask.groovy[DeployBundleTask]
+|`herokuDeployDevDatabase`          |https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/DeployAppTask.groovy[DeployAppTask]
+|`herokuVerifyConfigForDevBundle`   |link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/VerifyConfigBundleTask.groovy[VerifyConfigBundleTask]
+|`herokuVerifyConfigForDevDatabase` |link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/VerifyConfigTask.groovy[VerifyConfigTask]
+|=======
+
+== Opinionated task execution examples
+
+`./gradlew herokuDeployDevBundle` will deploy `database` and `web` apps on that order.
+
+`./gradlew herokuDeployDevDatabase` will just deploy `database`
+
+`./gradlew herokuDeployDevExcludedDatabase` will deploy `excludedDatabase` as the exclusion only applies to the bundle task.
+
+`./gradlew herokuVerifyConfigForDevBundle` will verify that the config contained in the DSL for the `dev` bundle is coherent with the already deployed config, if any.
+
+`./gradlew herokuVerifyConfigForDevDatabase` will verify that the config contained in the DSL for the `database` app is coherent with the already deployed config, if any.
+
+
+== Extension properties
+
+The `heroku` closure expects the following property:
+
+[options="header"]
+|=======
+|Property name    |Type                                           |Description
+|`bundles`        |NamedDomainObjectContainer<HerokuAppContainer> |A collection of bundles (or environments) that serves as a wrapper of the actual apps to be deployed
+
+|=======
+
+Within `bundles` you should provide 1 to N named blocks that will represent your bundles, e.g. `dev` and `prod`.
+
+Those `HerokuAppContainer` will expect 1 to N `HerokuApp` super type blocks such as `'database'(HerokuDatabaseApp)`
+or `'web'(HerokuWebApp)`.
+
+=== HerokuApp simple extension properties
+
+Let's see the simple extension properties for `HerokuApp`:
+
+[options="header"]
+|=======
+|Property name      |Type           |Default value          |Description
+|`bundlePosition`   |Integer        |-1                     |Instructs deployment order. This property is optional and in case of position collision first app defined will be first deployed.
+|`teamName`         |String         |''|Teams allow you to manage access to a shared group of applications and other resources.
+|`stack`            |String         |'heroku-16'            |Stacks are the different application execution environments available in the Heroku platform.
+|`personalApp`      |Boolean        |false                  |Force creation of the app in the user account even if a default team is set.
+|`recreate`         |Boolean        |false                  |Whether to destroy the app beforehand deploying it.
+|`logDrains`        |List<String>   |[]                     |link:https://devcenter.heroku.com/articles/log-drains[Log drains] provide a way to forward your Heroku logs to an external syslog server for long-term archiving.
+|`disableAcm`       |Boolean        |false                  |Disable link:https://devcenter.heroku.com/articles/automated-certificate-management[Automated Certificate Management (ACM)] flag for an app
+|=======
+
+=== HerokuApp nested extension properties
+
+Those are the nested extension properties for `HerokuApp`.
+
+
+==== BuildSource extension properties
+
+`BuildSource` -> A build represents the process of transforming a code tarball into a slug.
+
+[options="header"]
+|=======
+|Property name      |Type               |Default value  |Description
+|`buildpackUrl`     |String             |''             |Location of the buildpack for the app. Either a url (unofficial buildpacks) or an internal urn (heroku official buildpacks).
+|`buildUrl`         |Supplier<String>   |{ -> ''}       |URL where gzipped tar archive of source code for build was downloaded. Supplier wrappers serves as a lazy mechanism to avoid costly calculations on configuration time, e.g. presigned AWS urls.
+|`buildVersion`     |String             |''             |Version of the gzipped tarball.
+|=======
+
+==== HerokuConfig extension properties
+
+`HerokuConfig` -> Allow you to manage the configuration information provided to an app on Heroku.
+
+[options="header"]
+|=======
+|Property name          |Type                   |Default value   |Description
+|`configToBeExpected`   |Map<String, String>    |[:]             |User defined config already deployed on an existing app
+|`configToBeRemoved`    |List<String>           |[]              |User defined config to be removed on the next release
+|`configToBeAdded`      |List<String>           |[]              |User defined config to be added on the next release
+|`configAddedByHeroku`  |List<String>           |[]              |Heroku defined config such as link:https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres[DATABASE_URL]
+|=======
+
+==== HerokuAddon extension properties
+
+`HerokuAddon` -> Add-ons are cloud services that extend Heroku apps with useful features and services.
+
+[options="header"]
+|=======
+|Property name      |Type               |Default value                                                              |Description
+|`name`             |String             |This is named container, so the value is mandatory when defining the DSL   |Globally unique name of the add-on pattern: ^[a-zA-Z][A-Za-z0-9_-]+$
+|`plan`             |String             |''                                                                         |Unique name of this plan, e.g `rabbitmq-bigwig:pipkin`
+|`waitUntilStarted` |Boolean            |false                                                                      |If true, the task will wait up to 10 minutes (will be configurable in further releases) with a dumb retry policy until the add-on has been added.
+|=======
+
+==== HerokuProcess extension properties
+
+`HerokuProcess` -> The formation of processes that should be maintained for an app.
+
+[options="header"]
+|=======
+|Property name      |Type               |Default value  |Description
+|`type`             |String             |''             |Type of process to maintain. Pattern: ^[-\w]{1,128}$, e.g `web`.
+|`quantity`         |Integer            |0              |Number of processes to maintain.
+|`size`             |String             | 'standard-1X' |Dyno size.
+|=======
+
+=== HerokuDatabaseApp extension properties
+
+`HerokuDatabaseApp` subtype offers the following extension properties:
+
+[options="header"]
+|=======
+|Property name      |Type               |Default value  |Description
+|`migrateCommand`   |String             |''             |link:https://devcenter.heroku.com/articles/one-off-dynos[Command] to be executed as one-off dyno. This is meant to be used for db migration purposes, but you could hijack it for whatever you have in mind. Example: `migrator -migrationVersion 12`, assuming that `migrator` is a valid command defined on your `Procfile` app.
+|=======
+
+=== HerokuWebApp extension properties
+
+`HerokuWebApp` subtype offers the following simple extension properties:
+
+[options="header"]
+|=======
+|Property name          |Type                   |Default value   |Description
+|`features`             |List<String>           |[]              |An app feature represents a Heroku labs capability that can be enabled or disabled for an app on Heroku, e.g. `http-session-affinity`.
+|`domains`              |List<String>           |[]              |Domains define what web routes should be routed to an app on Heroku.
+|=======
+
+`HerokuWebApp` subtype offers the following nested extension properties.
+
+==== HerokuAddonAttachment extension properties
+
+`HerokuAddonAttachment` -> An add-on attachment represents a connection between an app and an add-on that it has been given access to.
+
+[options="header"]
+|=======
+|Property name      |Type               |Default value                                                              |Description
+|`name`             |String             |This is named container, so the value is mandatory when defining the DSL   |Unique name for this add-on attachment to this app.
+|`owningApp`        |String             |''                                                                         |Unique name of owning app.
+|=======
+
+==== ReadinessProbe extension properties
+
+`ReadinessProbe` -> Mechanism to verify that the app is up and running.
+
+[options="header"]
+|=======
+|Property name      |Type                               |Default value             |Description
+|`url`             |String                              |''                        |Url for the health endpoint that will serve us as a readiness probe.
+|`command`         |BiAction<HerokuApp, Map<String, ?>> |{ app, jsonResponse -> }  |This function should assert onto the value returned by the health endpoint. Example: `        assert jsonResponse.buildId == app.buildSource.buildVersion`
+|=======
+
+== Base plugin
+
+If you want to create your own opinionated view of a Heroku deployment, the base plugin will give you the required building
+blocks. You may also be interested on the building blocks in isolation to enhance with automation your existing
+deployment pipeline.
+
+To use the base plugin, use these alternative snippets:
+
+[source,groovy]
+----
+plugins {
+  id "com.felipefzdz.gradle.heroku.base" version "0.1.14"
+}
+----
+
+Or using the buildscript block
+
+[source,groovy]
+----
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:0.1.14"
+  }
+}
+
+apply plugin: "com.felipefzdz.gradle.heroku.base"
+----
+
+
+=== Custom task types
+
+The base plugin provides the following custom task types:
+
+[options="header"]
+|=======
+|Type                                                                                                                                              |Description
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/AddAddonAttachmentsTask.groovy[AddAddonAttachmentsTask]      |An add-on attachment represents a connection between an app and an add-on that it has been given access to.
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/AddEnvironmentConfigTask.groovy[AddEnvironmentConfigTask]            |Update config-vars for app. You can update existing config-vars by setting them again, and remove by setting it to null.
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/ConfigureLogDrainsTask.groovy[ConfigureLogDrainsTask]        |Log drains provide a way to forward your Heroku logs to an external syslog server for long-term archiving.
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/CreateAppTask.groovy[CreateAppTask]              |An app represents the program that you would like to deploy and run on Heroku.
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/CreateBuildTask.groovy[CreateBuildTask]  |A build represents the process of transforming a code tarball into a slug
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/CreateBundleTask.groovy[CreateBundleTask]        |A bundle is a collections of apps.
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/DestroyAppTask.groovy[DestroyAppTask]      |Destroys an app.
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/DestroyBundleTask.groovy[DestroyBundleTask]                |Destroys a bundle.
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/EnableFeaturesTask.groovy[EnableFeaturesTask]      |An app feature represents a Heroku labs capability that can be enabled or disabled for an app on Heroku.
+|link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/InstallAddonsTask.groovy[InstallAddonsTask]      |Add-ons are cloud services that extend Heroku apps with useful features and services.
+|=======
+
