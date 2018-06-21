@@ -1,9 +1,27 @@
-# gradle-heroku-plugin
-
 = Gradle Heroku plugin image:https://circleci.com/gh/felipefzdz/gradle-heroku-plugin.svg?style=svg["CircleCI", link="https://circleci.com/gh/felipefzdz/gradle-heroku-plugin"]
 
+== Overview
 
-Gradle plugin for link:https://www.heroku.com/[Heroku] deployments.
+There are link:https://devcenter.heroku.com/categories/deployment[tons]
+ of built-in deployment mechanisms provided by Heroku. However if you need or want to have control over your deployment pipeline,
+ and rely on Heroku as a platform implementation detail, this plugin will help you to automate interactions with Heroku API.
+
+Bear in mind that we talk about `deploy` in a broader, or e2e, sense. From the creation of the Heroku App until checking that
+the dynos are serving the expected content. We provide an opinionated view of a deployment and the building blocks so you
+can craft your own deployment task. The only previous requirements for the plugin to work are:
+
+- Your apps packed on binary form.
+- A Heroku account and its related API key.
+
+You may need the binary for different purposes such as integration testing, QA environment or to support different
+deployments like enterprise on-premises solutions. The pattern of build the binary only once enables the following goodies:
+
+- Efficiency through build avoidance.
+- Audit. You may enforce traceability policies to ensure that the binary that you tested against QA is the very same than
+ the one deployed on production.
+
+This plugin embraces the agnostic nature of Heroku, as far as you provide a supported
+link:https://devcenter.heroku.com/articles/buildpacks[buildpack] with a compatible binary.
 
 == Usage
 
@@ -12,7 +30,7 @@ You can apply the plugin using the plugins DSL
 [source,groovy]
 ----
 plugins {
-  id "com.felipefzdz.gradle.heroku" version "0.1.14"
+  id "com.felipefzdz.gradle.heroku" version "0.1.15"
 }
 ----
 
@@ -27,7 +45,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:0.1.14"
+    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:0.1.15"
   }
 }
 
@@ -36,7 +54,11 @@ apply plugin: "com.felipefzdz.gradle.heroku"
 
 This full-fledged plugin provides an opinionated view of some Heroku related tasks, plus the building blocks defined on the base plugin.
 
+You'll need an account in Heroku with its related `API_KEY`. Creating a team is optional, as you can use personal apps. That key
+can be injected into Gradle through an env key named `GRADLE_HEROKU_PLUGIN_API_KEY` or a Gradle property named `herokuPluginApiKey`.
 
+`GRADLE_HEROKU_PLUGIN_API_KEY=123 ./gradlew yourTask`
+`./gradlew yourTask -PherokuPluginApiKey=123`
 
 == DSL Example
 
@@ -93,7 +115,7 @@ heroku {
                 logDrains = ['logDrainUrl', 'anotherLogDrainUrl']
                 buildSource {
                     buildpackUrl = 'https://codon-buildpacks.s3.amazonaws.com/buildpacks/heroku/jvm-common.tgz'
-                    buildUrl = { 'https://www.dropbox.com/s/i2unpznuqztuvp2/example.tgz' }
+                    buildUrl = { 'https://my-domain/example.tgz' }
                     buildVersion = '666'
                 }
                 config {
@@ -133,11 +155,65 @@ bundle and app, respectively.
 |`herokuVerifyConfigForDevDatabase` |link:https://github.com/felipefzdz/gradle-heroku-plugin/blob/master/src/main/groovy/com/felipefzdz/gradle/heroku/tasks/VerifyConfigTask.groovy[VerifyConfigTask]
 |=======
 
+== Understanding Deploy task
+
+The deploy bundle task will iterate over existing apps contained in the selected bundle and execute them in order (respecting exclusions, if any).
+
+We can see here a list of steps that conforms the deployment of a web app:
+
+[source,groovy]
+----
+maybeCreateApplication
+installAddons
+configureLogDrains
+createBuild
+addConfig
+enableFeatures
+addAddonAttachments
+waitForAppFormation
+updateProcessFormation
+updateDomains
+probeReadiness
+maybeDisableAcm
+----
+
+Slightly different for a database app:
+
+[source,groovy]
+----
+maybeCreateApplication
+installAddons
+configureLogDrains
+createBuild
+addConfig
+waitForAppFormation
+updateProcessFormation
+migrateDatabase
+maybeDisableAcm
+----
+
+== Understanding Verify Config task
+
+This task might be executed as a pre step for a deployment, or as a infrastructure check to verify that the config contained
+in your gradle build (that represents your whole platform in a Disaster Recovery event) is consistent with the already deployed
+config.
+
+To achieve that we provide four user generated collections plus the already deployed config. The task will fail if any of these
+conditions hold: `missingConfig || unexpectedConfig || incorrectConfig`
+
+As you shouldn't store sensible config on your VCS (you should inject it in your env through your preferred mechanism), the convention
+here is to fill those sensible values with `secret`. Those values will be therefore excluded from the `incorrectConfig` check.
+
+This task also enforces the concept of link:http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/[cattle not pets],
+discouraging config changes made directly on the actual instances (unless you accompany that with a change in your Gradle build).
+
 == Opinionated task execution examples
+
+Based on the example DSL provided above:
 
 `./gradlew herokuDeployDevBundle` will deploy `database` and `web` apps on that order.
 
-`./gradlew herokuDeployDevDatabase` will just deploy `database`
+`./gradlew herokuDeployDevDatabase` will just deploy `database`.
 
 `./gradlew herokuDeployDevExcludedDatabase` will deploy `excludedDatabase` as the exclusion only applies to the bundle task.
 
@@ -153,13 +229,13 @@ The `heroku` closure expects the following property:
 [options="header"]
 |=======
 |Property name    |Type                                           |Description
-|`bundles`        |NamedDomainObjectContainer<HerokuAppContainer> |A collection of bundles (or environments) that serves as a wrapper of the actual apps to be deployed
+|`bundles`        |NamedDomainObjectContainer<HerokuAppContainer> |A collection of bundles (or environments) that serves as a wrapper for the apps to be deployed
 
 |=======
 
 Within `bundles` you should provide 1 to N named blocks that will represent your bundles, e.g. `dev` and `prod`.
 
-Those `HerokuAppContainer` will expect 1 to N `HerokuApp` super type blocks such as `'database'(HerokuDatabaseApp)`
+Those `HerokuAppContainer` will expect 1 to N `HerokuApp` subtype blocks such as `'database'(HerokuDatabaseApp)`
 or `'web'(HerokuWebApp)`.
 
 === HerokuApp simple extension properties
@@ -175,7 +251,7 @@ Let's see the simple extension properties for `HerokuApp`:
 |`personalApp`      |Boolean        |false                  |Force creation of the app in the user account even if a default team is set.
 |`recreate`         |Boolean        |false                  |Whether to destroy the app beforehand deploying it.
 |`logDrains`        |List<String>   |[]                     |link:https://devcenter.heroku.com/articles/log-drains[Log drains] provide a way to forward your Heroku logs to an external syslog server for long-term archiving.
-|`disableAcm`       |Boolean        |false                  |Disable link:https://devcenter.heroku.com/articles/automated-certificate-management[Automated Certificate Management (ACM)] flag for an app
+|`disableAcm`       |Boolean        |false                  |Disable link:https://devcenter.heroku.com/articles/automated-certificate-management[Automated Certificate Management (ACM)] flag for an app.
 |=======
 
 === HerokuApp nested extension properties
@@ -191,7 +267,7 @@ Those are the nested extension properties for `HerokuApp`.
 |=======
 |Property name      |Type               |Default value  |Description
 |`buildpackUrl`     |String             |''             |Location of the buildpack for the app. Either a url (unofficial buildpacks) or an internal urn (heroku official buildpacks).
-|`buildUrl`         |Supplier<String>   |{ -> ''}       |URL where gzipped tar archive of source code for build was downloaded. Supplier wrappers serves as a lazy mechanism to avoid costly calculations on configuration time, e.g. presigned AWS urls.
+|`buildUrl`         |Supplier<String>   |{ -> '' }       |URL where gzipped tar archive of source code for build was downloaded. Supplier wrappers serves as a lazy mechanism to avoid costly calculations on configuration time, e.g. presigned AWS urls.
 |`buildVersion`     |String             |''             |Version of the gzipped tarball.
 |=======
 
@@ -217,7 +293,7 @@ Those are the nested extension properties for `HerokuApp`.
 |Property name      |Type               |Default value                                                              |Description
 |`name`             |String             |This is named container, so the value is mandatory when defining the DSL   |Globally unique name of the add-on pattern: ^[a-zA-Z][A-Za-z0-9_-]+$
 |`plan`             |String             |''                                                                         |Unique name of this plan, e.g `rabbitmq-bigwig:pipkin`
-|`waitUntilStarted` |Boolean            |false                                                                      |If true, the task will wait up to 10 minutes (will be configurable in further releases) with a dumb retry policy until the add-on has been added.
+|`waitUntilStarted` |Boolean            |false                                                                      |If true, the task will wait up to 10 minutes (this hardcoded value will be made configurable in further plugin releases) with a dumb retry policy until the add-on has been added.
 |=======
 
 ==== HerokuProcess extension properties
@@ -239,7 +315,7 @@ Those are the nested extension properties for `HerokuApp`.
 [options="header"]
 |=======
 |Property name      |Type               |Default value  |Description
-|`migrateCommand`   |String             |''             |link:https://devcenter.heroku.com/articles/one-off-dynos[Command] to be executed as one-off dyno. This is meant to be used for db migration purposes, but you could hijack it for whatever you have in mind. Example: `migrator -migrationVersion 12`, assuming that `migrator` is a valid command defined on your `Procfile` app.
+|`migrateCommand`   |String             |''             |link:https://devcenter.heroku.com/articles/one-off-dynos[Command] to be executed as one-off dyno. This is meant to be used for db migration purposes, but you could hijack it for whatever you have in mind. Example: `migrator -migrationVersion 12`, assuming that `migrator` is a valid command defined on your `Procfile`.
 |=======
 
 === HerokuWebApp extension properties
@@ -288,7 +364,7 @@ To use the base plugin, use these alternative snippets:
 [source,groovy]
 ----
 plugins {
-  id "com.felipefzdz.gradle.heroku.base" version "0.1.14"
+  id "com.felipefzdz.gradle.heroku.base" version "0.1.15"
 }
 ----
 
@@ -303,13 +379,12 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:0.1.14"
+    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:0.1.15"
   }
 }
 
 apply plugin: "com.felipefzdz.gradle.heroku.base"
 ----
-
 
 === Custom task types
 
