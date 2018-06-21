@@ -7,7 +7,7 @@ import groovy.transform.ToString
 @ToString
 class HerokuAddonAttachment {
     final String name
-    String owningApp
+    String owningApp = ''
 
     HerokuAddonAttachment(String name) {
         this.name = name.toUpperCase()

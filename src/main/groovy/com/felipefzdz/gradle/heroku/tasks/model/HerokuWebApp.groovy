@@ -9,8 +9,8 @@ import org.gradle.api.NamedDomainObjectContainer
 class HerokuWebApp extends HerokuApp {
 
     NamedDomainObjectContainer<HerokuAddonAttachment> addonAttachments
-    List<String> features
-    List<String> domains
+    List<String> features = []
+    List<String> domains = []
     ReadinessProbe readinessProbe
 
     DeployWebService deployWebService

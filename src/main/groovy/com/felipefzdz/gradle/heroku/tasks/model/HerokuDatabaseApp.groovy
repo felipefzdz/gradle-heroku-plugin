@@ -7,7 +7,7 @@ import org.gradle.api.NamedDomainObjectContainer
 @CompileStatic
 class HerokuDatabaseApp extends HerokuApp {
 
-    String migrateCommand
+    String migrateCommand = ''
 
     DeployDatabaseService deployDatabaseService
 

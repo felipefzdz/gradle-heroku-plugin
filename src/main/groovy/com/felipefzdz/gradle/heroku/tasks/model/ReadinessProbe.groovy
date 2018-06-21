@@ -5,8 +5,8 @@ import org.gradle.internal.BiAction
 
 @CompileStatic
 class ReadinessProbe {
-    String url
-    BiAction<HerokuApp, Map<String, ?>> command
+    String url = ''
+    BiAction<HerokuApp, Map<String, ?>> command = ({ app, map -> } as BiAction<HerokuApp, Map<String, ?>>)
 
     @Override
     String toString() {

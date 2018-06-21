@@ -8,13 +8,13 @@ import org.gradle.api.NamedDomainObjectContainer
 @CompileStatic
 class HerokuApp implements Named {
 
-    String name
-    String teamName
-    String stack
+    String name = ''
+    String teamName = ''
+    String stack = 'heroku-16'
     Boolean excludeFromDeployBundle = false
     Boolean personalApp = false
     Boolean recreate = false
-    List<String> logDrains
+    List<String> logDrains = []
     BuildSource buildSource
     HerokuConfig herokuConfig
     NamedDomainObjectContainer<HerokuAddon> addons

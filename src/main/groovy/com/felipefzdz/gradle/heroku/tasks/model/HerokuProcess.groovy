@@ -4,9 +4,9 @@ import groovy.transform.CompileStatic
 
 @CompileStatic
 class HerokuProcess {
-    String type
-    int quantity
-    String size
+    String type = ''
+    int quantity = 0
+    String size = 'standard-1X'
 
     @Override
     String toString() {
@@ -14,6 +14,6 @@ class HerokuProcess {
                 "type='" + type + '\'' +
                 ", quantity=" + quantity +
                 ", size='" + size + '\'' +
-                '}';
+                '}'
     }
 }

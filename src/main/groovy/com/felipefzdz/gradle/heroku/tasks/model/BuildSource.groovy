@@ -6,9 +6,9 @@ import java.util.function.Supplier
 
 @CompileStatic
 class BuildSource {
-    String buildpackUrl
-    Supplier<String> buildUrl
-    String buildVersion
+    String buildpackUrl = ''
+    Supplier<String> buildUrl = {  -> '' } as Supplier<String>
+    String buildVersion = ''
 
     @Override
     String toString() {

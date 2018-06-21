@@ -5,10 +5,10 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class HerokuConfig {
 
-    Map<String, String> configToBeExpected
-    List<String> configToBeRemoved
-    List<String> configToBeAdded
-    List<String> configAddedByHeroku
+    Map<String, String> configToBeExpected = [:]
+    List<String> configToBeRemoved = []
+    List<String> configToBeAdded = []
+    List<String> configAddedByHeroku = []
 
     @Override
     String toString() {

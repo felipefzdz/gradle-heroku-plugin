@@ -5,8 +5,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class HerokuAddon {
     final String name
-    String plan
-    Boolean waitUntilStarted
+    String plan = ''
+    Boolean waitUntilStarted = false
 
     HerokuAddon(String name) {
         this.name = name.toUpperCase()
