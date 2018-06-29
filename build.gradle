@@ -37,5 +37,8 @@ dependencies {
     testCompile("org.spockframework:spock-core:$spockVersion-groovy-2.4") {
         exclude group: 'org.codehaus.groovy'
     }
-    testCompile "com.github.tomakehurst:wiremock:2.16.0"
+    testCompile ('com.felipefdzdz.spock:spock-wiremock-extension:0.1.12') {
+        exclude group: 'org.codehaus.groovy'
+    }
+
 }

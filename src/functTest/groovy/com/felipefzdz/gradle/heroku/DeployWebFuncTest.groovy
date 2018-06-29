@@ -3,7 +3,7 @@ package com.felipefzdz.gradle.heroku
 import static com.felipefzdz.gradle.heroku.utils.FormatUtil.toUpperCamel
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
-class DeployFuncTest extends BaseFuncTest {
+class DeployWebFuncTest extends BaseFuncTest {
 
     String APP_NAME = 'functional-test-app'
 
