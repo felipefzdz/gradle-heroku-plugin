@@ -8,17 +8,23 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
+import javax.inject.Inject
+
 @CompileStatic
 class CreateAppTask extends HerokuBaseTask {
 
     @Internal
     HerokuApp app
 
-    @Internal
-    HerokuClient herokuClient
+    private final HerokuClient herokuClient
 
-    @Internal
-    CreateAppService createAppService
+    private final CreateAppService createAppService
+
+    @Inject
+    CreateAppTask(HerokuClient herokuClient, CreateAppService createAppService) {
+        this.herokuClient = herokuClient
+        this.createAppService = createAppService
+    }
 
     @TaskAction
     void createApp() {

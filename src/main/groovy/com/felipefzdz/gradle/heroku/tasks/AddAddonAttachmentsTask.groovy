@@ -7,15 +7,20 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
+import javax.inject.Inject
+
 @CompileStatic
 class AddAddonAttachmentsTask extends HerokuBaseTask {
 
     @Internal
     HerokuWebApp app
 
-    @Internal
-    AddAddonAttachmentsService addAddonAttachmentsService
+    private final AddAddonAttachmentsService addAddonAttachmentsService
 
+    @Inject
+    AddAddonAttachmentsTask(AddAddonAttachmentsService addAddonAttachmentsService) {
+        this.addAddonAttachmentsService = addAddonAttachmentsService
+    }
 
     @TaskAction
     void addAddonAttachments() {

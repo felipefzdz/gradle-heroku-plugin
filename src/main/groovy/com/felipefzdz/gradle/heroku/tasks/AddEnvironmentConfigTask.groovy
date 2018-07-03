@@ -7,17 +7,22 @@ import org.gradle.api.logging.Logger
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
+import javax.inject.Inject
+
 @CompileStatic
 class AddEnvironmentConfigTask extends HerokuBaseTask {
 
     @Internal
     HerokuApp app
 
-    @Internal
-    HerokuClient herokuClient
+    private final HerokuClient herokuClient
+    private final Logger logger
 
-    @Internal
-    Logger logger
+    @Inject
+    AddEnvironmentConfigTask(HerokuClient herokuClient, Logger logger) {
+        this.herokuClient = herokuClient
+        this.logger = logger
+    }
 
     @TaskAction
     void addEnviromentConfig() {

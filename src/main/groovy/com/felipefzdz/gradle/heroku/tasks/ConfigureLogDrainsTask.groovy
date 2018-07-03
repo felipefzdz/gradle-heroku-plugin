@@ -8,17 +8,22 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
+import javax.inject.Inject
+
 @CompileStatic
 class ConfigureLogDrainsTask extends HerokuBaseTask {
 
     @Internal
     HerokuApp app
 
-    @Internal
-    HerokuClient herokuClient
+    private final HerokuClient herokuClient
+    private final ConfigureLogDrainsService configureLogDrainsService
 
-    @Internal
-    ConfigureLogDrainsService configureLogDrainsService
+    @Inject
+    ConfigureLogDrainsTask(HerokuClient herokuClient, ConfigureLogDrainsService configureLogDrainsService) {
+        this.herokuClient = herokuClient
+        this.configureLogDrainsService = configureLogDrainsService
+    }
 
     @TaskAction
     void configureLogDrains() {

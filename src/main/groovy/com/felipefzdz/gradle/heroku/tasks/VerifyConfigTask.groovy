@@ -9,20 +9,24 @@ import org.gradle.api.logging.Logger
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
+import javax.inject.Inject
+
 @CompileStatic
 class VerifyConfigTask extends HerokuBaseTask {
 
     @Internal
     HerokuApp app
 
-    @Internal
-    HerokuClient herokuClient
+    private final HerokuClient herokuClient
+    private final VerifyConfigService verifyConfigService
+    private final Logger logger
 
-    @Internal
-    VerifyConfigService verifyConfigService
-
-    @Internal
-    Logger logger
+    @Inject
+    VerifyConfigTask(HerokuClient herokuClient, VerifyConfigService verifyConfigService, Logger logger) {
+        this.herokuClient = herokuClient
+        this.verifyConfigService = verifyConfigService
+        this.logger = logger
+    }
 
     @TaskAction
     void verifyConfig() {

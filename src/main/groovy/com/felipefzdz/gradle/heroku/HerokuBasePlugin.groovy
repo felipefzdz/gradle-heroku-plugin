@@ -3,7 +3,6 @@ package com.felipefzdz.gradle.heroku
 import com.felipefzdz.gradle.heroku.dependencyinjection.Graph
 import com.felipefzdz.gradle.heroku.tasks.*
 import com.felipefzdz.gradle.heroku.tasks.model.*
-import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -15,7 +14,6 @@ import javax.inject.Inject
 
 import static com.felipefzdz.gradle.heroku.dependencyinjection.Graph.*
 
-@CompileStatic
 class HerokuBasePlugin implements Plugin<Project> {
 
     public static final String HEROKU_EXTENSION_NAME = 'heroku'
@@ -54,82 +52,34 @@ class HerokuBasePlugin implements Plugin<Project> {
 
     private static void createBundleTasks(HerokuAppContainer bundle, Project project, String bundleName = '') {
         bundle.all { HerokuApp app ->
-            project.tasks.create("herokuCreate$bundleName${GUtil.toCamelCase(app.name)}", CreateAppTask) { CreateAppTask task ->
+            def herokuAppTasks = []
+            herokuAppTasks << project.tasks.create("herokuCreate$bundleName${GUtil.toCamelCase(app.name)}", CreateAppTask, herokuClient, createAppService)
+            herokuAppTasks << project.tasks.create("herokuDestroy$bundleName${GUtil.toCamelCase(app.name)}", DestroyAppTask, herokuClient, destroyAppService)
+            herokuAppTasks << project.tasks.create("herokuConfigureLogDrainsFor$bundleName${GUtil.toCamelCase(app.name)}", ConfigureLogDrainsTask, herokuClient, configureLogDrainsService)
+            herokuAppTasks << project.tasks.create("herokuCreateBuildFor$bundleName${GUtil.toCamelCase(app.name)}", CreateBuildTask, herokuClient, createBuildService)
+            herokuAppTasks << project.tasks.create("herokuAddEnvironmentConfigFor$bundleName${GUtil.toCamelCase(app.name)}", AddEnvironmentConfigTask, herokuClient, project.logger)
+            herokuAppTasks << project.tasks.create("herokuInstallAddonsFor$bundleName${GUtil.toCamelCase(app.name)}", InstallAddonsTask, installAddonsService)
+            herokuAppTasks.each { task ->
                 task.group = 'deployment'
                 task.app = app
-                task.herokuClient = herokuClient
-                task.createAppService = createAppService
-                task
-            }
-
-            project.tasks.create("herokuDestroy$bundleName${GUtil.toCamelCase(app.name)}", DestroyAppTask) { DestroyAppTask task ->
-                task.group = 'deployment'
-                task.app = app
-                task.herokuClient = herokuClient
-                task.destroyAppService = destroyAppService
-                task
-            }
-
-            project.tasks.create("herokuConfigureLogDrainsFor$bundleName${GUtil.toCamelCase(app.name)}", ConfigureLogDrainsTask) { ConfigureLogDrainsTask task ->
-                task.group = 'deployment'
-                task.app = app
-                task.herokuClient = herokuClient
-                task.configureLogDrainsService = configureLogDrainsService
-                task
-            }
-
-            project.tasks.create("herokuCreateBuildFor$bundleName${GUtil.toCamelCase(app.name)}", CreateBuildTask) { CreateBuildTask task ->
-                task.group = 'deployment'
-                task.app = app
-                task.herokuClient = herokuClient
-                task.createBuildService = createBuildService
-                task
-            }
-
-            project.tasks.create("herokuAddEnvironmentConfigFor$bundleName${GUtil.toCamelCase(app.name)}", AddEnvironmentConfigTask) { AddEnvironmentConfigTask task ->
-                task.group = 'deployment'
-                task.app = app
-                task.herokuClient = herokuClient
-                task.logger = project.logger
-                task
-            }
-
-            project.tasks.create("herokuInstallAddonsFor$bundleName${GUtil.toCamelCase(app.name)}", InstallAddonsTask) { InstallAddonsTask task ->
-                task.group = 'deployment'
-                task.app = app
-                task.installAddonsService = installAddonsService
-                task
             }
 
             if (app instanceof HerokuWebApp) {
-                project.tasks.create("herokuEnableFeaturesFor$bundleName${GUtil.toCamelCase(app.name)}", EnableFeaturesTask) { EnableFeaturesTask task ->
+                def herokuWebAppTasks = []
+                herokuWebAppTasks << project.tasks.create("herokuEnableFeaturesFor$bundleName${GUtil.toCamelCase(app.name)}", EnableFeaturesTask, enableFeaturesService)
+                herokuWebAppTasks << project.tasks.create("herokuAddAddonAttachmentsFor$bundleName${GUtil.toCamelCase(app.name)}", AddAddonAttachmentsTask, addAddonAttachmentsService)
+                herokuWebAppTasks.each { task ->
                     task.group = 'deployment'
                     task.app = app as HerokuWebApp
-                    task.enableFeaturesService = enableFeaturesService
-                    task
-                }
-                project.tasks.create("herokuAddAddonAttachmentsFor$bundleName${GUtil.toCamelCase(app.name)}", AddAddonAttachmentsTask) { AddAddonAttachmentsTask task ->
-                    task.group = 'deployment'
-                    task.app = app as HerokuWebApp
-                    task.addAddonAttachmentsService = addAddonAttachmentsService
-                    task
                 }
             }
         }
-        project.tasks.create("herokuCreate${bundleName}Bundle", CreateBundleTask) { CreateBundleTask task ->
+        def herokuBundleTasks = []
+        herokuBundleTasks << project.tasks.create("herokuCreate${bundleName}Bundle", CreateBundleTask, herokuClient, createAppService)
+        herokuBundleTasks << project.tasks.create("herokuDestroy${bundleName}Bundle", DestroyBundleTask, herokuClient, destroyAppService)
+        herokuBundleTasks.each { task ->
             task.group = 'deployment'
             task.bundle = bundle
-            task.herokuClient = herokuClient
-            task.createAppService = createAppService
-            task
-        }
-
-        project.tasks.create("herokuDestroy${bundleName}Bundle", DestroyBundleTask) { DestroyBundleTask task ->
-            task.group = 'deployment'
-            task.bundle = bundle
-            task.herokuClient = herokuClient
-            task.destroyAppService = destroyAppService
-            task
         }
     }
 

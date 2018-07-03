@@ -5,9 +5,10 @@ import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.services.CreateAppService
 import groovy.transform.CompileStatic
-import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
+
+import javax.inject.Inject
 
 @CompileStatic
 class CreateBundleTask extends HerokuBaseTask {
@@ -15,11 +16,14 @@ class CreateBundleTask extends HerokuBaseTask {
     @Internal
     HerokuAppContainer bundle
 
-    @Internal
-    HerokuClient herokuClient
+    private final HerokuClient herokuClient
+    private final CreateAppService createAppService
 
-    @Internal
-    CreateAppService createAppService
+    @Inject
+    CreateBundleTask(HerokuClient herokuClient, CreateAppService createAppService) {
+        this.herokuClient = herokuClient
+        this.createAppService = createAppService
+    }
 
     @TaskAction
     void createBundle() {

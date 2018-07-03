@@ -9,17 +9,22 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
+import javax.inject.Inject
+
 @CompileStatic
 class DestroyBundleTask extends HerokuBaseTask {
 
     @Internal
     HerokuAppContainer bundle
 
-    @Internal
-    HerokuClient herokuClient
+    private final HerokuClient herokuClient
+    private final DestroyAppService destroyAppService
 
-    @Internal
-    DestroyAppService destroyAppService
+    @Inject
+    DestroyBundleTask(HerokuClient herokuClient, DestroyAppService destroyAppService) {
+        this.herokuClient = herokuClient
+        this.destroyAppService = destroyAppService
+    }
 
     @TaskAction
     void destroyBundle() {

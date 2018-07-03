@@ -7,13 +7,19 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
+import javax.inject.Inject
+
 @CompileStatic
 class EnableFeaturesTask extends HerokuBaseTask {
     @Internal
     HerokuWebApp app
 
-    @Internal
-    EnableFeaturesService enableFeaturesService
+    private final EnableFeaturesService enableFeaturesService
+
+    @Inject
+    EnableFeaturesTask(EnableFeaturesService enableFeaturesService) {
+        this.enableFeaturesService = enableFeaturesService
+    }
 
     @TaskAction
     void enableFeatures() {
