@@ -38,6 +38,7 @@ class HerokuBasePlugin implements Plugin<Project> {
         project.gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
             if (graph.allTasks.any { it instanceof HerokuBaseTask }) {
                 String apiKey = System.getenv("GRADLE_HEROKU_PLUGIN_API_KEY") ?: project.property('herokuPluginApiKey')
+                assert apiKey != null
                 herokuClient.init(apiKey)
             }
         }
