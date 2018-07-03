@@ -25,22 +25,22 @@ class HerokuPlugin implements Plugin<Project> {
     }
 
     private static void createDeployTasks(NamedDomainObjectContainer<HerokuAppContainer> bundles, Project project) {
-        bundles.all { HerokuAppContainer env ->
-            String envName = GUtil.toCamelCase(env.name)
-            createBundleTasks(env, project, envName)
+        bundles.all { HerokuAppContainer bundle ->
+            String bundleName = GUtil.toCamelCase(bundle.name)
+            createBundleTasks(bundle, project, bundleName)
         }
     }
 
-    private static void createBundleTasks(HerokuAppContainer bundle, Project project, String envName = '') {
+    private static void createBundleTasks(HerokuAppContainer bundle, Project project, String bundleName = '') {
         bundle.all { HerokuApp app ->
-            project.tasks.create("herokuDeploy${envName}${GUtil.toCamelCase(app.name)}", DeployAppTask) { DeployAppTask task ->
+            project.tasks.create("herokuDeploy${bundleName}${GUtil.toCamelCase(app.name)}", DeployAppTask) { DeployAppTask task ->
                 task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
                 task
             }
 
-            project.tasks.create("herokuVerifyConfigFor${envName}${GUtil.toCamelCase(app.name)}", VerifyConfigTask) { VerifyConfigTask task ->
+            project.tasks.create("herokuVerifyConfigFor${bundleName}${GUtil.toCamelCase(app.name)}", VerifyConfigTask) { VerifyConfigTask task ->
                 task.group = 'deployment'
                 task.app = app
                 task.verifyConfigService = verifyConfigService
@@ -48,14 +48,14 @@ class HerokuPlugin implements Plugin<Project> {
             }
         }
 
-        project.tasks.create("herokuDeploy${envName}Bundle", DeployBundleTask) { DeployBundleTask task ->
+        project.tasks.create("herokuDeploy${bundleName}Bundle", DeployBundleTask) { DeployBundleTask task ->
             task.group = 'deployment'
             task.bundle = bundle
             task.herokuClient = herokuClient
             task
         }
 
-        project.tasks.create("herokuVerifyConfigFor${envName}Bundle", VerifyConfigBundleTask) { VerifyConfigBundleTask task ->
+        project.tasks.create("herokuVerifyConfigFor${bundleName}Bundle", VerifyConfigBundleTask) { VerifyConfigBundleTask task ->
             task.group = 'deployment'
             task.bundle = bundle
             task.verifyConfigService = verifyConfigService

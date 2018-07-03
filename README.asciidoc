@@ -229,7 +229,7 @@ The `heroku` closure expects the following property:
 [options="header"]
 |=======
 |Property name    |Type                                           |Description
-|`bundles`        |NamedDomainObjectContainer<HerokuAppContainer> |A collection of bundles (or environments) that serves as a wrapper for the apps to be deployed
+|`bundles`        |NamedDomainObjectContainer<HerokuAppContainer> |A collection of bundles that serves as a wrapper for the apps to be deployed
 
 |=======
 
