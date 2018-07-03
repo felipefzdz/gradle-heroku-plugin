@@ -2,17 +2,13 @@ package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
+import com.felipefzdz.gradle.heroku.logger.NoOpLogger
 import com.felipefzdz.spock.WiremockScenario
-import com.github.tomakehurst.wiremock.WireMockServer
-import com.github.tomakehurst.wiremock.junit.WireMockRule
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Shared
 import spock.lang.Specification
-
-import static com.github.tomakehurst.wiremock.client.WireMock.recordSpec
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 
 @WiremockScenario(
         resetRecordIf = { Boolean.valueOf(System.getenv('GRADLE_HEROKU_PLUGIN_RECORD_SCENARIOS')) },
@@ -25,7 +21,7 @@ abstract class BaseFuncTest extends Specification {
     public static final String APP_NAME = 'functional-test-app'
 
     @Shared
-    HerokuClient herokuClient = new DefaultHerokuClient().init(System.getenv("GRADLE_HEROKU_PLUGIN_API_KEY"))
+    HerokuClient herokuClient = new DefaultHerokuClient(new NoOpLogger('test')).init(System.getenv("GRADLE_HEROKU_PLUGIN_API_KEY"))
 
     @Rule
     TemporaryFolder testProjectDir = new TemporaryFolder()

@@ -17,7 +17,7 @@ class CreateAppTest extends Specification {
     String STACK = 'cedar-14'
 
     def setup() {
-        createAppService = new CreateAppService(herokuClient)
+        createAppService = new CreateAppService(herokuClient, new NoOpLogger('test'))
 
         app = new HerokuApp(APP_NAME, null)
         app.teamName = TEAM_NAME

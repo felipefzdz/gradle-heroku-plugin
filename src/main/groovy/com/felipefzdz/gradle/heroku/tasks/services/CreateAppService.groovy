@@ -3,22 +3,26 @@ package com.felipefzdz.gradle.heroku.tasks.services
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import groovy.transform.CompileStatic
+import org.gradle.api.logging.Logger
 
 @CompileStatic
 class CreateAppService {
 
-    HerokuClient herokuClient
+    private final HerokuClient herokuClient
 
-    CreateAppService(HerokuClient herokuClient) {
+    private final Logger logger
+
+    CreateAppService(HerokuClient herokuClient, Logger logger) {
         this.herokuClient = herokuClient
+        this.logger = logger
     }
 
     void createApp(HerokuApp app, String appName) {
         if (herokuClient.appExists(appName)) {
-            println "App $appName already exists and won't be created."
+            logger.lifecycle "App $appName already exists and won't be created."
         } else {
             herokuClient.createApp(appName, app.teamName, app.personalApp, app.stack)
-            println "Successfully created app $appName"
+            logger.lifecycle "Successfully created app $appName"
         }
     }
 }

@@ -22,7 +22,7 @@ class InstallAddonsTest extends Specification {
     String PLAN = 'heroku-redis:hobby-dev'
 
     def setup() {
-        installAddonsService = new InstallAddonsService(herokuClient)
+        installAddonsService = new InstallAddonsService(herokuClient, new NoOpLogger('test'))
 
         def redisAddon = new HerokuAddon('redis')
         redisAddon.plan = PLAN

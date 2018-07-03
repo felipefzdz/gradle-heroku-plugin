@@ -29,7 +29,7 @@ class HerokuBasePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        Graph.init()
+        Graph.init(project.logger)
         NamedDomainObjectContainer<HerokuAppContainer> bundles = project.container(HerokuAppContainer) { String name ->
             createHerokuAppContainer(project, name)
         }
@@ -90,6 +90,7 @@ class HerokuBasePlugin implements Plugin<Project> {
                 task.group = 'deployment'
                 task.app = app
                 task.herokuClient = herokuClient
+                task.logger = project.logger
                 task
             }
 

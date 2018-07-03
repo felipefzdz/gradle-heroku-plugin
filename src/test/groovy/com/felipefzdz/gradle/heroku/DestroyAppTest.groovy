@@ -13,7 +13,7 @@ class DestroyAppTest extends Specification {
     String APP_NAME = 'appName'
 
     def setup() {
-        destroyAppService = new DestroyAppService(herokuClient)
+        destroyAppService = new DestroyAppService(herokuClient, new NoOpLogger('test'))
     }
 
     def "skip destroying an app when missing"() {

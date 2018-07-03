@@ -8,6 +8,7 @@ import com.felipefzdz.gradle.heroku.tasks.model.HerokuConfig
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuProcess
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.logging.Logger
 
 import java.time.Duration
 
@@ -24,22 +25,25 @@ class BaseDeployService {
     protected final HerokuClient herokuClient
     protected final ConfigureLogDrainsService configureLogDrainsService
     protected final CreateBuildService createBuildService
+    protected final Logger logger
 
     BaseDeployService(
             InstallAddonsService installAddonsService,
             HerokuClient herokuClient,
             ConfigureLogDrainsService configureLogDrainsService,
-            CreateBuildService createBuildService) {
+            CreateBuildService createBuildService,
+            Logger logger) {
         this.installAddonsService = installAddonsService
         this.herokuClient = herokuClient
         this.configureLogDrainsService = configureLogDrainsService
         this.createBuildService = createBuildService
+        this.logger = logger
     }
 
 
     protected void waitForAppFormation(String appName, BuildSource buildSource) {
         if (buildSource) {
-            println "Checking for existence of resource formation …"
+            logger.lifecycle "Checking for existence of resource formation …"
             waitFor(Duration.ofMinutes(5), Duration.ofSeconds(3), "waiting for process formation for $appName", SKIP_WAITS) {
                 def formation = herokuClient.getFormations(appName)
                 assert !formation.isEmpty()
@@ -56,10 +60,10 @@ class BaseDeployService {
             exists = false
         }
         if (exists) {
-            println "App $appName already exists and won't be created"
+            logger.lifecycle "App $appName already exists and won't be created"
         } else {
             herokuClient.createApp(appName, teamName, personalApp, stack)
-            println "Successfully created app $appName"
+            logger.lifecycle "Successfully created app $appName"
         }
     }
 
@@ -72,18 +76,18 @@ class BaseDeployService {
     protected void addConfig(HerokuConfig herokuConfig, String appName) {
         Map<String, String> config = herokuConfig != null ? herokuConfig.configToBeExpected : null
         if (config) {
-            println "Setting env config variables ${config.keySet().toList().sort()}"
+            logger.lifecycle "Setting env config variables ${config.keySet().toList().sort()}"
             herokuClient.updateConfig(appName, config)
-            println "Added environment config for $appName"
+            logger.lifecycle "Added environment config for $appName"
         }
     }
 
     protected void updateProcessFormation(String appName, HerokuProcess process) {
-        println "Updating process formations for app ${appName}"
+        logger.lifecycle "Updating process formations for app ${appName}"
         if (process != null) {
             herokuClient.updateProcessFormations(appName, process)
         } else {
-            println "No process formations for app ${appName}"
+            logger.lifecycle "No process formations for app ${appName}"
         }
     }
 
@@ -95,7 +99,7 @@ class BaseDeployService {
 
     protected delay(Duration duration, boolean skipWaits) {
         if (!skipWaits) {
-            println "Delaying for ${duration.toMillis()} milliseconds..."
+            logger.lifecycle "Delaying for ${duration.toMillis()} milliseconds..."
             sleep(duration.toMillis())
         }
 

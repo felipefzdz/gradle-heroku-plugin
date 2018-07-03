@@ -44,6 +44,7 @@ class HerokuPlugin implements Plugin<Project> {
                 task.group = 'deployment'
                 task.app = app
                 task.verifyConfigService = verifyConfigService
+                task.logger = project.logger
                 task
             }
         }

@@ -3,6 +3,7 @@ package com.felipefzdz.gradle.heroku.dependencyinjection
 import com.felipefzdz.gradle.heroku.heroku.DefaultHerokuClient
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.services.*
+import org.gradle.api.logging.Logger
 
 class Graph {
     static private HerokuClient herokuClient
@@ -17,22 +18,22 @@ class Graph {
     static private DeployDatabaseService deployDatabaseService
     static private VerifyConfigService verifyConfigService
 
-    static void init() {
-        herokuClient = new DefaultHerokuClient()
-        installAddonsService = new InstallAddonsService(herokuClient)
-        configureLogDrainsService = new ConfigureLogDrainsService(herokuClient)
-        createBuildService = new CreateBuildService(herokuClient)
-        enableFeaturesService = new EnableFeaturesService(herokuClient)
-        addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient)
-        createAppService = new CreateAppService(herokuClient)
-        destroyAppService = new DestroyAppService(herokuClient)
-        verifyConfigService = new VerifyConfigService(herokuClient)
+    static void init(Logger logger) {
+        herokuClient = new DefaultHerokuClient(logger)
+        installAddonsService = new InstallAddonsService(herokuClient, logger)
+        configureLogDrainsService = new ConfigureLogDrainsService(herokuClient, logger)
+        createBuildService = new CreateBuildService(herokuClient, logger)
+        enableFeaturesService = new EnableFeaturesService(herokuClient, logger)
+        addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient, logger)
+        createAppService = new CreateAppService(herokuClient, logger)
+        destroyAppService = new DestroyAppService(herokuClient, logger)
+        verifyConfigService = new VerifyConfigService(herokuClient, logger)
         deployWebService =
                 new DeployWebService(installAddonsService, herokuClient, configureLogDrainsService,
-                        createBuildService, enableFeaturesService, addAddonAttachmentsService)
+                        createBuildService, enableFeaturesService, addAddonAttachmentsService, logger)
         deployDatabaseService =
                 new DeployDatabaseService(installAddonsService, herokuClient, configureLogDrainsService,
-                        createBuildService)
+                        createBuildService, logger)
     }
 
     static HerokuClient getHerokuClient() {

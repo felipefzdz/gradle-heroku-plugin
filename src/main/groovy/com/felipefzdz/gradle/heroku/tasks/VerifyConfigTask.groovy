@@ -5,7 +5,7 @@ import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuConfig
 import com.felipefzdz.gradle.heroku.tasks.services.VerifyConfigService
 import groovy.transform.CompileStatic
-import org.gradle.api.DefaultTask
+import org.gradle.api.logging.Logger
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
@@ -21,14 +21,17 @@ class VerifyConfigTask extends HerokuBaseTask {
     @Internal
     VerifyConfigService verifyConfigService
 
+    @Internal
+    Logger logger
+
     @TaskAction
     void verifyConfig() {
         HerokuConfig config = app.herokuConfig
         if (config) {
             def appName = app.name
-            println "Verify config for $appName"
+            logger.lifecycle "Verify config for $appName"
             verifyConfigService.verifyConfig(config, appName)
-            println "Verified config for $appName"
+            logger.lifecycle "Verified config for $appName"
         }
     }
 }

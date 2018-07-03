@@ -4,6 +4,7 @@ import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuAddon
 import com.heroku.api.AddonChange
 import groovy.transform.CompileStatic
+import org.gradle.api.logging.Logger
 
 import java.time.Duration
 
@@ -14,10 +15,12 @@ class InstallAddonsService {
 
     private final Boolean SKIP_WAITS = Boolean.valueOf(System.getenv('GRADLE_HEROKU_PLUGIN_SKIP_WAITS'))
 
-    HerokuClient herokuClient
+    private final HerokuClient herokuClient
+    private final Logger logger
 
-    InstallAddonsService(HerokuClient herokuClient) {
+    InstallAddonsService(HerokuClient herokuClient, Logger logger) {
         this.herokuClient = herokuClient
+        this.logger = logger
     }
 
     void installAddons(List<HerokuAddon> addons, String appName) {
@@ -26,10 +29,10 @@ class InstallAddonsService {
         addons.each { HerokuAddon addon ->
             def existing = existingAddons.find { it.name == addon.name }
             if (existing) {
-                println "Addon $addon already exists as an addon attachment and won't be installed"
+                logger.lifecycle "Addon $addon already exists as an addon attachment and won't be installed"
             } else {
                 added[addon] = herokuClient.installAddon(appName, addon.plan)
-                println "Successfully installed addon ${addon.name}"
+                logger.lifecycle "Successfully installed addon ${addon.name}"
             }
         }
         waitForAddonsIfAdded(appName, added.keySet())
@@ -45,7 +48,7 @@ class InstallAddonsService {
     }
 
     private URI waitForAddonUrl(String appName, String addonUrl) {
-        println "Waiting for $addonUrl to be set on app $appName"
+        logger.lifecycle "Waiting for $addonUrl to be set on app $appName"
         waitFor(Duration.ofMinutes(10), Duration.ofSeconds(5), "$addonUrl to be set on app $appName", SKIP_WAITS) {
             def deployedAddonUrl = herokuClient.listConfig(appName)[addonUrl]
             assert deployedAddonUrl != null : "$addonUrl has not been set up yet on app $appName"
@@ -54,7 +57,7 @@ class InstallAddonsService {
     }
 
     private void waitForSocketAvailable(String host, int port) {
-        println "Waiting for connection on $host:$port"
+        logger.lifecycle "Waiting for connection on $host:$port"
         waitFor(Duration.ofMinutes(5), Duration.ofSeconds(5), "database to appear at $host:$port", SKIP_WAITS) {
             tryConnect(host, port)
         }

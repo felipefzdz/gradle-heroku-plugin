@@ -14,7 +14,7 @@ class ConfigureLogDrainsTest extends Specification {
     String APP_NAME = 'appName'
 
     def setup() {
-        configureLogDrainsService = new ConfigureLogDrainsService(herokuClient)
+        configureLogDrainsService = new ConfigureLogDrainsService(herokuClient, new NoOpLogger('test'))
         logDrains = ['test1', 'test2']
     }
 

@@ -1,7 +1,6 @@
 package com.felipefzdz.gradle.heroku
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
-import com.felipefzdz.gradle.heroku.tasks.model.HerokuApp
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuWebApp
 import com.felipefzdz.gradle.heroku.tasks.services.*
 import spock.lang.Specification
@@ -20,10 +19,10 @@ class DeployAppTest extends Specification {
     HerokuWebApp app
 
     def setup() {
-
-        deployService = new DeployWebService(new InstallAddonsService(herokuClient), herokuClient,
-                new ConfigureLogDrainsService(herokuClient), new CreateBuildService(herokuClient),
-                new EnableFeaturesService(herokuClient), new AddAddonAttachmentsService(herokuClient))
+        def logger = new NoOpLogger('test')
+        deployService = new DeployWebService(new InstallAddonsService(herokuClient, logger), herokuClient,
+                new ConfigureLogDrainsService(herokuClient, logger), new CreateBuildService(herokuClient, logger),
+                new EnableFeaturesService(herokuClient, logger), new AddAddonAttachmentsService(herokuClient, logger), logger)
 
         app = new HerokuWebApp(APP_NAME, deployService, null, null)
         app.teamName = TEAM_NAME

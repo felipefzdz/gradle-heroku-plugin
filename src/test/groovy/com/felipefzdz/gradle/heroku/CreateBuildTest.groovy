@@ -17,7 +17,7 @@ class CreateBuildTest extends Specification {
     BuildSource buildSource
 
     def setup() {
-        createBuildService = new CreateBuildService(herokuClient)
+        createBuildService = new CreateBuildService(herokuClient, new NoOpLogger('test'))
 
         buildSource = new BuildSource()
         buildSource.buildUrl = { BUILD_URL }

@@ -16,7 +16,7 @@ class AddAddonAttachmentsTest extends Specification {
     List<HerokuAddonAttachment> addonAttachments
 
     def setup() {
-        addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient)
+        addAddonAttachmentsService = new AddAddonAttachmentsService(herokuClient, new NoOpLogger('test'))
         def redisAddonAttachment = new HerokuAddonAttachment('redis')
         redisAddonAttachment.owningApp = OWNING_APP_NAME
         addonAttachments = [redisAddonAttachment]

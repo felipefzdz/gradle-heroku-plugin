@@ -3,6 +3,7 @@ package com.felipefzdz.gradle.heroku.tasks.services
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import com.felipefzdz.gradle.heroku.tasks.model.HerokuDatabaseApp
 import groovy.transform.CompileStatic
+import org.gradle.api.logging.Logger
 
 @CompileStatic
 class DeployDatabaseService extends BaseDeployService {
@@ -11,8 +12,9 @@ class DeployDatabaseService extends BaseDeployService {
             InstallAddonsService installAddonsService,
             HerokuClient herokuClient,
             ConfigureLogDrainsService configureLogDrainsService,
-            CreateBuildService createBuildService) {
-        super(installAddonsService, herokuClient, configureLogDrainsService, createBuildService)
+            CreateBuildService createBuildService,
+            Logger logger) {
+        super(installAddonsService, herokuClient, configureLogDrainsService, createBuildService, logger)
     }
 
     void deploy(HerokuDatabaseApp app, int delayAfterDestroyApp) {
@@ -26,11 +28,11 @@ class DeployDatabaseService extends BaseDeployService {
         migrateDatabase(app)
         maybeDisableAcm(app)
 
-        println "Successfully deployed app ${app.name}"
+        logger.lifecycle "Successfully deployed app ${app.name}"
     }
 
     void migrateDatabase(HerokuDatabaseApp app) {
-        println "Starting 'migrator' dyno to migrate database on ${app.name}"
+        logger.lifecycle "Starting 'migrator' dyno to migrate database on ${app.name}"
         herokuClient.createDynoRequest(app.name, app.migrateCommand)
 
     }

@@ -7,6 +7,7 @@ import com.felipefzdz.gradle.heroku.tasks.model.ReadinessProbe
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.logging.Logger
 
 import java.time.Duration
 
@@ -25,8 +26,9 @@ class DeployWebService extends BaseDeployService {
             ConfigureLogDrainsService configureLogDrainsService,
             CreateBuildService createBuildService,
             EnableFeaturesService enableFeaturesService,
-            AddAddonAttachmentsService addAddonAttachmentsService) {
-        super(installAddonsService, herokuClient, configureLogDrainsService, createBuildService)
+            AddAddonAttachmentsService addAddonAttachmentsService,
+            Logger logger) {
+        super(installAddonsService, herokuClient, configureLogDrainsService, createBuildService, logger)
         this.addAddonAttachmentsService = addAddonAttachmentsService
         this.enableFeaturesService = enableFeaturesService
     }
@@ -45,7 +47,7 @@ class DeployWebService extends BaseDeployService {
         probeReadiness(app)
         maybeDisableAcm(app)
 
-        println "Successfully deployed app ${app.name}"
+        logger.lifecycle "Successfully deployed app ${app.name}"
     }
 
     private enableFeatures(HerokuWebApp app) {
@@ -60,7 +62,7 @@ class DeployWebService extends BaseDeployService {
 
     private void updateDomains(HerokuWebApp app) {
         if (app.domains != null && !app.domains.isEmpty()) {
-            println "Fetching domain configuration"
+            logger.lifecycle "Fetching domain configuration"
             def domains = herokuClient.getCustomDomains(app.name)
 
             app.domains.each {
@@ -81,11 +83,11 @@ class DeployWebService extends BaseDeployService {
         if (probe != null) {
             String urlAsString = PROXY_HEROKU_APP == null ? probe.url : "$PROXY_HEROKU_APP/version"
             URL url = new URL(urlAsString)
-            println("Fetch readiness endpoint $url...")
+            logger.lifecycle("Fetch readiness endpoint $url...")
             delay(Duration.ofSeconds(9), SKIP_WAITS)
             waitFor(TIMEOUT, TEST_INTERVAL, "Readiness probe based on $url", SKIP_WAITS) {
                 def json = new JsonSlurper().parse(url) as Map
-                println("Fetching $url")
+                logger.lifecycle("Fetching $url")
                 probe.command.execute(app, json)
             }
         }

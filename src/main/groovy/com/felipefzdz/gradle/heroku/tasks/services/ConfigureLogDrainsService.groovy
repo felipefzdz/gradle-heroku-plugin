@@ -2,19 +2,23 @@ package com.felipefzdz.gradle.heroku.tasks.services
 
 import com.felipefzdz.gradle.heroku.heroku.HerokuClient
 import groovy.transform.CompileStatic
+import org.gradle.api.logging.Logger
 
 @CompileStatic
 class ConfigureLogDrainsService {
 
-    HerokuClient herokuClient
-
-    ConfigureLogDrainsService(HerokuClient herokuClient) {
+    private final HerokuClient herokuClient
+    
+    private final Logger logger
+    
+    ConfigureLogDrainsService(HerokuClient herokuClient, Logger logger) {
         this.herokuClient = herokuClient
+        this.logger = logger
     }
 
     void configureLogDrains(List<String> logDrains, String appName) {
         if (logDrains == null || logDrains.isEmpty()) {
-            println "No log drains configured for app $appName"
+            logger.lifecycle "No log drains configured for app $appName"
         } else {
             def drains = herokuClient.listLogDrains(appName)
 
@@ -23,9 +27,9 @@ class ConfigureLogDrainsService {
 
                 if (!existing) {
                     herokuClient.addLogDrain(appName, logDrain)
-                    println "Added log drain $logDrain"
+                    logger.lifecycle "Added log drain $logDrain"
                 } else {
-                    println "Log drain $logDrain already exists, skipping"
+                    logger.lifecycle "Log drain $logDrain already exists, skipping"
                 }
             }
         }
