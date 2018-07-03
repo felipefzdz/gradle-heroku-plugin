@@ -10,7 +10,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class DestroyBundleTask extends DefaultTask {
+class DestroyBundleTask extends HerokuBaseTask {
 
     @Internal
     HerokuAppContainer bundle

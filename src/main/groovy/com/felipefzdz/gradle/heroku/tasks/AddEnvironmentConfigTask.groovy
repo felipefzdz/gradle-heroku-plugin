@@ -8,7 +8,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class AddEnvironmentConfigTask extends DefaultTask {
+class AddEnvironmentConfigTask extends HerokuBaseTask {
 
     @Internal
     HerokuApp app

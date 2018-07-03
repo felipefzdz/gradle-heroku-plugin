@@ -11,7 +11,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class VerifyConfigBundleTask extends DefaultTask {
+class VerifyConfigBundleTask extends HerokuBaseTask {
 
     @Internal
     HerokuAppContainer bundle

@@ -9,7 +9,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class CreateAppTask extends DefaultTask {
+class CreateAppTask extends HerokuBaseTask {
 
     @Internal
     HerokuApp app

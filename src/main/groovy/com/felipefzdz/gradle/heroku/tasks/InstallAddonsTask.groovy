@@ -8,7 +8,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class InstallAddonsTask extends DefaultTask {
+class InstallAddonsTask extends HerokuBaseTask {
 
     @Internal
     HerokuApp app

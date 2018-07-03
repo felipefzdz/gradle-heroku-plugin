@@ -8,7 +8,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class DeployBundleTask extends DefaultTask {
+class DeployBundleTask extends HerokuBaseTask {
 
     @Internal
     HerokuAppContainer bundle

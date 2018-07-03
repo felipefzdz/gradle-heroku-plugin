@@ -8,7 +8,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class EnableFeaturesTask extends DefaultTask {
+class EnableFeaturesTask extends HerokuBaseTask {
     @Internal
     HerokuWebApp app
 

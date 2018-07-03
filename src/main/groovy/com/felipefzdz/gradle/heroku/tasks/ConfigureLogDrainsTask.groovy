@@ -9,7 +9,7 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 
 @CompileStatic
-class ConfigureLogDrainsTask extends DefaultTask {
+class ConfigureLogDrainsTask extends HerokuBaseTask {
 
     @Internal
     HerokuApp app

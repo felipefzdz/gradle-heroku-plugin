@@ -36,7 +36,7 @@ class HerokuBasePlugin implements Plugin<Project> {
         project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, bundles)
         createBaseTasks(bundles, project)
         project.gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
-            if (graph.allTasks.any { it.name.startsWith('heroku') }) {
+            if (graph.allTasks.any { it instanceof HerokuBaseTask }) {
                 String apiKey = System.getenv("GRADLE_HEROKU_PLUGIN_API_KEY") ?: project.property('herokuPluginApiKey')
                 herokuClient.init(apiKey)
             }
