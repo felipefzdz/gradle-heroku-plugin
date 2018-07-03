@@ -19,7 +19,7 @@ class HerokuPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        project.apply(plugin: HerokuBasePlugin)
+        project.pluginManager.apply(HerokuBasePlugin)
         HerokuExtension extension = project.extensions.findByType(HerokuExtension)
         createDeployTasks(extension.bundles, project)
     }
