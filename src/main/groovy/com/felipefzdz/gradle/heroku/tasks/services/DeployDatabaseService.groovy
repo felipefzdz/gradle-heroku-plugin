@@ -8,6 +8,8 @@ import org.gradle.api.logging.Logger
 @CompileStatic
 class DeployDatabaseService extends BaseDeployService {
 
+    private static final int ADD_LOG_DRAINS_RETRIES = 3
+
     DeployDatabaseService(
             InstallAddonsService installAddonsService,
             HerokuClient herokuClient,
@@ -20,7 +22,7 @@ class DeployDatabaseService extends BaseDeployService {
     void deploy(HerokuDatabaseApp app, int delayAfterDestroyApp) {
         maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp, delayAfterDestroyApp)
         installAddons(app.addons, app.name)
-        configureLogDrainsService.configureLogDrains(app.logDrains, app.name)
+        configureLogDrainsService.configureLogDrains(app.logDrains, app.name, ADD_LOG_DRAINS_RETRIES)
         createBuildService.createBuild(app.buildSource, app.name)
         addConfig(app.herokuConfig, app.name)
         waitForAppFormation(app.name, app.buildSource)

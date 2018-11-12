@@ -16,6 +16,8 @@ import static com.felipefzdz.gradle.heroku.utils.AsyncUtil.waitFor
 @CompileStatic
 class DeployWebService extends BaseDeployService {
 
+    private static final int ADD_LOG_DRAINS_RETRIES = 3
+
     private final String PROXY_HEROKU_APP = System.getenv('GRADLE_HEROKU_PLUGIN_APP_PROXY')
     private final EnableFeaturesService enableFeaturesService
     private final AddAddonAttachmentsService addAddonAttachmentsService
@@ -36,7 +38,7 @@ class DeployWebService extends BaseDeployService {
     void deploy(HerokuWebApp app, int delayAfterDestroyApp) {
         maybeCreateApplication(app.name, app.teamName, app.recreate, app.stack, app.personalApp, delayAfterDestroyApp)
         installAddons(app.addons, app.name)
-        configureLogDrainsService.configureLogDrains(app.logDrains, app.name)
+        configureLogDrainsService.configureLogDrains(app.logDrains, app.name, ADD_LOG_DRAINS_RETRIES)
         createBuildService.createBuild(app.buildSource, app.name)
         addConfig(app.herokuConfig, app.name)
         enableFeatures(app)
