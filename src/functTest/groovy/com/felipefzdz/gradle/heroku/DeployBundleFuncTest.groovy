@@ -70,7 +70,7 @@ class DeployBundleFuncTest extends BaseFuncTest {
                             addons {
                                 'rabbitmq-bigwig' {
                                     plan = 'rabbitmq-bigwig:pipkin'
-                                    waitUntilStarted = true
+                                    waitUntilStarted = false 
                                 } 
                             }
                             addonAttachments {
@@ -128,11 +128,6 @@ class DeployBundleFuncTest extends BaseFuncTest {
 
         and:
         herokuClient.listBuilds(APP_NAME)*.status == ['succeeded']
-
-        and:
-        def config = herokuClient.listConfig(APP_NAME)
-        config.keySet().containsAll(['MODE', 'API_KEY'])
-        config.values().containsAll(['dev', 'secret'])
 
         and:
         herokuClient.getFeature(APP_NAME, FEATURE).enabled
