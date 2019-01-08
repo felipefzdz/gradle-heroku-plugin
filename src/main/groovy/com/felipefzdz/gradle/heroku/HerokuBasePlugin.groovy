@@ -90,8 +90,13 @@ class HerokuBasePlugin implements Plugin<Project> {
     }
 
     HerokuAppContainer createHerokuAppContainer(Project project, String bundleName) {
-        def container = GradleVersion.current().compareTo(GradleVersion.version('5.1')) >= 0 ? instantiator.newInstance(HerokuAppContainer, bundleName, instantiator, getCollectionCallbackActionDecorator())
-                        : instantiator.newInstance(HerokuAppContainer, bundleName, instantiator)
+        def container
+        if(GradleVersion.current().compareTo(GradleVersion.version('5.1')) >= 0) {
+            CollectionCallbackActionDecorator decorator = project.services.get(CollectionCallbackActionDecorator)
+            container = instantiator.newInstance(HerokuAppContainer, bundleName, instantiator, decorator)
+        } else {
+            container = instantiator.newInstance(HerokuAppContainer, bundleName, instantiator)
+        }
 
         container.registerFactory(HerokuWebApp) { String name ->
             return instantiator.newInstance(HerokuWebApp, name, deployWebService, project.container(HerokuAddon), project.container(HerokuAddonAttachment))
