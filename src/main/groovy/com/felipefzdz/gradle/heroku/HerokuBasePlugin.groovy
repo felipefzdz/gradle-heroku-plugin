@@ -10,6 +10,7 @@ import org.gradle.api.execution.TaskExecutionGraph
 import org.gradle.internal.reflect.Instantiator
 import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.util.GUtil
+import org.gradle.util.GradleVersion
 
 import javax.inject.Inject
 
@@ -42,7 +43,6 @@ class HerokuBasePlugin implements Plugin<Project> {
             }
         }
     }
-
 
     @Inject
     protected CollectionCallbackActionDecorator getCollectionCallbackActionDecorator() {
@@ -90,7 +90,9 @@ class HerokuBasePlugin implements Plugin<Project> {
     }
 
     HerokuAppContainer createHerokuAppContainer(Project project, String bundleName) {
-        def container = instantiator.newInstance(HerokuAppContainer, bundleName, instantiator, callbackDecorator)
+        def container = GradleVersion.current().compareTo(GradleVersion.version('5.1')) >= 0 ? instantiator.newInstance(HerokuAppContainer, bundleName, instantiator, getCollectionCallbackActionDecorator())
+                        : instantiator.newInstance(HerokuAppContainer, bundleName, instantiator)
+
         container.registerFactory(HerokuWebApp) { String name ->
             return instantiator.newInstance(HerokuWebApp, name, deployWebService, project.container(HerokuAddon), project.container(HerokuAddonAttachment))
         }
