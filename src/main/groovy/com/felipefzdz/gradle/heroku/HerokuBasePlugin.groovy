@@ -8,6 +8,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.execution.TaskExecutionGraph
 import org.gradle.internal.reflect.Instantiator
+import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.util.GUtil
 
 import javax.inject.Inject
@@ -19,10 +20,12 @@ class HerokuBasePlugin implements Plugin<Project> {
     public static final String HEROKU_EXTENSION_NAME = 'heroku'
 
     private final Instantiator instantiator
+    private final CollectionCallbackActionDecorator callbackDecorator
 
     @Inject
-    HerokuBasePlugin(Instantiator instantiator) {
+    HerokuBasePlugin(Instantiator instantiator, CollectionCallbackActionDecorator callbackDecorator) {
         this.instantiator = instantiator
+        this.callbackDecorator = callbackDecorator;
     }
 
     @Override
@@ -84,7 +87,7 @@ class HerokuBasePlugin implements Plugin<Project> {
     }
 
     HerokuAppContainer createHerokuAppContainer(Project project, String bundleName) {
-        def container = instantiator.newInstance(HerokuAppContainer, bundleName, instantiator)
+        def container = instantiator.newInstance(HerokuAppContainer, bundleName, instantiator, callbackDecorator)
         container.registerFactory(HerokuWebApp) { String name ->
             return instantiator.newInstance(HerokuWebApp, name, deployWebService, project.container(HerokuAddon), project.container(HerokuAddonAttachment))
         }
