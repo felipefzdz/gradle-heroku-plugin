@@ -20,12 +20,10 @@ class HerokuBasePlugin implements Plugin<Project> {
     public static final String HEROKU_EXTENSION_NAME = 'heroku'
 
     private final Instantiator instantiator
-    private final CollectionCallbackActionDecorator callbackDecorator
 
     @Inject
-    HerokuBasePlugin(Instantiator instantiator, CollectionCallbackActionDecorator callbackDecorator) {
+    HerokuBasePlugin(Instantiator instantiator) {
         this.instantiator = instantiator
-        this.callbackDecorator = callbackDecorator;
     }
 
     @Override
@@ -45,6 +43,11 @@ class HerokuBasePlugin implements Plugin<Project> {
         }
     }
 
+
+    @Inject
+    protected CollectionCallbackActionDecorator getCollectionCallbackActionDecorator() {
+        throw new UnsupportedOperationException();
+    }
 
     private static void createBaseTasks(NamedDomainObjectContainer<HerokuAppContainer> bundles, Project project) {
         bundles.all { HerokuAppContainer bundle ->

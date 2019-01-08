@@ -16,6 +16,10 @@ class HerokuAppContainer extends DefaultPolymorphicDomainObjectContainer<HerokuA
         super(HerokuApp, instantiator, callbackDecorator)
         this.name = name
     }
+    HerokuAppContainer(String name, Instantiator instantiator) {
+        super(HerokuApp, instantiator)
+        this.name = name
+    }
 
     String getName() {
         return name
