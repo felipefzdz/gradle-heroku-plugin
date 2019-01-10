@@ -5,6 +5,7 @@ import com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService
 import com.heroku.api.exception.RequestFailedException
 import spock.lang.Specification
 
+import static com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService.ALREADY_ADDED_LOG_DRAIN_EXCEPTION
 import static com.felipefzdz.gradle.heroku.tasks.services.ConfigureLogDrainsService.RECOVERABLE_ADD_LOG_DRAIN_EXCEPTION
 
 class ConfigureLogDrainsTest extends Specification {
@@ -59,6 +60,23 @@ class ConfigureLogDrainsTest extends Specification {
 
         then:
         thrown(RequestFailedException)
+    }
+
+    // List log drains and add log drains are not atomic operations, so we need to drop the
+    // exception when adding an existing log drain
+    def "don't fail when the url has been already taken"() {
+        given:
+        herokuClient.listLogDrains(APP_NAME) >> [[:]]
+        1 * herokuClient.addLogDrain(APP_NAME, 'test1') >> { String appName, String logDrain ->
+            throw new RequestFailedException("Exception", 422, ALREADY_ADDED_LOG_DRAIN_EXCEPTION)
+        }
+
+        when:
+        configureLogDrainsService.configureLogDrains(['test1'], APP_NAME, 3)
+
+        then:
+        noExceptionThrown()
+
     }
 
 }

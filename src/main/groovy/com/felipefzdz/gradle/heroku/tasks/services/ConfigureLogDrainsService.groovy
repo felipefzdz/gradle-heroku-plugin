@@ -9,6 +9,7 @@ import org.gradle.api.logging.Logger
 class ConfigureLogDrainsService {
 
     static final String RECOVERABLE_ADD_LOG_DRAIN_EXCEPTION = "App hasn't yet been assigned a log channel. Please try again momentarily."
+    static final String ALREADY_ADDED_LOG_DRAIN_EXCEPTION = "Url has already been taken"
 
     private final int logDrainRetryWait = 30000
     private final HerokuClient herokuClient
@@ -42,6 +43,8 @@ class ConfigureLogDrainsService {
                             logger.lifecycle "Retrying adding a log drain as Heroku returned: $RECOVERABLE_ADD_LOG_DRAIN_EXCEPTION"
                             sleep(logDrainRetryWait)
                             configureLogDrains(logDrains, appName, --retries)
+                        } else if (e.statusCode == 422 && e.responseBody.contains(ALREADY_ADDED_LOG_DRAIN_EXCEPTION)) {
+                            logger.lifecycle "Log drain $logDrain already exists, skipping"
                         } else {
                             throw e
                         }
