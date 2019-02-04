@@ -16,7 +16,7 @@ apply from: "$rootDir/gradle/functional-test.gradle"
 apply from: "$rootDir/gradle/release.gradle"
 
 group = 'com.felipefzdz.gradle.heroku'
-version = '1.0.4'
+version = '1.0.5'
 
 buildScan {
     publishAlways()
