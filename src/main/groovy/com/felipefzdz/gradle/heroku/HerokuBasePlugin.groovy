@@ -23,8 +23,9 @@ class HerokuBasePlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         Graph.init(project.logger)
+        Instantiator instantiator = project.services.get(Instantiator)
         NamedDomainObjectContainer<HerokuAppContainer> bundles = project.container(HerokuAppContainer) { String name ->
-            createHerokuAppContainer(project, name)
+            createHerokuAppContainer(project, instantiator, name)
         }
         project.extensions.create(HEROKU_EXTENSION_NAME, HerokuExtension, bundles)
         createBaseTasks(bundles, project)
@@ -39,11 +40,6 @@ class HerokuBasePlugin implements Plugin<Project> {
 
     @Inject
     protected CollectionCallbackActionDecorator getCollectionCallbackActionDecorator() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Inject
-    protected Instantiator getInstantiator() {
         throw new UnsupportedOperationException();
     }
 
@@ -87,9 +83,8 @@ class HerokuBasePlugin implements Plugin<Project> {
         }
     }
 
-    HerokuAppContainer createHerokuAppContainer(Project project, String bundleName) {
+    HerokuAppContainer createHerokuAppContainer(Project project, Instantiator instantiator, String bundleName) {
         def container
-        def instantiator = getInstantiator()
         if(GradleVersion.current().compareTo(GradleVersion.version('5.1')) >= 0) {
             CollectionCallbackActionDecorator decorator = project.services.get(CollectionCallbackActionDecorator)
             container = instantiator.newInstance(HerokuAppContainer, bundleName, instantiator, decorator)
