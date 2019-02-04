@@ -30,7 +30,7 @@ You can apply the plugin using the plugins DSL
 [source,groovy]
 ----
 plugins {
-  id "com.felipefzdz.gradle.heroku" version "1.0"
+  id "com.felipefzdz.gradle.heroku" version "1.0.4"
 }
 ----
 
@@ -45,14 +45,14 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:1.0"
+    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:1.0.4"
   }
 }
 
 apply plugin: "com.felipefzdz.gradle.heroku"
 ----
 
-*N.B. Gradle 4.8 is required as minimum version.*
+*N.B. Gradle 5.2-rc-1 is required as minimum version.*
 
 This full-fledged plugin provides an opinionated view of some Heroku related tasks, plus the building blocks defined on the base plugin.
 
@@ -366,7 +366,7 @@ To use the base plugin, use these alternative snippets:
 [source,groovy]
 ----
 plugins {
-  id "com.felipefzdz.gradle.heroku.base" version "1.0"
+  id "com.felipefzdz.gradle.heroku.base" version "1.0.4"
 }
 ----
 
@@ -381,7 +381,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:1.0"
+    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:1.0.4"
   }
 }
 
