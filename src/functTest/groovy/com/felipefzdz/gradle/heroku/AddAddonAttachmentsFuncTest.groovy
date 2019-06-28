@@ -26,7 +26,7 @@ class AddAddonAttachmentsFuncTest extends BaseFuncTest {
     def "can add addon attachments for an app"() {
         given:
         herokuClient.createApp(OWNING_APP_NAME, 'test', true, 'cedar-14')
-        herokuClient.installAddon(OWNING_APP_NAME, 'heroku-postgresql:hobby-dev')
+        herokuClient.installAddon(OWNING_APP_NAME, 'heroku-postgresql:hobby-dev', ['version': '10.7'])
         herokuClient.createApp(APP_NAME, 'test', true, 'cedar-14')
 
         buildFile << """
@@ -42,6 +42,7 @@ class AddAddonAttachmentsFuncTest extends BaseFuncTest {
                             addons {
                                 database {
                                     plan = 'heroku-postgresql:hobby-dev'
+                                    config = ['version': '10.7']
                                     waitUntilStarted = true
                                 } 
                             }

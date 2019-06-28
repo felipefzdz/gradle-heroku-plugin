@@ -7,6 +7,7 @@ class HerokuAddon {
     final String name
     String plan = ''
     Boolean waitUntilStarted = false
+    Map<String, String> config = [:]
 
     HerokuAddon(String name) {
         this.name = name.toUpperCase()
@@ -14,10 +15,11 @@ class HerokuAddon {
 
     @Override
     String toString() {
-        return "HerokuAddon{" +
-                "name='" + name + '\'' +
-                ", plan='" + plan + '\'' +
-                ", waitUntilStarted=" + waitUntilStarted +
-                '}';
+        "HerokuAddon{" +
+            "name='" + name + '\'' +
+            ", plan='" + plan + '\'' +
+            ", waitUntilStarted=" + waitUntilStarted +
+            ", config=" + config +
+            '}'
     }
 }

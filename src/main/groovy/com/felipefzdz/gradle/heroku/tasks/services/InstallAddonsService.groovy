@@ -31,7 +31,7 @@ class InstallAddonsService {
             if (existing) {
                 logger.lifecycle "Addon $addon already exists as an addon attachment and won't be installed"
             } else {
-                added[addon] = herokuClient.installAddon(appName, addon.plan)
+                added[addon] = herokuClient.installAddon(appName, addon.plan, addon.config)
                 logger.lifecycle "Successfully installed addon ${addon.name}"
             }
         }

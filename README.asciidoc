@@ -30,7 +30,7 @@ You can apply the plugin using the plugins DSL
 [source,groovy]
 ----
 plugins {
-  id "com.felipefzdz.gradle.heroku" version "1.0.5"
+  id "com.felipefzdz.gradle.heroku" version "1.0.6"
 }
 ----
 
@@ -45,7 +45,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:1.0.5"
+    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:1.0.6"
   }
 }
 
@@ -80,6 +80,7 @@ heroku {
                 addons {
                     database {
                         plan = 'heroku-postgresql:hobby-dev'
+                        config = ['version': '10.7']
                         waitUntilStarted = true
                     }
                 }
@@ -292,10 +293,11 @@ Those are the nested extension properties for `HerokuApp`.
 
 [options="header"]
 |=======
-|Property name      |Type               |Default value                                                              |Description
-|`name`             |String             |This is named container, so the value is mandatory when defining the DSL   |Globally unique name of the add-on pattern: ^[a-zA-Z][A-Za-z0-9_-]+$
-|`plan`             |String             |''                                                                         |Unique name of this plan, e.g `rabbitmq-bigwig:pipkin`
-|`waitUntilStarted` |Boolean            |false                                                                      |If true, the task will wait up to 10 minutes (this hardcoded value will be made configurable in further plugin releases) with a dumb retry policy until the add-on has been added.
+|Property name      |Type                |Default value                                                              |Description
+|`name`             |String              |This is named container, so the value is mandatory when defining the DSL   |Globally unique name of the add-on pattern: ^[a-zA-Z][A-Za-z0-9_-]+$
+|`plan`             |String              |''                                                                         |Unique name of this plan, e.g `rabbitmq-bigwig:pipkin`
+|`config`           |Man<String, String> |[:]                                                                        |custom add-on provisioning options, e.g `['version': '10.7']`
+|`waitUntilStarted` |Boolean             |false                                                                      |If true, the task will wait up to 10 minutes (this hardcoded value will be made configurable in further plugin releases) with a dumb retry policy until the add-on has been added.
 |=======
 
 ==== HerokuProcess extension properties
@@ -366,7 +368,7 @@ To use the base plugin, use these alternative snippets:
 [source,groovy]
 ----
 plugins {
-  id "com.felipefzdz.gradle.heroku.base" version "1.0.5"
+  id "com.felipefzdz.gradle.heroku.base" version "1.0.6"
 }
 ----
 
@@ -381,7 +383,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:1.0.5"
+    classpath "gradle.plugin.com.felipefzdz.gradle.heroku:gradle-heroku-plugin:1.0.6"
   }
 }
 

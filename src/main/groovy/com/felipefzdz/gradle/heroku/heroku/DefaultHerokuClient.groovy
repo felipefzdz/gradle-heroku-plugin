@@ -48,9 +48,9 @@ class DefaultHerokuClient implements HerokuClient {
     }
 
     @Override
-    AddonChange installAddon(String appName, String plan) {
-        logger.lifecycle "Installing adddon $plan for app $appName"
-        api3(new AddonInstall(appName, plan))
+    AddonChange installAddon(String appName, String plan, Map<String, String> config) {
+        logger.lifecycle "Installing adddon $plan for app $appName with config $config"
+        api3(new AddonInstall(appName, plan, config))
     }
 
     @Override

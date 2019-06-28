@@ -39,7 +39,7 @@ class InstallAddonsTest extends Specification {
         installAddonsService.installAddons(addons, APP_NAME)
 
         then:
-        1 * herokuClient.installAddon(APP_NAME, PLAN)
+        1 * herokuClient.installAddon(APP_NAME, PLAN, [:])
     }
 
     def "skip installing an addon when already exists"() {
@@ -50,6 +50,6 @@ class InstallAddonsTest extends Specification {
         installAddonsService.installAddons(addons, APP_NAME)
 
         then:
-        0 * herokuClient.installAddon(APP_NAME, PLAN)
+        0 * herokuClient.installAddon(APP_NAME, PLAN, [:])
     }
 }

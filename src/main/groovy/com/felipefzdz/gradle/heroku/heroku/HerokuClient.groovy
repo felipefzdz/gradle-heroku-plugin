@@ -11,7 +11,7 @@ interface HerokuClient {
 
     boolean appExists(String appName)
 
-    AddonChange installAddon(String appName, String plan)
+    AddonChange installAddon(String appName, String plan, Map<String, String> config)
 
     List<Map<String, ?>> getAddonAttachments(String appName)
 

@@ -38,6 +38,7 @@ class InstallAddonsFuncTest extends BaseFuncTest {
                             addons {
                                 database {
                                     plan = 'heroku-postgresql:hobby-dev'
+                                    config = ['version': '10.7']
                                     waitUntilStarted = true
                                 } 
                             }
